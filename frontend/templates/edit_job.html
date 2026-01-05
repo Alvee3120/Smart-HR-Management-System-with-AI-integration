@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Edit Job: {{ job.title }}</h4>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Job Title</label>
+                        {{ form.title }} 
+                        </div>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Job Description (Text)</label>
+                        {{ form.description_text }}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-bold">Job Description (PDF)</label>
+                        
+                        {% if job.description_file %}
+                            <div class="alert alert-secondary p-2 d-flex justify-content-between align-items-center">
+                                <span>
+                                    <strong>Current File:</strong> 
+                                    <a href="{{ job.description_file.url }}" target="_blank" class="text-decoration-underline">
+                                        {{ job.description_file.name }}
+                                    </a>
+                                </span>
+                                <span class="badge bg-success">Uploaded</span>
+                            </div>
+                            <small class="text-muted">Upload a new file below only if you want to replace the current one.</small>
+                        {% endif %}
+                        
+                        {{ form.description_file }}
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'web_test:job_detail' job.id %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

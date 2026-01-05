@@ -1,0 +1,5 @@
+venv/
+env/
+.venv/
+# Ignore ML Models
+ml_models/

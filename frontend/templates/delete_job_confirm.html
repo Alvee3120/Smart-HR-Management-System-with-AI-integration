@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card border-danger shadow">
+                <div class="card-header bg-danger text-white">
+                    <h5 class="mb-0">⚠️ Confirm Deletion</h5>
+                </div>
+                <div class="card-body text-center">
+                    <p class="lead">Are you sure you want to delete the job:</p>
+                    <h3>"{{ job.title }}"</h3>
+                    <p class="text-muted">This action cannot be undone. All candidate applications and AI data for this job will also be deleted.</p>
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        <a href="{% url 'web_test:job_detail' job.id %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Yes, Delete Permanently</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Ranking for Job: <span class="text-primary">{{ job.title }}</span></h2>
+        <div>
+            <button type="button" class="btn btn-success me-2" onclick="openBulkModal()">
+                <i class="bi bi-envelope"></i> Invite Selected
+            </button>
+            <a href="{% url 'web_test:job_list' %}" class="btn btn-outline-secondary">Back to Jobs</a>
+        </div>
+    </div>
+
+    <div class="mb-3">
+        <div class="btn-group" role="group">
+            <a href="?" class="btn btn-outline-dark {% if not request.GET.ref %}active{% endif %}">Show All</a>
+            <a href="?ref=true" class="btn btn-outline-dark {% if request.GET.ref %}active{% endif %}">With References Only</a>
+        </div>
+    </div>
+
+    <div class="card shadow">
+        <div class="card-body p-0">
+            <table class="table table-hover mb-0">
+                <thead class="table-dark">
+                    <tr>
+                        <th style="width: 40px;">
+                            <input type="checkbox" id="selectAll" onclick="toggleAll(this)">
+                        </th>
+                        <th>Rank</th>
+                        <th>AI Score</th>
+                        <th>Candidate Name</th>
+                        <th>Top Skills Detected</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for app in applications %}
+                    <tr {% if app.match_score > 80 %}class="table-success"{% endif %}>
+                        
+                        <td class="align-middle">
+                            <input type="checkbox" class="candidate-checkbox" value="{{ app.id }}">
+                        </td>
+
+                        <td class="align-middle fw-bold">{{ forloop.counter }}</td>
+
+                        <td class="align-middle">
+                            {% if app.match_score > 75 %}
+                                <span class="badge bg-success fs-6">{{ app.match_score }}%</span>
+                            {% elif app.match_score > 50 %}
+                                <span class="badge bg-warning text-dark fs-6">{{ app.match_score }}%</span>
+                            {% else %}
+                                <span class="badge bg-danger fs-6">{{ app.match_score }}%</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="align-middle">
+                            <strong>{{ app.candidate.full_name }}</strong>
+                            <br>
+                            <small class="text-muted">{{ app.candidate.email }}</small>
+                            {% if app.has_reference %}
+                                <span class="badge bg-primary ms-2">Ref: {{ app.reference_name }}</span>
+                            {% endif %}
+                        </td>
+
+                        <td class="align-middle">
+                            {% for item in app.extracted_data|slice:":5" %} 
+                                {% if item.label in 'Skill,Technology,Framework,Programming Language,Database' %}
+                                    <span class="badge bg-secondary mb-1">{{ item.text }}</span>
+                                {% endif %}
+                            {% empty %}
+                                <span class="text-muted small">No skills.</span>
+                            {% endfor %}
+                        </td>
+
+                        <td class="align-middle">
+                            <span class="badge border border-secondary text-secondary">{{ app.status }}</span>
+                        </td>
+
+                        <td class="align-middle">
+                            <div class="btn-group">
+                                {% if app.cv_file %}
+                                    <a href="{{ app.cv_file.url }}" target="_blank" class="btn btn-sm btn-outline-danger">📄 CV</a>
+                                {% endif %}
+                                <a href="{% url 'web_test:application_detail' app.id %}" class="btn btn-sm btn-info text-white">🔍 Analyze</a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            No applications received yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="bulkInviteModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Send Interview Invites</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form method="post" action="{% url 'web_test:bulk_send_invite' %}">
+                {% csrf_token %}
+                <div class="modal-body">
+                    <input type="hidden" name="application_ids" id="modalAppIds">
+                    
+                    <p class="text-muted">You are sending invites to <strong id="selectedCount">0</strong> candidate(s).</p>
+
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Date</label>
+                        <input type="date" name="date" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Time</label>
+                        <input type="time" name="time" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Location / Link</label>
+                        <input type="text" name="location" class="form-control" placeholder="Google Meet / Office" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Message</label>
+                        <textarea name="message" class="form-control" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Send Bulk Emails 🚀</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. Select All Logic
+    function toggleAll(source) {
+        checkboxes = document.getElementsByClassName('candidate-checkbox');
+        for(var i=0, n=checkboxes.length; i<n; i++) {
+            checkboxes[i].checked = source.checked;
+        }
+    }
+
+    // 2. Open Modal Logic
+    function openBulkModal() {
+        // Collect checked IDs
+        var selected = [];
+        var checkboxes = document.getElementsByClassName('candidate-checkbox');
+        for (var i=0; i<checkboxes.length; i++) {
+            if (checkboxes[i].checked) {
+                selected.push(checkboxes[i].value);
+            }
+        }
+
+        // Validation
+        if (selected.length === 0) {
+            alert("Please select at least one candidate first!");
+            return;
+        }
+
+        // Populate Modal Data
+        document.getElementById('modalAppIds').value = selected.join(",");
+        document.getElementById('selectedCount').innerText = selected.length;
+
+        // Show Modal (Using Bootstrap JS)
+        var myModal = new bootstrap.Modal(document.getElementById('bulkInviteModal'));
+        myModal.show();
+    }
+</script>
+{% endblock %}

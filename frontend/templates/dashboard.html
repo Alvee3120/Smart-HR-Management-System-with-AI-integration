@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="text-center">
+    <h1>Testing Dashboard</h1>
+    <p>Select an action based on your role.</p>
+    
+    <div class="mt-4">
+        <a href="{% url 'web_test:job_list' %}" class="btn btn-primary btn-lg">View All Jobs</a>
+        
+        {% if request.user.role == 'HR' %}
+            <a href="{% url 'web_test:create_job' %}" class="btn btn-success btn-lg">Post New Job</a>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

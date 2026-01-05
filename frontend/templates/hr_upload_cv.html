@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <div class="card shadow">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Manual CV Upload</h4>
+                <small>Adding candidate to: <strong>{{ job.title }}</strong></small>
+            </div>
+            <div class="card-body">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    
+                    <h5 class="text-muted mb-3">Candidate Details</h5>
+                    <div class="mb-3">
+                        <label>Full Name</label>
+                        {{ form.full_name }}
+                    </div>
+                    <div class="mb-3">
+                        <label>Email Address</label>
+                        {{ form.email }}
+                    </div>
+                    
+                    <h5 class="text-muted mb-3 mt-4">Application Data</h5>
+                    <div class="mb-3">
+                        <label>Upload CV (PDF)</label>
+                        {{ form.cv_file }}
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label>Reference (Optional)</label>
+                        {{ form.reference_name }}
+                        <div class="form-text">Enter the name of the person referring this candidate.</div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Upload & Analyze</button>
+                </form>
+            </div>
+        </div>
+        <div class="mt-3 text-center">
+            <a href="{% url 'web_test:job_list' %}" class="text-secondary">Cancel</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>Available Jobs</h2>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Posted By</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for job in jobs %}
+        <tr>
+            <td>{{ job.title }}</td>
+            <td>{{ job.posted_by.full_name }}</td>
+            <td>{{ job.status }}</td>
+            <td>
+                <a href="{% url 'web_test:job_detail' job.id %}" class="btn btn-sm btn-primary">View Details</a>
+
+                {% if request.user.role == 'Candidate' %}
+                    <a href="{% url 'web_test:apply_job' job.id %}" class="btn btn-sm btn-info">Apply</a>
+                {% endif %}
+                
+                {% if request.user.role == 'HR' %}
+                    <a href="{% url 'web_test:job_ranking' job.id %}" class="btn btn-sm btn-warning">Ranking</a>
+                    <a href="{% url 'web_test:hr_upload_cv' job.id %}" class="btn btn-sm btn-outline-success">+ Add CV</a>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

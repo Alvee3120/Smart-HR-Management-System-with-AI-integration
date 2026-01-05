@@ -1,0 +1,10 @@
+django 
+djangorestframework 
+djangorestframework-simplejwt 
+itsdangerous
+psycopg2-binary
+gliner 
+sentence-transformers 
+pymupdf
+numpy
+python-dotenv
