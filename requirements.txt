@@ -8,3 +8,5 @@ sentence-transformers
 pymupdf
 numpy
 python-dotenv
+django-allauth
+cryptography

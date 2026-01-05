@@ -32,14 +32,22 @@ class UserLoginForm(AuthenticationForm):
 # 2. Registration Form (Custom)
 class UserRegistrationForm(UserCreationForm):
     full_name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Full Name'}))
-    role = forms.ChoiceField(choices=User.Roles.choices, widget=forms.Select(attrs={'class': 'form-select'}))
+    # role = forms.ChoiceField(choices=User.Roles.choices, widget=forms.Select(attrs={'class': 'form-select'}))
 
     class Meta:
         model = User
-        fields = ('email', 'full_name', 'role')
+        fields = ('email', 'full_name')
         widgets = {
             'email': forms.EmailInput(attrs={'class': 'form-control', 'placeholder': 'Email'}),
         }
+
+    def save(self, commit = ...):
+        user = super().save(commit=False)
+        user.role = User.Roles.CANDIDATE
+        if commit:
+            user.save()
+        return user
+    
 
 class HRUploadCVForm(forms.Form):
     # Candidate Details

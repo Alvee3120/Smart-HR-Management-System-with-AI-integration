@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load socialaccount %}
 
 {% block content %}
 <div class="row justify-content-center mt-5">
@@ -8,6 +9,19 @@
                 <h3>Login</h3>
             </div>
             <div class="card-body">
+                
+                <div class="mb-3 text-center">
+                    <a href="{% provider_login_url 'google' %}" class="btn btn-danger w-100">
+                        <i class="bi bi-google"></i> Continue with Google
+                    </a>
+                </div>
+
+                <div class="d-flex align-items-center mb-3">
+                    <hr class="flex-grow-1">
+                    <span class="mx-2 text-muted">Or</span>
+                    <hr class="flex-grow-1">
+                </div>
+
                 <form method="post">
                     {% csrf_token %}
                     {% for field in form %}
