@@ -4,3 +4,4 @@ env/
 # Ignore ML Models
 ml_models/
 .env
+.env.*
