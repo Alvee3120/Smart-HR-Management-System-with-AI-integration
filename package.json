@@ -1,0 +1,25 @@
+{
+  "name": "smart-hire-solutions",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx @tailwindcss/cli -i ./frontend/static/src/input.css -o ./frontend/static/src/output.css --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alvee3120/Smart-HR-Management-System-with-AI-integration.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alvee3120/Smart-HR-Management-System-with-AI-integration/issues"
+  },
+  "homepage": "https://github.com/Alvee3120/Smart-HR-Management-System-with-AI-integration#readme",
+  "dependencies": {
+    "@tailwindcss/cli": "^4.1.18",
+    "tailwindcss": "^4.1.18"
+  }
+}

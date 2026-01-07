@@ -1,130 +1,179 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="container-fluid">
-    <div class="d-flex justify-content-between align-items-center mb-4">
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
         <div>
-            <h2 class="mb-0">Candidate Analysis: <span class="text-primary">{{ app.candidate.full_name }}</span></h2>
-            <p class="text-muted">Applying for: <strong>{{ app.job.title }}</strong></p>
+            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
+                Candidate Analysis:
+                <span class="text-blue-600">{{ app.candidate.full_name }}</span>
+            </h2>
+            <p class="text-gray-500 mt-1">
+                Applying for: <strong>{{ app.job.title }}</strong>
+            </p>
         </div>
-        <div class="text-end">
-            <span class="display-6 fw-bold {% if app.match_score > 75 %}text-success{% elif app.match_score > 50 %}text-warning{% else %}text-danger{% endif %}">
+
+        <div class="text-right">
+            <span class="text-4xl font-extrabold
+                {% if app.match_score > 75 %}
+                    text-green-600
+                {% elif app.match_score > 50 %}
+                    text-yellow-500
+                {% else %}
+                    text-red-600
+                {% endif %}
+            ">
                 {{ app.match_score }}%
             </span>
-            <br>
-            <small class="text-muted">AI Match Score</small>
+            <p class="text-sm text-gray-500">AI Match Score</p>
         </div>
     </div>
 
-    <div class="row g-4 mb-4">
-        
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-primary">
-                <div class="card-header bg-primary text-white">
-                    <h5 class="mb-0"><i class="bi bi-list-check"></i> Job Requirements</h5>
-                </div>
-                <div class="card-body">
-                    <small class="text-muted d-block mb-2">The AI identified these required skills from the Job Description:</small>
+    <!-- Main Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+
+        <!-- Job Requirements -->
+        <div class="bg-white rounded-2xl shadow border border-blue-200">
+            <div class="bg-blue-600 text-white px-4 py-3 rounded-t-2xl">
+                <h5 class="font-semibold">📋 Job Requirements</h5>
+            </div>
+            <div class="p-4 text-sm">
+
+                <p class="text-gray-500 mb-3">
+                    The AI identified these required skills from the Job Description:
+                </p>
+
+                <div class="flex flex-wrap gap-2 mb-4">
                     {% for item in app.job.gliner_entities %}
                         {% if item.label in 'Skill,Technology,Framework,Programming Language,Database,Tool,Platform,Cloud' %}
-                            <span class="badge bg-light text-dark border mb-1">{{ item.text }}</span>
+                            <span class="px-2 py-1 text-xs bg-gray-100 border rounded-lg">
+                                {{ item.text }}
+                            </span>
                         {% endif %}
                     {% empty %}
-                        <p class="text-muted small">No specific technical skills found in Job Description.</p>
+                        <p class="text-gray-400 text-sm">No specific technical skills found.</p>
                     {% endfor %}
+                </div>
 
-                    <hr>
-                    <h6 class="text-primary">Required Experience</h6>
-                    {% for item in app.job.gliner_entities %}
-                        {% if item.label == 'Experience' %}
-                            <div class="alert alert-primary py-1 px-2 mb-1"><small>{{ item.text }}</small></div>
+                <hr class="my-3">
+
+                <h6 class="font-semibold text-blue-600 mb-2">Required Experience</h6>
+
+                {% for item in app.job.gliner_entities %}
+                    {% if item.label == 'Experience' %}
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg px-2 py-1 text-xs mb-1">
+                            {{ item.text }}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Gap Analysis -->
+        <div class="bg-white rounded-2xl shadow border">
+            <div class="bg-gray-900 text-white px-4 py-3 rounded-t-2xl text-center">
+                <h5 class="font-semibold">⚖️ Gap Analysis</h5>
+            </div>
+
+            <div class="p-4 text-sm">
+                <h6 class="font-semibold text-green-600 mb-2">✅ Matched Skills</h6>
+
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {% for skill in matches %}
+                        <span class="px-2 py-1 text-xs bg-green-600 text-white rounded-lg">
+                            {{ skill }}
+                        </span>
+                    {% empty %}
+                        <span class="text-gray-400 text-sm">No direct matches found.</span>
+                    {% endfor %}
+                </div>
+
+                <hr class="my-3">
+
+                <h6 class="font-semibold text-red-600 mb-2">❌ Missing Requirements</h6>
+
+                <div class="flex flex-wrap gap-2">
+                    {% for skill in misses %}
+                        <span class="px-2 py-1 text-xs bg-red-500 text-white rounded-lg opacity-80">
+                            {{ skill }}
+                        </span>
+                    {% empty %}
+                        <span class="text-green-600 text-sm">No missing skills! Perfect tech match.</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Candidate Profile -->
+        <div class="bg-white rounded-2xl shadow border border-cyan-200">
+            <div class="bg-cyan-500 text-white px-4 py-3 rounded-t-2xl">
+                <h5 class="font-semibold">👤 Candidate Profile</h5>
+            </div>
+
+            <div class="p-4 text-sm">
+
+                <p class="text-gray-500 mb-3">
+                    Everything the AI found in the CV:
+                </p>
+
+                <h6 class="font-semibold mb-2">Tech Stack Found</h6>
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {% for item in app.extracted_data %}
+                        {% if item.label in 'Skill,Skill (Detected),Technology,Framework,Programming Language,Database,Tool,Platform,Cloud' %}
+                            <span class="px-2 py-1 text-xs bg-cyan-100 text-gray-800 rounded-lg">
+                                {{ item.text }}
+                                {% if item.label == 'Skill (Detected)' %}
+                                    ⚡
+                                {% endif %}
+                            </span>
                         {% endif %}
                     {% endfor %}
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-4">
-            <div class="card h-100 shadow">
-                <div class="card-header bg-dark text-white text-center">
-                    <h5 class="mb-0">⚖️ Gap Analysis</h5>
-                </div>
-                <div class="card-body">
-                    <h6 class="text-success"><i class="bi bi-check-circle-fill"></i> Matched Skills</h6>
-                    <div class="mb-3">
-                        {% for skill in matches %}
-                            <span class="badge bg-success mb-1">{{ skill }}</span>
-                        {% empty %}
-                            <span class="text-muted small">No direct matches found.</span>
-                        {% endfor %}
-                    </div>
-
-                    <hr>
-
-                    <h6 class="text-danger"><i class="bi bi-x-circle-fill"></i> Missing Requirements</h6>
-                    <div class="mb-3">
-                        {% for skill in misses %}
-                            <span class="badge bg-danger mb-1 opacity-75">{{ skill }}</span>
-                        {% empty %}
-                            <span class="text-success small">No missing skills! Perfect tech match.</span>
-                        {% endfor %}
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm border-info">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0"><i class="bi bi-person-badge"></i> Candidate Profile</h5>
-                </div>
-                <div class="card-body">
-                    <small class="text-muted d-block mb-2">Everything the AI found in the CV:</small>
-                    
-                    <h6>Tech Stack Found</h6>
-                    <div class="mb-3">
-                        {% for item in app.extracted_data %}
-                            {# Added 'Skill (Detected)' to the list of allowed labels #}
-                            {% if item.label in 'Skill,Skill (Detected),Technology,Framework,Programming Language,Database,Tool,Platform,Cloud' %}
-                                <span class="badge bg-info text-dark mb-1">
-                                    {{ item.text }}
-                                    {% if item.label == 'Skill (Detected)' %}
-                                        <i class="bi bi-lightning-fill text-warning" style="font-size: 0.7em;" title="Detected via Deep Search"></i>
-                                    {% endif %}
+                <h6 class="font-semibold mb-2">Education & Experience</h6>
+                <ul class="space-y-1 text-xs">
+                    {% for item in app.extracted_data %}
+                        {% if item.label in 'Degree,University,Job Title,Experience' %}
+                            <li>
+                                <span class="px-2 py-0.5 bg-gray-600 text-white rounded-md text-[10px]">
+                                    {{ item.label }}
                                 </span>
-                            {% endif %}
-                        {% endfor %}
-                    </div>
-
-                    <h6>Education & Experience</h6>
-                    <ul class="list-unstyled small">
-                        {% for item in app.extracted_data %}
-                            {% if item.label in 'Degree,University,Job Title,Experience' %}
-                                <li class="mb-1">
-                                    <span class="badge bg-secondary">{{ item.label }}</span> {{ item.text }}
-                                </li>
-                            {% endif %}
-                        {% endfor %}
-                    </ul>
-                </div>
+                                {{ item.text }}
+                            </li>
+                        {% endif %}
+                    {% endfor %}
+                </ul>
             </div>
         </div>
+
     </div>
 
-    <div class="card shadow">
-        <div class="card-header bg-secondary text-white">
-            <h5 class="mb-0">📄 Raw CV Content (Evidence)</h5>
+    <!-- Raw CV -->
+    <div class="bg-white rounded-2xl shadow mb-6">
+        <div class="bg-gray-600 text-white px-4 py-3 rounded-t-2xl">
+            <h5 class="font-semibold">📄 Raw CV Content (Evidence)</h5>
         </div>
-        <div class="card-body">
-            <p class="small text-muted">This is the exact text extracted from the PDF file by the system:</p>
-            <div class="bg-light p-3 border rounded" style="max-height: 300px; overflow-y: auto; white-space: pre-wrap; font-family: monospace; font-size: 0.85rem;">
+        <div class="p-4">
+            <p class="text-xs text-gray-500 mb-2">
+                This is the exact text extracted from the PDF file:
+            </p>
+
+            <div class="bg-gray-100 border rounded-lg p-3 max-h-[300px] overflow-y-auto whitespace-pre-wrap font-mono text-xs">
 {{ app.cv_text_content }}
             </div>
         </div>
     </div>
 
-    <div class="mt-4 mb-5">
-        <a href="{% url 'web_test:job_ranking' app.job.id %}" class="btn btn-outline-secondary">Back to Rankings</a>
+    <!-- Back Button -->
+    <div class="mt-4">
+        <a href="{% url 'web_test:job_ranking' app.job.id %}"
+           class="inline-block px-5 py-2 border border-gray-400 rounded-xl text-gray-700 hover:bg-gray-800 hover:text-white transition">
+            ← Back to Rankings
+        </a>
     </div>
+
 </div>
+
 {% endblock %}

@@ -1,15 +1,72 @@
 {% extends 'base.html' %}
 {% block content %}
-<div class="text-center">
-    <h1>Testing Dashboard</h1>
-    <p>Select an action based on your role.</p>
-    
-    <div class="mt-4">
-        <a href="{% url 'web_test:job_list' %}" class="btn btn-primary btn-lg">View All Jobs</a>
-        
-        {% if request.user.role == 'HR' %}
-            <a href="{% url 'web_test:create_job' %}" class="btn btn-success btn-lg">Post New Job</a>
-        {% endif %}
+
+<div class="min-h-[60vh] flex items-center justify-center px-4">
+  <div class="text-center">
+
+    <!-- Role-wise Dashboard Title -->
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-800 mb-2">
+
+      {% if request.user.is_superuser or request.user.role == 'ADMIN' %}
+        Admin Dashboard
+      {% elif request.user.role == 'HR' %}
+        HR Dashboard
+      {% elif request.user.role == 'Candidate' %}
+        Candidate Dashboard
+      {% elif request.user.role == 'Reviewer' %}
+        Reviewer Dashboard
+      {% else %}
+        Dashboard
+      {% endif %}
+
+    </h1>
+
+    <p class="text-gray-600 mb-8">Select an action based on your role.</p>
+
+    <!-- Actions -->
+    <div class="flex flex-col sm:flex-row flex-wrap gap-4 justify-center">
+
+      <!-- Common -->
+      <a href="{% url 'web_test:job_list' %}"
+         class="px-6 py-3 rounded-xl bg-blue-600 text-white font-semibold text-lg hover:bg-blue-700 transition">
+        View All Jobs
+      </a>
+
+      <!-- HR only -->
+      {% if request.user.role == 'HR' %}
+        <a href="{% url 'web_test:create_job' %}"
+           class="px-6 py-3 rounded-xl bg-green-600 text-white font-semibold text-lg hover:bg-green-700 transition">
+          Post New Job
+        </a>
+      {% endif %}
+
+      <!-- Candidate only -->
+      {% if request.user.role == 'CANDIDATE' %}
+        <a href="{% url 'web_test:my_applications' %}"
+           class="px-6 py-3 rounded-xl bg-purple-600 text-white font-semibold text-lg hover:bg-purple-700 transition">
+          My Applications
+        </a>
+      {% endif %}
+
+      <!-- Reviewer only -->
+      {% if request.user.role == 'REVIEWER' %}
+        <a href="{% url 'web_test:assigned_reviews' %}"
+           class="px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold text-lg hover:bg-orange-700 transition">
+          Assigned Reviews
+        </a>
+      {% endif %}
+
+      <!-- Admin only -->
+      {% if request.user.is_superuser or request.user.role == 'ADMIN' %}
+        <a href="{% url 'admin:index' %}"
+           class="px-6 py-3 rounded-xl bg-gray-800 text-white font-semibold text-lg hover:bg-black transition">
+          Admin Panel
+        </a>
+      {% endif %}
+
     </div>
+
+  </div>
 </div>
+
 {% endblock %}

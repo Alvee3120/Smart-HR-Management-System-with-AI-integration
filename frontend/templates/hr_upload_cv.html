@@ -1,46 +1,88 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="row justify-content-center">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-primary text-white">
-                <h4 class="mb-0">Manual CV Upload</h4>
-                <small>Adding candidate to: <strong>{{ job.title }}</strong></small>
-            </div>
-            <div class="card-body">
-                <form method="post" enctype="multipart/form-data">
-                    {% csrf_token %}
-                    
-                    <h5 class="text-muted mb-3">Candidate Details</h5>
-                    <div class="mb-3">
-                        <label>Full Name</label>
-                        {{ form.full_name }}
-                    </div>
-                    <div class="mb-3">
-                        <label>Email Address</label>
-                        {{ form.email }}
-                    </div>
-                    
-                    <h5 class="text-muted mb-3 mt-4">Application Data</h5>
-                    <div class="mb-3">
-                        <label>Upload CV (PDF)</label>
-                        {{ form.cv_file }}
-                    </div>
-                    
-                    <div class="mb-3">
-                        <label>Reference (Optional)</label>
-                        {{ form.reference_name }}
-                        <div class="form-text">Enter the name of the person referring this candidate.</div>
-                    </div>
 
-                    <button type="submit" class="btn btn-success w-100">Upload & Analyze</button>
-                </form>
-            </div>
+<div class="min-h-[70vh] flex items-center justify-center px-4 py-10">
+
+    <div class="w-full max-w-xl bg-white rounded-2xl shadow-lg">
+
+        <!-- Header -->
+        <div class="bg-blue-600 text-white px-6 py-4 rounded-t-2xl">
+            <h4 class="text-xl font-semibold">Manual CV Upload</h4>
+            <p class="text-sm opacity-90">
+                Adding candidate to: <strong>{{ job.title }}</strong>
+            </p>
         </div>
-        <div class="mt-3 text-center">
-            <a href="{% url 'web_test:job_list' %}" class="text-secondary">Cancel</a>
+
+        <!-- Body -->
+        <div class="p-6">
+
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
+                {% csrf_token %}
+
+                <!-- Candidate Details -->
+                <div>
+                    <h5 class="text-gray-500 font-semibold mb-3">Candidate Details</h5>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Full Name
+                            </label>
+                            {{ form.full_name }}
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Email Address
+                            </label>
+                            {{ form.email }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Application Data -->
+                <div>
+                    <h5 class="text-gray-500 font-semibold mb-3">Application Data</h5>
+
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Upload CV (PDF)
+                            </label>
+                            {{ form.cv_file }}
+                        </div>
+
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-1">
+                                Reference (Optional)
+                            </label>
+                            {{ form.reference_name }}
+                            <p class="text-xs text-gray-500 mt-1">
+                                Enter the name of the person referring this candidate.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                        class="w-full bg-green-600 text-white py-2.5 rounded-xl font-semibold hover:bg-green-700 transition">
+                    Upload & Analyze
+                </button>
+
+            </form>
+
         </div>
     </div>
+
 </div>
+
+<!-- Cancel -->
+<div class="text-center mt-4">
+    <a href="{% url 'web_test:job_list' %}"
+       class="text-gray-500 hover:text-gray-800 transition underline">
+        Cancel
+    </a>
+</div>
+
 {% endblock %}

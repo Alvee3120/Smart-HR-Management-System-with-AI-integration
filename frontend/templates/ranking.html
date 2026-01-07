@@ -1,178 +1,245 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="container">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <h2>Ranking for Job: <span class="text-primary">{{ job.title }}</span></h2>
-        <div>
-            <button type="button" class="btn btn-success me-2" onclick="openBulkModal()">
-                <i class="bi bi-envelope"></i> Invite Selected
+
+<div class="max-w-7xl mx-auto px-4 py-8">
+
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
+        <h2 class="text-2xl font-bold text-gray-800">
+            Ranking for Job:
+            <span class="text-blue-600">{{ job.title }}</span>
+        </h2>
+
+        <div class="flex gap-2">
+            <button onclick="openBulkModal()"
+                class="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700 transition">
+                📩 Invite Selected
             </button>
-            <a href="{% url 'web_test:job_list' %}" class="btn btn-outline-secondary">Back to Jobs</a>
+
+            <a href="{% url 'web_test:job_list' %}"
+               class="px-4 py-2 border border-gray-400 rounded-xl text-gray-700 hover:bg-gray-100 transition">
+                Back to Jobs
+            </a>
         </div>
     </div>
 
-    <div class="mb-3">
-        <div class="btn-group" role="group">
-            <a href="?" class="btn btn-outline-dark {% if not request.GET.ref %}active{% endif %}">Show All</a>
-            <a href="?ref=true" class="btn btn-outline-dark {% if request.GET.ref %}active{% endif %}">With References Only</a>
-        </div>
+    <!-- Filter -->
+    <div class="mb-4 flex gap-2">
+        <a href="?"
+           class="px-4 py-2 border rounded-xl {% if not request.GET.ref %}bg-gray-800 text-white{% else %}hover:bg-gray-100{% endif %}">
+            Show All
+        </a>
+
+        <a href="?ref=true"
+           class="px-4 py-2 border rounded-xl {% if request.GET.ref %}bg-gray-800 text-white{% else %}hover:bg-gray-100{% endif %}">
+            With References Only
+        </a>
     </div>
 
-    <div class="card shadow">
-        <div class="card-body p-0">
-            <table class="table table-hover mb-0">
-                <thead class="table-dark">
-                    <tr>
-                        <th style="width: 40px;">
-                            <input type="checkbox" id="selectAll" onclick="toggleAll(this)">
-                        </th>
-                        <th>Rank</th>
-                        <th>AI Score</th>
-                        <th>Candidate Name</th>
-                        <th>Top Skills Detected</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for app in applications %}
-                    <tr {% if app.match_score > 80 %}class="table-success"{% endif %}>
-                        
-                        <td class="align-middle">
-                            <input type="checkbox" class="candidate-checkbox" value="{{ app.id }}">
-                        </td>
+    <!-- Table -->
+    <div class="bg-white rounded-2xl shadow border overflow-x-auto">
 
-                        <td class="align-middle fw-bold">{{ forloop.counter }}</td>
+        <table class="min-w-full text-sm">
 
-                        <td class="align-middle">
-                            {% if app.match_score > 75 %}
-                                <span class="badge bg-success fs-6">{{ app.match_score }}%</span>
-                            {% elif app.match_score > 50 %}
-                                <span class="badge bg-warning text-dark fs-6">{{ app.match_score }}%</span>
-                            {% else %}
-                                <span class="badge bg-danger fs-6">{{ app.match_score }}%</span>
-                            {% endif %}
-                        </td>
+            <thead class="bg-gray-900 text-white">
+                <tr>
+                    <th class="p-3 text-center">
+                        <input type="checkbox" onclick="toggleAll(this)" class="scale-125">
+                    </th>
+                    <th class="p-3 text-left">Rank</th>
+                    <th class="p-3 text-left">AI Score</th>
+                    <th class="p-3 text-left">Candidate</th>
+                    <th class="p-3 text-left">Top Skills</th>
+                    <th class="p-3 text-left">Status</th>
+                    <th class="p-3 text-left">Actions</th>
+                </tr>
+            </thead>
 
-                        <td class="align-middle">
-                            <strong>{{ app.candidate.full_name }}</strong>
-                            <br>
-                            <small class="text-muted">{{ app.candidate.email }}</small>
-                            {% if app.has_reference %}
-                                <span class="badge bg-primary ms-2">Ref: {{ app.reference_name }}</span>
-                            {% endif %}
-                        </td>
+            <tbody class="divide-y">
 
-                        <td class="align-middle">
-                            {% for item in app.extracted_data|slice:":5" %} 
+                {% for app in applications %}
+                <tr class="{% if app.match_score > 80 %}bg-green-50{% else %}hover:bg-gray-50{% endif %}">
+
+                    <td class="p-3 text-center">
+                        <input type="checkbox" class="candidate-checkbox scale-110" value="{{ app.id }}">
+                    </td>
+
+                    <td class="p-3 font-bold">{{ forloop.counter }}</td>
+
+                    <td class="p-3">
+                        {% if app.match_score > 75 %}
+                            <span class="px-2 py-1 rounded-lg bg-green-600 text-white font-semibold">
+                                {{ app.match_score }}%
+                            </span>
+                        {% elif app.match_score > 50 %}
+                            <span class="px-2 py-1 rounded-lg bg-yellow-400 text-black font-semibold">
+                                {{ app.match_score }}%
+                            </span>
+                        {% else %}
+                            <span class="px-2 py-1 rounded-lg bg-red-600 text-white font-semibold">
+                                {{ app.match_score }}%
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td class="p-3">
+                        <p class="font-semibold">{{ app.candidate.full_name }}</p>
+                        <p class="text-xs text-gray-500">{{ app.candidate.email }}</p>
+
+                        {% if app.has_reference %}
+                            <span class="inline-block mt-1 px-2 py-0.5 text-xs bg-blue-600 text-white rounded-full">
+                                Ref: {{ app.reference_name }}
+                            </span>
+                        {% endif %}
+                    </td>
+
+                    <td class="p-3">
+                        <div class="flex flex-wrap gap-1">
+                            {% for item in app.extracted_data|slice:":5" %}
                                 {% if item.label in 'Skill,Technology,Framework,Programming Language,Database' %}
-                                    <span class="badge bg-secondary mb-1">{{ item.text }}</span>
+                                    <span class="px-2 py-0.5 bg-gray-200 text-xs rounded-md">
+                                        {{ item.text }}
+                                    </span>
                                 {% endif %}
                             {% empty %}
-                                <span class="text-muted small">No skills.</span>
+                                <span class="text-gray-400 text-xs">No skills.</span>
                             {% endfor %}
-                        </td>
+                        </div>
+                    </td>
 
-                        <td class="align-middle">
-                            <span class="badge border border-secondary text-secondary">{{ app.status }}</span>
-                        </td>
+                    <td class="p-3">
+                        <span class="px-2 py-1 border rounded-lg text-xs text-gray-600">
+                            {{ app.status }}
+                        </span>
+                    </td>
 
-                        <td class="align-middle">
-                            <div class="btn-group">
-                                {% if app.cv_file %}
-                                    <a href="{{ app.cv_file.url }}" target="_blank" class="btn btn-sm btn-outline-danger">📄 CV</a>
-                                {% endif %}
-                                <a href="{% url 'web_test:application_detail' app.id %}" class="btn btn-sm btn-info text-white">🔍 Analyze</a>
-                            </div>
-                        </td>
-                    </tr>
-                    {% empty %}
-                    <tr>
-                        <td colspan="7" class="text-center py-4 text-muted">
-                            No applications received yet.
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
+                    <td class="p-3 space-x-2">
+                        {% if app.cv_file %}
+                            <a href="{{ app.cv_file.url }}" target="_blank"
+                               class="px-3 py-1 text-xs border border-red-500 text-red-600 rounded-lg hover:bg-red-50">
+                                📄 CV
+                            </a>
+                        {% endif %}
+
+                        <a href="{% url 'web_test:application_detail' app.id %}"
+                           class="px-3 py-1 text-xs bg-cyan-600 text-white rounded-lg hover:bg-cyan-700">
+                            🔍 Analyze
+                        </a>
+                    </td>
+
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="7" class="p-6 text-center text-gray-500">
+                        No applications received yet.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
     </div>
+
 </div>
 
-<div class="modal fade" id="bulkInviteModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header bg-success text-white">
-                <h5 class="modal-title">Send Interview Invites</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+<!-- ================= MODAL ================= -->
+
+<div id="bulkInviteModal"
+     class="fixed inset-0 bg-black/50 hidden items-center justify-center z-50">
+
+    <div class="bg-white w-full max-w-lg rounded-2xl shadow-lg">
+
+        <div class="bg-green-600 text-white px-5 py-3 rounded-t-2xl flex justify-between items-center">
+            <h3 class="font-semibold">Send Interview Invites</h3>
+            <button onclick="closeBulkModal()" class="text-xl">&times;</button>
+        </div>
+
+        <form method="post" action="{% url 'web_test:bulk_send_invite' %}">
+            {% csrf_token %}
+            <div class="p-5 space-y-4">
+
+                <input type="hidden" name="application_ids" id="modalAppIds">
+
+                <p class="text-gray-600">
+                    You are sending invites to
+                    <strong id="selectedCount">0</strong> candidate(s).
+                </p>
+
+                <div>
+                    <label class="block font-semibold text-sm mb-1">Date</label>
+                    <input type="date" name="date" required
+                           class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-sm mb-1">Time</label>
+                    <input type="time" name="time" required
+                           class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-sm mb-1">Location / Link</label>
+                    <input type="text" name="location" required placeholder="Google Meet / Office"
+                           class="w-full border rounded-lg px-3 py-2">
+                </div>
+
+                <div>
+                    <label class="block font-semibold text-sm mb-1">Message</label>
+                    <textarea name="message" rows="3"
+                              class="w-full border rounded-lg px-3 py-2"></textarea>
+                </div>
+
             </div>
-            <form method="post" action="{% url 'web_test:bulk_send_invite' %}">
-                {% csrf_token %}
-                <div class="modal-body">
-                    <input type="hidden" name="application_ids" id="modalAppIds">
-                    
-                    <p class="text-muted">You are sending invites to <strong id="selectedCount">0</strong> candidate(s).</p>
 
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Date</label>
-                        <input type="date" name="date" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Time</label>
-                        <input type="time" name="time" class="form-control" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Location / Link</label>
-                        <input type="text" name="location" class="form-control" placeholder="Google Meet / Office" required>
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label fw-bold">Message</label>
-                        <textarea name="message" class="form-control" rows="3"></textarea>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                    <button type="submit" class="btn btn-success">Send Bulk Emails 🚀</button>
-                </div>
-            </form>
-        </div>
+            <div class="flex justify-end gap-3 px-5 pb-5">
+                <button type="button" onclick="closeBulkModal()"
+                        class="px-4 py-2 border rounded-xl">
+                    Cancel
+                </button>
+
+                <button type="submit"
+                        class="px-4 py-2 bg-green-600 text-white rounded-xl hover:bg-green-700">
+                    Send Bulk Emails 🚀
+                </button>
+            </div>
+        </form>
+
     </div>
 </div>
+
+<!-- ================= JS ================= -->
 
 <script>
-    // 1. Select All Logic
-    function toggleAll(source) {
-        checkboxes = document.getElementsByClassName('candidate-checkbox');
-        for(var i=0, n=checkboxes.length; i<n; i++) {
-            checkboxes[i].checked = source.checked;
-        }
+function toggleAll(source) {
+    let boxes = document.getElementsByClassName('candidate-checkbox');
+    for (let i = 0; i < boxes.length; i++) {
+        boxes[i].checked = source.checked;
+    }
+}
+
+function openBulkModal() {
+    let selected = [];
+    let boxes = document.getElementsByClassName('candidate-checkbox');
+
+    for (let i = 0; i < boxes.length; i++) {
+        if (boxes[i].checked) selected.push(boxes[i].value);
     }
 
-    // 2. Open Modal Logic
-    function openBulkModal() {
-        // Collect checked IDs
-        var selected = [];
-        var checkboxes = document.getElementsByClassName('candidate-checkbox');
-        for (var i=0; i<checkboxes.length; i++) {
-            if (checkboxes[i].checked) {
-                selected.push(checkboxes[i].value);
-            }
-        }
-
-        // Validation
-        if (selected.length === 0) {
-            alert("Please select at least one candidate first!");
-            return;
-        }
-
-        // Populate Modal Data
-        document.getElementById('modalAppIds').value = selected.join(",");
-        document.getElementById('selectedCount').innerText = selected.length;
-
-        // Show Modal (Using Bootstrap JS)
-        var myModal = new bootstrap.Modal(document.getElementById('bulkInviteModal'));
-        myModal.show();
+    if (selected.length === 0) {
+        alert("Please select at least one candidate first!");
+        return;
     }
+
+    document.getElementById('modalAppIds').value = selected.join(",");
+    document.getElementById('selectedCount').innerText = selected.length;
+
+    document.getElementById('bulkInviteModal').classList.remove("hidden");
+    document.getElementById('bulkInviteModal').classList.add("flex");
+}
+
+function closeBulkModal() {
+    document.getElementById('bulkInviteModal').classList.add("hidden");
+}
 </script>
+
 {% endblock %}

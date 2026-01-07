@@ -1,34 +1,63 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="row justify-content-center mt-5">
-    <div class="col-md-6">
-        <div class="card shadow">
-            <div class="card-header bg-success text-white text-center">
-                <h3>Create Account</h3>
+
+<div class="flex justify-center mt-16">
+    <div class="w-full max-w-2xl">
+
+        <div class="bg-white shadow-xl rounded-2xl overflow-hidden">
+
+            <!-- Header -->
+            <div class="bg-green-600 text-white text-center py-4">
+                <h3 class="text-2xl font-semibold">Create Account</h3>
             </div>
-            <div class="card-body">
-                <form method="post">
+
+            <!-- Body -->
+            <div class="p-6">
+
+                <form method="post" class="space-y-4">
                     {% csrf_token %}
+
                     {% for field in form %}
-                        <div class="mb-3">
-                            <label class="form-label">{{ field.label }}</label>
+                        <div>
+                            <label class="block mb-1 text-sm font-medium text-gray-700">
+                                {{ field.label }}
+                            </label>
+
                             {{ field }}
+
                             {% if field.help_text %}
-                                <small class="text-muted">{{ field.help_text }}</small>
+                                <p class="text-xs text-gray-500 mt-1">
+                                    {{ field.help_text }}
+                                </p>
                             {% endif %}
+
                             {% for error in field.errors %}
-                                <div class="text-danger small">{{ error }}</div>
+                                <p class="text-sm text-red-600 mt-1">
+                                    {{ error }}
+                                </p>
                             {% endfor %}
                         </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-success w-100">Sign Up</button>
+
+                    <button type="submit"
+                        class="w-full bg-green-600 text-white py-2.5 rounded-lg hover:bg-green-700 transition font-semibold">
+                        Sign Up
+                    </button>
                 </form>
+
             </div>
-            <div class="card-footer text-center">
-                <small>Already have an account? <a href="{% url 'web_test:login' %}">Login here</a></small>
+
+            <!-- Footer -->
+            <div class="bg-gray-50 text-center py-4 text-sm">
+                Already have an account?
+                <a href="{% url 'web_test:login' %}" class="text-blue-600 font-medium hover:underline">
+                    Login here
+                </a>
             </div>
+
         </div>
     </div>
 </div>
+
 {% endblock %}

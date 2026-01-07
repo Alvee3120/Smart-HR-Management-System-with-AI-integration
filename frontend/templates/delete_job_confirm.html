@@ -1,26 +1,47 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card border-danger shadow">
-                <div class="card-header bg-danger text-white">
-                    <h5 class="mb-0">⚠️ Confirm Deletion</h5>
-                </div>
-                <div class="card-body text-center">
-                    <p class="lead">Are you sure you want to delete the job:</p>
-                    <h3>"{{ job.title }}"</h3>
-                    <p class="text-muted">This action cannot be undone. All candidate applications and AI data for this job will also be deleted.</p>
-                    
-                    <form method="post">
-                        {% csrf_token %}
-                        <a href="{% url 'web_test:job_detail' job.id %}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-danger">Yes, Delete Permanently</button>
-                    </form>
-                </div>
-            </div>
+
+<div class="min-h-[70vh] flex items-center justify-center px-4">
+
+    <div class="w-full max-w-lg bg-white rounded-2xl shadow-lg border border-red-300">
+
+        <!-- Header -->
+        <div class="bg-red-600 text-white px-6 py-4 rounded-t-2xl">
+            <h5 class="text-lg font-semibold">⚠️ Confirm Deletion</h5>
+        </div>
+
+        <!-- Body -->
+        <div class="p-6 text-center">
+
+            <p class="text-lg text-gray-700 mb-2">
+                Are you sure you want to delete the job:
+            </p>
+
+            <h3 class="text-2xl font-bold text-gray-900 mb-3">
+                "{{ job.title }}"
+            </h3>
+
+            <p class="text-gray-500 mb-6">
+                This action cannot be undone. All candidate applications and AI data for this job will also be deleted.
+            </p>
+
+            <form method="post" class="flex flex-col sm:flex-row gap-4 justify-center">
+                {% csrf_token %}
+
+                <a href="{% url 'web_test:job_detail' job.id %}"
+                   class="px-6 py-2.5 rounded-xl border border-gray-400 text-gray-700 font-medium hover:bg-gray-100 transition">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="px-6 py-2.5 rounded-xl bg-red-600 text-white font-semibold hover:bg-red-700 transition">
+                    Yes, Delete Permanently
+                </button>
+            </form>
+
         </div>
     </div>
+
 </div>
+
 {% endblock %}
