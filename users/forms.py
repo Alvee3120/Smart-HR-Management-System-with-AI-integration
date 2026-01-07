@@ -1,17 +1,15 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import User
 from django import forms
+from .models import User
 
-
-class CustomUserCreationForm(UserCreationForm):
-   # Explicitly declare password fields to satisfy Admin validation
+class CustomUserCreationForm(forms.ModelForm):
+    # Explicitly define the password fields
     password_1 = forms.CharField(
         label="Password",
         widget=forms.PasswordInput,
         strip=False,
     )
     password_2 = forms.CharField(
-        label="Password confirmation",
+        label="Confirm Password",
         widget=forms.PasswordInput,
         strip=False,
         help_text="Enter the same password as before, for verification.",
@@ -21,6 +19,14 @@ class CustomUserCreationForm(UserCreationForm):
         model = User
         fields = ('email', 'full_name', 'role')
 
+    def clean(self):
+        cleaned_data = super().clean()
+        p1 = cleaned_data.get("password_1")
+        p2 = cleaned_data.get("password_2")
+        if p1 and p2 and p1 != p2:
+            self.add_error("password_2", "Passwords do not match.")
+        return cleaned_data
+
     def save(self, commit=True):
         # Save the provided password in hashed format
         user = super().save(commit=False)
@@ -28,8 +34,8 @@ class CustomUserCreationForm(UserCreationForm):
         if commit:
             user.save()
         return user
-    
-class CustomUserChangeForm(UserChangeForm):
+
+class CustomUserChangeForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('email', 'full_name', 'role', 'is_active', 'is_staff', 'is_superuser')

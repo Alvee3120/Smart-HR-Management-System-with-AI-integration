@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <h1 class="text-3xl font-bold text-gray-800 mb-8">Admin Overview</h1>
+
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+        <div class="bg-blue-600 text-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-blue-100 text-sm uppercase font-semibold">Total Users</h3>
+            <p class="text-4xl font-bold mt-2">{{ total_users }}</p>
+        </div>
+        <div class="bg-purple-600 text-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-purple-100 text-sm uppercase font-semibold">Total Jobs</h3>
+            <p class="text-4xl font-bold mt-2">{{ total_jobs }}</p>
+        </div>
+        <div class="bg-orange-600 text-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-orange-100 text-sm uppercase font-semibold">Applications</h3>
+            <p class="text-4xl font-bold mt-2">{{ total_applications }}</p>
+        </div>
+        <div class="bg-green-600 text-white p-6 rounded-xl shadow-lg">
+            <h3 class="text-green-100 text-sm uppercase font-semibold">Hired</h3>
+            <p class="text-4xl font-bold mt-2">{{ hired_count }}</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <a href="{% url 'admin:index' %}" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 transition group">
+            <div class="flex items-center gap-4">
+                <span class="material-icons text-3xl text-gray-400 group-hover:text-blue-600">settings</span>
+                <div>
+                    <h3 class="font-bold text-gray-800">Django Admin Panel</h3>
+                    <p class="text-sm text-gray-500">Manage users, permissions, and database records directly.</p>
+                </div>
+            </div>
+        </a>
+        <a href="{% url 'web_test:job_list' %}" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 transition group">
+            <div class="flex items-center gap-4">
+                <span class="material-icons text-3xl text-gray-400 group-hover:text-blue-600">list_alt</span>
+                <div>
+                    <h3 class="font-bold text-gray-800">View All Jobs</h3>
+                    <p class="text-sm text-gray-500">Oversee all job postings and their status.</p>
+                </div>
+            </div>
+        </a>
+    </div>
+</div>
+{% endblock %}

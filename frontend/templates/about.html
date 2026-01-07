@@ -1,0 +1,295 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+
+<header class="relative bg-gradient-to-r from-secondary to-blue-800 text-white overflow-hidden">
+    <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80')] bg-cover bg-center"></div>
+    
+    <div class="container mx-auto px-6 py-24 relative z-10 text-center md:text-left flex flex-col md:flex-row items-center">
+        <div class="md:w-1/2 mb-10 md:mb-0">
+            <h1 class="text-4xl md:text-5xl font-display font-bold leading-tight mb-6">
+                Empowering Business <br/><span class="text-primary">Tailored Software</span>
+            </h1>
+            <p class="text-lg text-blue-100 mb-8 max-w-lg leading-relaxed">
+                Trusted by industry leaders for cutting-edge solutions. We transform your ideas into reality with over 20+ years of excellence.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+                <a href="{% url 'web_test:service' %}" class="bg-primary hover:bg-green-600 text-white font-semibold py-3 px-8 rounded shadow-md transition-all transform hover:-translate-y-1 text-center">
+                    Explore Services
+                </a>
+                <a href="#contact" class="bg-transparent border-2 border-white hover:bg-white hover:text-secondary text-white font-semibold py-3 px-8 rounded shadow-md transition-all text-center">
+                    Contact Us
+                </a>
+            </div>
+        </div>
+        
+        <div class="md:w-1/2 flex justify-center relative">
+            <div class="relative w-full max-w-md">
+                <div class="absolute top-0 -left-4 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
+                <div class="absolute top-0 -right-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
+                <img alt="Team collaborating" class="rounded-lg shadow-2xl border-4 border-white/20 relative z-10 transform md:rotate-3 hover:rotate-0 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1KO1huOoHsysaslWkV3shOk7j3Pdj4hYgtjt5NW7odcSrNmkwpFmJ1A2cT2ZV7P9IV7GV3W7hwbNxjLIJ3NCYf7KP0C88ZV4yf-cLkUqMUxqAo1tPJKwjptQ9mnErFQHyqP3YcCTMOmq9zCeW_XsnRlCl6Wd7JOBwIWDHaFiNDKOref45SQ4HmhEv9JDWZz5dlhpeHBBPAE09vnL0ZXsmbLEsctv6ULjAGNBKMt8qW2qsE7PEkFe41pa_mu9p0b8EZteqc5qmvJM"/>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="py-20 bg-background-light dark:bg-background-dark">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-4">What We Offer</h2>
+            <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                Comprehensive digital solutions tailored to elevate your business operations and drive growth.
+            </p>
+        </div>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-icons-outlined text-2xl">code</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Custom Software</h3>
+            </div>
+            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-icons-outlined text-2xl">dns</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">IT Infrastructure</h3>
+            </div>
+            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-icons-outlined text-2xl">security</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Security</h3>
+            </div>
+            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-icons-outlined text-2xl">smartphone</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Mobile App</h3>
+            </div>
+            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-icons-outlined text-2xl">animation</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Creative Animation</h3>
+            </div>
+            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+                    <span class="material-icons-outlined text-2xl">school</span>
+                </div>
+                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Professional Training</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-20 bg-primary/10 dark:bg-green-900/10">
+    <div class="container mx-auto px-6">
+        <div class="flex flex-col lg:flex-row items-center gap-12">
+            <div class="lg:w-1/2 relative">
+                <div class="absolute inset-0 bg-primary opacity-20 blur-3xl rounded-full"></div>
+                <img alt="Team meeting" class="relative rounded-2xl shadow-2xl z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlEM6KL2MMKgY6t-dTKzguu2D5UYR1w6qzA6fBTes-z0bAW4BEtuscSdzUErWnznpBtnzdoGvVM73caADmsXNmOBLlP0MINhw0QcCaosuWzECw_H-xV44R_yAzHVRc_MkGAyBi533mpJcUCiwRoZyblA_JiP2g7Wc2yDzvZiUu4nWUpAyaUQtjDdYlbDuuv6KTZwWM2aotB7gE4iKxE9f7nx0aziWp1HUErJtm9tuZKi_IDr38UhzhA2hvSgAQAk0SHvmpsHRsbrg"/>
+                <div class="absolute -bottom-6 -right-6 bg-secondary text-white p-6 rounded-xl shadow-xl z-20 hidden md:block">
+                    <div class="text-4xl font-bold font-display">26+</div>
+                    <div class="text-sm opacity-90">Years of Experience</div>
+                </div>
+            </div>
+            <div class="lg:w-1/2">
+                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-6">
+                    Why Select <span class="text-primary">SIMEC</span> as Your Trusted Custom Software Partner?
+                </h2>
+                <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
+                    We are a proven full-service custom software development company with over two decades of experience. Our expert team leverages deep technological expertise to deliver solutions that drive business outcomes.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
+                            <span class="material-icons-outlined">public</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 dark:text-white">Global Presence</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Offices in 5+ countries serving clients worldwide.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
+                            <span class="material-icons-outlined">verified</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 dark:text-white">Proven Track Record</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Hundreds of successful projects delivered on time.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
+                            <span class="material-icons-outlined">groups</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 dark:text-white">Expert Team</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Certified professionals dedicated to your success.</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-4">
+                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
+                            <span class="material-icons-outlined">support_agent</span>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-gray-800 dark:text-white">24/7 Support</h4>
+                            <p class="text-sm text-gray-500 dark:text-gray-400">Dedicated support team available round the clock.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="py-20 bg-surface-light dark:bg-surface-dark">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-4">Our Projects</h2>
+            <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                A glimpse into the diverse range of successful projects we've delivered for our valued clients.
+            </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div class="bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all group">
+                <div class="h-48 overflow-hidden">
+                    <img alt="Financial Dashboard" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0HX_KGDdBwR6bkV6NJj-hVevVGzhM9OKe17qHP2ezeXCOZCFiJI2aKqKXQY6TO0CH60XUStrqJ5ox09Eaapf3rZuOD_t7oDeK44CM2hUDlDWC3pnu3nzks8783zqVzZGCAcvcBBXP_JocLzAlp5CadgCSlMy9GEw-c2L9x8LF731JJg7mIu1uvqQM-vIxF--Llx_MbWoZ0x3shQnD1clqFMX2X_e_n0_PArpYu_V0vNPGFJwlnIn_9gnGj2N-e8iveDHERRX18iw"/>
+                </div>
+                <div class="p-6 relative">
+                    <div class="absolute -top-8 right-6 bg-primary text-white p-3 rounded-full shadow-lg">
+                        <span class="material-icons-outlined">analytics</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Enterprise ERP System</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">A comprehensive ERP solution for a multinational manufacturing firm, streamlining operations and logistics.</p>
+                    <a class="text-primary font-medium text-sm flex items-center hover:underline" href="{% url 'web_test:portfolio' %}">View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span></a>
+                </div>
+            </div>
+            <div class="bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all group">
+                <div class="h-48 overflow-hidden">
+                    <img alt="Mobile App" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKbx2PuYzb83JIWwZW9nESodOozgJ8TLO_MfIUKPgTU3-5h5zLVtoMuTCa60iodSCceafQ_Wimty9MF-es49Yv57YKHZvG4c-_PcU-lGuX5bLT3-okmrdrtCSovZodq3Shl5w-JFt1JAf_TFeJJrn-eRJte4Pcr3JI-_Z8yxuL_8WCFHg9BRckSvBlGuINYQy71D7PNxQmr_K8G6BalRSl5WuLHSH2etlphUHEXrR28b7Cg-zv6x_WNj2wxeeGc-9ssVE8-kLCKnQ"/>
+                </div>
+                <div class="p-6 relative">
+                    <div class="absolute -top-8 right-6 bg-primary text-white p-3 rounded-full shadow-lg">
+                        <span class="material-icons-outlined">phone_iphone</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">FinTech Mobile App</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Secure and intuitive mobile banking application with real-time transaction tracking and biometric security.</p>
+                    <a class="text-primary font-medium text-sm flex items-center hover:underline" href="{% url 'web_test:portfolio' %}">View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span></a>
+                </div>
+            </div>
+            <div class="bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all group">
+                <div class="h-48 overflow-hidden">
+                    <img alt="Web Portal" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMc5sNydqSOPWHdIlM48ZLHPc4Fx5hOpS_KdYJlEMtkfA5q8INGo1RgAzd_FS7ch_FRbrWNn96Ql81Wlf09HC6WbKBzjdqfMNuz3Aj_PgRPl_Z8g4W1s1ZglYmmSwSxNM7PHDR5fnCS5n10IXnLbjqLzx5qFxzJrXbRXj952IC3PyuqYjWSyVo3rauu5j4C8nqcMF-lisFTZKa9djiGo2VjC7kTu2U0-YU8MhxZ4xLDJ2yQQqcAPLbOfO42b1C1fMt6IPyw9HqxkA"/>
+                </div>
+                <div class="p-6 relative">
+                    <div class="absolute -top-8 right-6 bg-primary text-white p-3 rounded-full shadow-lg">
+                        <span class="material-icons-outlined">language</span>
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">E-Government Portal</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Digitalizing public services to enhance citizen engagement and transparency for a government agency.</p>
+                    <a class="text-primary font-medium text-sm flex items-center hover:underline" href="{% url 'web_test:portfolio' %}">View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-12">
+            <a href="{% url 'web_test:portfolio' %}" class="bg-secondary hover:bg-blue-800 text-white font-medium py-3 px-8 rounded shadow transition-colors inline-block">
+                View All Projects
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="py-16 bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
+    <div class="container mx-auto px-6">
+        <h2 class="text-2xl font-display font-bold text-center text-gray-600 dark:text-gray-400 mb-10 uppercase tracking-widest">Trusted By</h2>
+        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-4xl text-gray-400">business</span>
+                <span class="text-xl font-bold text-gray-500">CorpOne</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-4xl text-gray-400">apartment</span>
+                <span class="text-xl font-bold text-gray-500">BuildTech</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-4xl text-gray-400">pets</span>
+                <span class="text-xl font-bold text-gray-500">AgriPlus</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-4xl text-gray-400">science</span>
+                <span class="text-xl font-bold text-gray-500">PharmaLab</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-4xl text-gray-400">account_balance</span>
+                <span class="text-xl font-bold text-gray-500">GovServe</span>
+            </div>
+            <div class="flex items-center space-x-2">
+                <span class="material-icons-outlined text-4xl text-gray-400">flight_takeoff</span>
+                <span class="text-xl font-bold text-gray-500">SkyTravel</span>
+            </div>
+        </div>
+        <p class="text-center mt-8 text-sm text-gray-400">And 100+ more organizations...</p>
+    </div>
+</section>
+
+<section class="py-20 bg-surface-light dark:bg-surface-dark">
+    <div class="container mx-auto px-6">
+        <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-4">Client Feedback</h2>
+            <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative">
+                <span class="material-icons-outlined text-4xl text-primary/30 absolute top-6 right-6">format_quote</span>
+                <p class="text-gray-600 dark:text-gray-400 italic mb-6 leading-relaxed">
+                    "We have been using the MIS Management Software developed by SIMEC System Ltd for the last two years. All of our needs were met with an overwhelmingly great product."
+                </p>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full mr-4 overflow-hidden">
+                        <img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqfwyr8HRYh3p8Y7Rr8ll-DFrVLOOu7siGHB9rew7uK6-4QeinQjDk0abMtmtbaiYL1kF0Pl_YW4ZIndlFN8htNnUJjPCbpZ5OWhE3YOA2SXBiDYfT7c5Bm8hptf8VmrpPVSxI_LoiOX37o5YZG-vurnYGMyX0x5t2ic16a9wwDtt3Bem-AmqgO3hguNAC2eCxkuN3DeZkyqGWtKsBxWbvhFfa61b5ZMDZ_2Ghk-I82pkIpmMO0xEkEiun0RLIhr1zBw2vb9__JJU"/>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 dark:text-white text-sm">IT Head</h4>
+                        <p class="text-xs text-gray-500">Leading Petroleum Company</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative">
+                <span class="material-icons-outlined text-4xl text-primary/30 absolute top-6 right-6">format_quote</span>
+                <p class="text-gray-600 dark:text-gray-400 italic mb-6 leading-relaxed">
+                    "We are pleased to acknowledge the successful completion of our Vehicle Tracking System. Their team is highly professional and responsive."
+                </p>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full mr-4 overflow-hidden">
+                        <img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyYT48VrVs8y_daDjc280ExC89zmWmXXvC4QtXzhYmlK8XFqeSMzg0nZEbnYB_n9zPaK_pQEkgmZ4w5OHPCQ-Ms4yG2FcCrN-EjWkioTE9cWMigYeHxvvhWwXRnGYzM_MGuBvl97s7pG5ejNP44FSIcEDhp7VJdW_Kjb7Gmcj0OynkxtTn5NCCu62Pdy1xtRmu0KVyoaNx043jtrnMoIVhfjFVUNw9HWE-TmQySneYY1kvBbKyZZ1O-x6lyI8BwA-tzWYTBJzUWR0"/>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 dark:text-white text-sm">Project Director</h4>
+                        <p class="text-xs text-gray-500">Government Agency</p>
+                    </div>
+                </div>
+            </div>
+            <div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative">
+                <span class="material-icons-outlined text-4xl text-primary/30 absolute top-6 right-6">format_quote</span>
+                <p class="text-gray-600 dark:text-gray-400 italic mb-6 leading-relaxed">
+                    "Extremely satisfied with the Hospital Information System. The system streamlined our management and reduced operational costs significantly."
+                </p>
+                <div class="flex items-center">
+                    <div class="w-12 h-12 bg-gray-200 rounded-full mr-4 overflow-hidden">
+                        <img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC942k7na1oppAjk6SNqYxZf9oDLE1MZqdtfkrjGx0HDtUNtiBBBOBIpGsfOV8KsjqHK7Qv22bcTFIx1pn_uxK1FbUdPfDpJEHVsat76vFw-U_pPN3BDZLcVFxio1IM74SnmqNZH6Z4RBwx668bsxxihgEJKJcHQAntfPmMeAzKMB5HXNfuMMDXuj_mf08eqQJ0iWGQy82aFvMxEIvA5WUR2xcBFeUJ-ks5MsgwAtOUEQsZQ1utzQZ2NtOqSuhKonWR4AAZHAzNDoE"/>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-gray-800 dark:text-white text-sm">Operations In-Charge</h4>
+                        <p class="text-xs text-gray-500">Private Hospital Chain</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

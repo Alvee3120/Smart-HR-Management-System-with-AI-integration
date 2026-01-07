@@ -220,3 +220,6 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 SOCIALACCOUNT_LOGIN_ON_GET = True
+
+# Make sure this is set to the name of the URL, not the path
+LOGIN_REDIRECT_URL = 'web_test:dashboard'

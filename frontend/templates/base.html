@@ -2,68 +2,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Smart Hire Test</title>
-
-    <!-- Tailwind compiled CSS -->
-    <link href="{% static 'src/output.css' %}" rel="stylesheet">
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>{% block title %}SIMEC System - Empowering Business{% endblock %}</title>
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#8BC34A",
+              secondary: "#1976D2",
+              "background-light": "#FFFFFF",
+              "background-dark": "#121212",
+              "surface-light": "#F5F5F5",
+              "surface-dark": "#1E1E1E",
+            },
+            fontFamily: {
+              display: ["Roboto", "sans-serif"],
+              body: ["Roboto", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+        .gradient-hero { background: linear-gradient(135deg, #1976D2 0%, #1565C0 100%); }
+        .green-bg-section { background-color: #8BC34A; }
+    </style>
 </head>
+<body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 font-body transition-colors duration-200 flex flex-col min-h-screen">
 
-<body class="bg-gray-50 min-h-screen">
-
-    <div class="max-w-7xl mx-auto px-4 mt-6">
-
-        <!-- Navbar -->
-        <nav class="bg-white shadow rounded-2xl px-6 py-4 mb-6 flex items-center justify-between">
-            
-            <a href="{% url 'web_test:dashboard' %}" class="text-xl font-bold text-gray-800">
-                Smart Hire AI
+<header class="bg-white dark:bg-surface-dark shadow-md sticky top-0 z-50">
+    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+        <div class="flex items-center space-x-2">
+            <a href="{% url 'web_test:home' %}" class="font-black text-2xl text-secondary dark:text-blue-400 tracking-tighter">
+                SIMEC <span class="text-primary font-bold">System</span>
             </a>
+        </div>
 
-            <div class="flex items-center gap-3">
-                {% if request.user.is_authenticated %}
-                    <span class="text-sm text-gray-700">
-                        User: <strong>{{ request.user.full_name }}</strong> ({{ request.user.role }})
-                    </span>
-
-                    <a href="{% url 'web_test:logout' %}"
-                       class="px-4 py-1.5 text-sm border border-red-500 text-red-500 rounded-lg hover:bg-red-500 hover:text-white transition">
-                        Logout
-                    </a>
-                {% else %}
-                    <a href="{% url 'web_test:login' %}"
-                       class="px-4 py-1.5 text-sm border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-500 hover:text-white transition">
-                        Login
-                    </a>
-
-                    <a href="{% url 'web_test:register' %}"
-                       class="px-4 py-1.5 text-sm bg-green-600 text-white rounded-lg hover:bg-green-700 transition">
-                        Register
-                    </a>
-                {% endif %}
-            </div>
+        <nav class="hidden md:flex space-x-6 font-medium text-sm text-gray-600 dark:text-gray-300">
+            <a class="hover:text-primary transition" href="{% url 'web_test:home' %}">HOME</a>
+            <a class="hover:text-primary transition" href="{% url 'web_test:about' %}">ABOUT</a>
+            <a class="hover:text-primary transition" href="{% url 'web_test:service' %}">SERVICES</a>
+            <a class="hover:text-primary transition" href="{% url 'web_test:portfolio' %}">PORTFOLIO</a>
+            <a class="hover:text-primary transition" href="{% url 'web_test:career' %}">CAREER</a>
         </nav>
 
-        <!-- Messages -->
-        {% if messages %}
-            {% for message in messages %}
-                <div class="
-                    mb-4 px-4 py-3 rounded-lg text-sm
-                    {% if message.tags == 'success' %} bg-green-100 text-green-800
-                    {% elif message.tags == 'error' %} bg-red-100 text-red-800
-                    {% elif message.tags == 'warning' %} bg-yellow-100 text-yellow-800
-                    {% else %} bg-blue-100 text-blue-800 {% endif %}
-                ">
-                    {{ message }}
-                </div>
-            {% endfor %}
-        {% endif %}
+        <div class="flex items-center gap-3">
+            {% if request.user.is_authenticated %}
+                <a href="{% url 'web_test:dashboard' %}" class="hidden md:flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-primary transition font-medium text-sm">
+                    <span class="material-icons text-lg">dashboard</span>
+                    Dashboard
+                </a>
 
-        <!-- Main content -->
-        {% block content %}{% endblock %}
+                <a href="{% url 'web_test:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-red-600 transition text-xs flex items-center gap-1">
+                    <span class="material-icons text-sm">logout</span>
+                    Logout
+                </a>
+            {% else %}
+                <a href="{% url 'web_test:login' %}" class="text-gray-600 dark:text-gray-300 hover:text-primary font-medium text-sm transition">
+                    Login
+                </a>
+                
+                <a href="{% url 'web_test:register' %}" class="bg-primary text-white px-5 py-2 rounded-lg font-bold shadow-sm hover:bg-green-600 transition text-sm">
+                    Sign Up
+                </a>
+            {% endif %}
+        </div>
 
+        <button class="md:hidden text-gray-600 dark:text-gray-300">
+            <span class="material-icons">menu</span>
+        </button>
     </div>
+</header>
 
-    {% block scripts %}{% endblock %}
+<main class="flex-grow">
+    {% if messages %}
+    <div class="container mx-auto px-4 mt-4">
+        {% for message in messages %}
+            <div class="p-4 mb-4 text-sm rounded-lg {% if message.tags == 'success' %}bg-green-100 text-green-700{% elif message.tags == 'error' %}bg-red-100 text-red-700{% else %}bg-blue-100 text-blue-700{% endif %}" role="alert">
+                {{ message }}
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    {% block content %}
+    {% endblock %}
+</main>
+
+<footer class="bg-slate-50 dark:bg-black pt-16 pb-8 border-t border-gray-200 dark:border-gray-800 mt-auto">
+    <div class="container mx-auto px-4">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+            <div>
+                <h5 class="text-secondary font-bold mb-4 uppercase text-sm tracking-wider">Corporate Office</h5>
+                <address class="not-italic text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                    House # 12, Road # 5<br/>
+                    Sector # 4, Uttara<br/>
+                    Dhaka-1230, Bangladesh<br/><br/>
+                    <strong>Email:</strong> info@simecsystem.com<br/>
+                    <strong>Phone:</strong> +88 01711 000000
+                </address>
+            </div>
+            <div>
+                <h5 class="text-secondary font-bold mb-4 uppercase text-sm tracking-wider">Connect With Us</h5>
+                <div class="flex space-x-4">
+                    <a href="#" class="w-10 h-10 bg-white dark:bg-surface-dark shadow rounded-full flex items-center justify-center text-blue-600 hover:text-white hover:bg-blue-600 transition"><span class="material-icons text-base">facebook</span></a>
+                    <a href="#" class="w-10 h-10 bg-white dark:bg-surface-dark shadow rounded-full flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-400 transition"><span class="material-icons text-base">link</span></a>
+                </div>
+            </div>
+        </div>
+        <div class="border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-sm text-gray-500">
+            <p>© 2023 SIMEC System Ltd. All Rights Reserved.</p>
+        </div>
+    </div>
+</footer>
+
 </body>
 </html>

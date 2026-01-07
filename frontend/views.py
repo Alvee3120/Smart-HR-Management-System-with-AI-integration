@@ -565,3 +565,74 @@ def employee_dashboard(request):
         'form': form
     }
     return render(request, 'employee_dashboard.html', context)
+
+def home(request):
+    return render(request, 'home.html')
+
+def about(request):
+    return render(request, 'about.html')
+
+def service(request):
+    return render(request, 'service.html')
+
+def portfolio(request):
+    return render(request, 'portfolio.html')
+
+def career(request):
+    return render(request, 'career.html')
+
+def career(request):
+    # Fetch only OPEN jobs for the public career page
+    jobs = Job.objects.filter(status='OPEN').order_by('-id')
+    return render(request, 'career.html', {'jobs': jobs})
+
+@login_required(login_url='web_test:login')
+def dashboard(request):
+    user = request.user
+    role = user.role
+
+    # --- HR DASHBOARD ---
+    if role == 'HR':
+        # Context data for HR
+        active_jobs = Job.objects.filter(posted_by=user, status='OPEN')
+        recent_jobs = Job.objects.filter(posted_by=user).order_by('-created_at')[:5]
+        
+        context = {
+            'active_jobs_count': active_jobs.count(),
+            'total_applications_count': Application.objects.filter(job__posted_by=user).count(),
+            'pending_reviews_count': 0, # Add logic if you have review models
+            'recent_jobs': recent_jobs,
+            'user': user
+        }
+        return render(request, 'dashboard/hr_dashboard.html', context)
+
+    # --- ADMIN DASHBOARD ---
+    elif role == 'ADMIN' or user.is_superuser:
+        context = {
+            'total_users': User.objects.count(),
+            'total_jobs': Job.objects.count(),
+            'total_applications': Application.objects.count(),
+            'hired_count': Application.objects.filter(status='Accepted').count(),
+            'user': user
+        }
+        return render(request, 'dashboard/admin_dashboard.html', context)
+
+    # --- CANDIDATE DASHBOARD ---
+    elif role == 'Candidate':
+        # Fetch applications made by this candidate
+        my_applications = Application.objects.filter(applicant=user).select_related('job').order_by('-applied_at')
+        
+        context = {
+            'applications': my_applications,
+            'user': user
+        }
+        return render(request, 'dashboard/candidate_dashboard.html', context)
+
+    # --- EMPLOYEE DASHBOARD (Redirect or Render) ---
+    elif role == 'Employee':
+        # Since you already have a separate view for this, we can redirect to it
+        return redirect('web_test:employee_dashboard')
+
+    # --- FALLBACK ---
+    else:
+        return render(request, 'dashboard.html', {'user': user})
