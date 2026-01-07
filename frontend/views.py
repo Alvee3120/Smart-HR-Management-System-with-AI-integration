@@ -10,6 +10,8 @@ from .forms import JobForm, ApplicationForm, UserLoginForm, UserRegistrationForm
 from django.http import HttpResponseForbidden
 from django.core.mail import send_mail
 from django.conf import settings
+from employees.models import Employee, Payroll, LeaveRequest
+from .forms import LeaveRequestForm
 
 User = get_user_model()
 
@@ -526,3 +528,40 @@ def bulk_send_invite(request):
                 return redirect('web_test:job_ranking', job_id=applications.first().job.id)
             
     return redirect('web_test:job_list')
+
+
+@login_required
+def employee_dashboard(request):
+    """
+    Employee Dashboard: View Profile, Payroll History, and Apply for Leave.
+    """
+    # 1. Ensure the user is an Employee
+    try:
+        employee = request.user.employee_profile
+    except Employee.DoesNotExist:
+        messages.error(request, "Access Denied: You do not have an employee profile.")
+        return redirect('web_test:dashboard')
+
+    # 2. Handle Leave Request Form Submission
+    if request.method == 'POST':
+        form = LeaveRequestForm(request.POST)
+        if form.is_valid():
+            leave = form.save(commit=False)
+            leave.employee = employee
+            leave.save()
+            messages.success(request, "Leave request submitted successfully!")
+            return redirect('web_test:employee_dashboard')
+    else:
+        form = LeaveRequestForm()
+
+    # 3. Fetch Data for Dashboard
+    payrolls = Payroll.objects.filter(employee=employee).order_by('-month')
+    leave_requests = LeaveRequest.objects.filter(employee=employee).order_by('-start_date')
+
+    context = {
+        'employee': employee,
+        'payrolls': payrolls,
+        'leave_requests': leave_requests,
+        'form': form
+    }
+    return render(request, 'employee_dashboard.html', context)

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-3xl font-bold text-gray-800">Welcome, {{ employee.user.full_name }}</h1>
+        <span class="bg-blue-100 text-blue-800 text-sm font-medium mr-2 px-2.5 py-0.5 rounded">
+            {{ employee.designation }}
+        </span>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <div class="space-y-8">
+            
+            <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">My Profile</h2>
+                <div class="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <p class="text-gray-500">Department</p>
+                        <p class="font-medium">{{ employee.department }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Date Joined</p>
+                        <p class="font-medium">{{ employee.date_of_joining }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Email</p>
+                        <p class="font-medium">{{ employee.user.email }}</p>
+                    </div>
+                    <div>
+                        <p class="text-gray-500">Phone</p>
+                        <p class="font-medium">{{ employee.phone_number }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+                <h2 class="text-xl font-semibold mb-4 text-green-600 border-b pb-2">Payroll History</h2>
+                {% if payrolls %}
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-sm text-gray-600">
+                        <thead class="bg-gray-50 text-gray-700 uppercase font-medium">
+                            <tr>
+                                <th class="px-4 py-2">Month</th>
+                                <th class="px-4 py-2">Basic</th>
+                                <th class="px-4 py-2">Bonus</th>
+                                <th class="px-4 py-2">Deductions</th>
+                                <th class="px-4 py-2">Net Salary</th>
+                                <th class="px-4 py-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for pay in payrolls %}
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="px-4 py-3">{{ pay.month|date:"M Y" }}</td>
+                                <td class="px-4 py-3">${{ pay.basic_salary }}</td>
+                                <td class="px-4 py-3 text-green-600">+${{ pay.bonus }}</td>
+                                <td class="px-4 py-3 text-red-600">-${{ pay.deductions }}</td>
+                                <td class="px-4 py-3 font-bold text-gray-900">${{ pay.net_salary }}</td>
+                                <td class="px-4 py-3">
+                                    {% if pay.is_paid %}
+                                    <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Paid</span>
+                                    {% else %}
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pending</span>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <p class="text-gray-500 italic">No payroll records found.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="space-y-8">
+            
+            <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+                <h2 class="text-xl font-semibold mb-4 text-purple-600 border-b pb-2">Apply for Leave</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-1">Leave Type</label>
+                        {{ form.leave_type }}
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4 mb-4">
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1">Start Date</label>
+                            {{ form.start_date }}
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 font-medium mb-1">End Date</label>
+                            {{ form.end_date }}
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="block text-gray-700 font-medium mb-1">Reason</label>
+                        {{ form.reason }}
+                    </div>
+
+                    <button type="submit" class="w-full bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline transition duration-150">
+                        Submit Request
+                    </button>
+                </form>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow border border-gray-200">
+                <h2 class="text-xl font-semibold mb-4 text-gray-700 border-b pb-2">Leave Status</h2>
+                {% if leave_requests %}
+                <ul class="divide-y divide-gray-100">
+                    {% for leave in leave_requests %}
+                    <li class="py-3 flex justify-between items-center">
+                        <div>
+                            <p class="font-medium text-gray-800">{{ leave.get_leave_type_display }}</p>
+                            <p class="text-xs text-gray-500">{{ leave.start_date }} to {{ leave.end_date }}</p>
+                        </div>
+                        <div>
+                            {% if leave.status == 'APPROVED' %}
+                                <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded">Approved</span>
+                            {% elif leave.status == 'REJECTED' %}
+                                <span class="bg-red-100 text-red-800 text-xs font-medium px-2.5 py-0.5 rounded">Rejected</span>
+                            {% else %}
+                                <span class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2.5 py-0.5 rounded">Pending</span>
+                            {% endif %}
+                        </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-gray-500 italic">No leave requests found.</p>
+                {% endif %}
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

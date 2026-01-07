@@ -3,6 +3,8 @@ from jobs.models import Job
 from candidates.models import Application
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import get_user_model
+from employees.models import LeaveRequest 
+
 
 User = get_user_model()
 
@@ -174,3 +176,14 @@ class InterviewInviteForm(forms.Form):
         }),
         label="Additional Message"
     )
+
+class LeaveRequestForm(forms.ModelForm):
+    class Meta:
+        model = LeaveRequest
+        fields = ['leave_type', 'start_date', 'end_date', 'reason']
+        widgets = {
+            'leave_type': forms.Select(attrs={'class': SELECT}),
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': INPUT}),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': INPUT}),
+            'reason': forms.Textarea(attrs={'class': TEXTAREA, 'rows': 3, 'placeholder': 'Reason for leave...'}),
+        }

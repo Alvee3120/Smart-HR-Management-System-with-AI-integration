@@ -30,6 +30,7 @@ class User(AbstractUser):
         HR = "HR"
         REVIEWER = "Reviewer"
         CANDIDATE = "Candidate"
+        EMPLOYEE = "Employee"
 
     username = None  
     email = models.EmailField(unique=True)
