@@ -1,0 +1,45 @@
+{% extends "hr/base_hr.html" %}
+{% block hr_content %}
+
+<h1 class="text-2xl font-bold mb-6">Leave Requests</h1>
+
+<div class="bg-white rounded-xl shadow border overflow-hidden">
+<table class="w-full text-sm">
+<thead class="bg-gray-100 uppercase text-xs">
+<tr>
+<th class="px-4 py-3">Employee</th>
+<th class="px-4 py-3">Type</th>
+<th class="px-4 py-3">Dates</th>
+<th class="px-4 py-3">Status</th>
+<th class="px-4 py-3">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y">
+
+{% for leave in leaves %}
+<tr>
+<td class="px-4 py-3">{{ leave.employee.user.full_name }}</td>
+<td class="px-4 py-3">{{ leave.leave_type }}</td>
+<td class="px-4 py-3">{{ leave.start_date }} → {{ leave.end_date }}</td>
+<td class="px-4 py-3">{{ leave.status }}</td>
+<td class="px-4 py-3 space-x-2">
+
+    <a href="{% url 'employees:leave_action' leave.id 'approve' %}"
+       class="text-green-600 hover:underline">Approve</a>
+
+    <a href="{% url 'employees:leave_action' leave.id 'reject' %}"
+       class="text-red-600 hover:underline">Reject</a>
+
+    <a href="{% url 'employees:leave_action' leave.id 'pending' %}"
+       class="text-gray-600 hover:underline">Reset</a>
+
+</td>
+
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+</div>
+
+{% endblock %}

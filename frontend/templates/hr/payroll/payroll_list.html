@@ -1,0 +1,53 @@
+{% extends "hr/base_hr.html" %}
+{% block hr_content %}
+
+<div class="flex justify-between mb-6">
+<h1 class="text-2xl font-bold">Payroll</h1>
+<a href="{% url 'employees:payroll_create' %}" class="bg-blue-600 text-white px-4 py-2 rounded-lg">
++ Create Payroll
+</a>
+</div>
+
+<div class="bg-white rounded-xl shadow border overflow-hidden">
+<table class="w-full text-sm">
+<thead class="bg-gray-100 uppercase text-xs">
+<tr>
+<th class="px-4 py-3">Employee</th>
+<th class="px-4 py-3">Month</th>
+<th class="px-4 py-3">Net Salary</th>
+<th class="px-4 py-3">Paid</th>
+<th class="px-4 py-3">Action</th>
+
+</tr>
+</thead>
+<tbody class="divide-y">
+
+{% for p in payrolls %}
+<tr>
+    <td class="px-4 py-3">{{ p.employee.user.full_name }}</td>
+    <td class="px-4 py-3">{{ p.month }}</td>
+    <td class="px-4 py-3 font-semibold">{{ p.net_salary }}</td>
+
+    <td class="px-4 py-3">
+        {% if p.is_paid %}
+            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">PAID</span>
+        {% else %}
+            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">UNPAID</span>
+        {% endif %}
+    </td>
+
+    <td class="px-4 py-3">
+        <a href="{% url 'employees:payroll_toggle' p.id %}"
+           class="text-blue-600 hover:underline">
+           {% if p.is_paid %}Mark Unpaid{% else %}Mark Paid{% endif %}
+        </a>
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+
+</table>
+</div>
+
+{% endblock %}

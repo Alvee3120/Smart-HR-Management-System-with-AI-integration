@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db import transaction
 from django.core.exceptions import ValidationError
 from .models import Employee, Department, Designation, LeaveRequest, Payroll
+from .services import create_employee_user
 
 User = get_user_model()
 
@@ -38,12 +39,7 @@ class EmployeeCreationForm(forms.ModelForm):
             full_name = self.cleaned_data['full_name']
 
             # 1. Create the User
-            user = User.objects.create_user(
-                email=email, 
-                password=password, 
-                full_name=full_name,
-                role='Employee' # Assuming your User model has this field
-            )
+            user, password = create_employee_user(email, full_name, role="Employee", password=password)
 
             # 2. Link User to Employee
             employee = super().save(commit=False)
@@ -57,21 +53,21 @@ class EmployeeCreationForm(forms.ModelForm):
 
         return employee
 
-    def send_welcome_email(self, user, raw_password):
-        subject = 'Welcome to Smart Hire - Your Login Credentials'
-        message = (
-            f"Dear {user.full_name},\n\n"
-            f"Your employee account has been created.\n\n"
-            f"Email: {user.email}\n"
-            f"Password: {raw_password}\n\n"
-            f"Please log in and change your password."
-        )
-        try:
-            send_mail(
-                subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False
-            )
-        except Exception as e:
-            print(f"Error sending email: {e}")
+    # def send_welcome_email(self, user, raw_password):
+    #     subject = 'Welcome to Smart Hire - Your Login Credentials'
+    #     message = (
+    #         f"Dear {user.full_name},\n\n"
+    #         f"Your employee account has been created.\n\n"
+    #         f"Email: {user.email}\n"
+    #         f"Password: {raw_password}\n\n"
+    #         f"Please log in and change your password."
+    #     )
+    #     try:
+    #         send_mail(
+    #             subject, message, settings.EMAIL_HOST_USER, [user.email], fail_silently=False
+    #         )
+    #     except Exception as e:
+    #         print(f"Error sending email: {e}")
 
 
 class EmployeeChangeForm(forms.ModelForm):

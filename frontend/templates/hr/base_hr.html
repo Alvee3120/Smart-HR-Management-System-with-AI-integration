@@ -1,0 +1,175 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+
+    <title>{% block title %}HR Panel | Smart Hire{% endblock %}</title>
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              primary: "#1976D2",
+              secondary: "#8BC34A",
+            },
+            fontFamily: {
+              display: ["Roboto", "sans-serif"],
+              body: ["Roboto", "sans-serif"],
+            },
+          },
+        },
+      };
+    </script>
+</head>
+
+<body class="bg-gray-50 text-gray-800 font-body">
+
+<div class="flex min-h-screen">
+
+    <!-- ================= SIDEBAR ================= -->
+    <aside id="sidebar" class="bg-white shadow-xl transition-all duration-300 ease-in-out w-64 flex flex-col relative z-20 shrink-0">
+        
+        <!-- Logo -->
+        <div class="flex items-center justify-between h-20 px-4 border-b border-gray-100">
+            <span class="sidebar-text font-bold text-2xl text-blue-600 tracking-tight transition-opacity duration-300">
+                HR Panel
+            </span>
+            <button id="sidebarToggle" class="p-2 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors">
+                <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                          d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Menu -->
+        <nav class="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
+
+            <!-- Dashboard -->
+            <a href="{% url 'web_test:hr_dashboard' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">dashboard</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Dashboard</span>
+            </a>
+
+            <!-- Employees -->
+            <a href="{% url 'employees:list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">people</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Employees</span>
+            </a>
+
+            <!-- Leaves -->
+            <a href="{% url 'employees:leave_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">event</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Leave Requests</span>
+            </a>
+
+            <!-- Payroll -->
+            <a href="{% url 'employees:payroll_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">payments</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Payroll</span>
+            </a>
+
+            <!-- Jobs -->
+            <a href="{% url 'web_test:hr_job_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">work</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Jobs</span>
+            </a>
+
+           
+
+             <a href="{% url 'employees:department_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">work</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Departments</span>
+            </a>
+            <a href="{% url 'employees:designation_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
+                <span class="material-icons">work</span>
+                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Designations</span>
+            </a>
+            
+
+
+        </nav>
+
+        <!-- Profile -->
+        <div class="p-4 border-t border-gray-100">
+            <div class="flex items-center px-2 py-2 rounded-xl bg-gray-50">
+                <div class="h-9 w-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
+                    {{ request.user.email|first|upper }}
+                </div>
+                <div class="sidebar-text ml-3 transition-opacity duration-300">
+                    <p class="text-sm font-semibold text-gray-700 truncate">
+                        {{ request.user.full_name|default:request.user.email }}
+                    </p>
+                    <p class="text-xs text-gray-500">HR Manager</p>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- ================= MAIN ================= -->
+    <main class="flex-1 p-8 overflow-y-auto">
+
+        {% if messages %}
+        <div class="mb-6">
+            {% for message in messages %}
+                <div class="p-4 mb-3 rounded-lg text-sm
+                    {% if message.tags == 'success' %}bg-green-100 text-green-700
+                    {% elif message.tags == 'error' %}bg-red-100 text-red-700
+                    {% else %}bg-blue-100 text-blue-700{% endif %}">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        {% block hr_content %}{% endblock %}
+    </main>
+</div>
+
+<!-- ================= SIDEBAR SCRIPT ================= -->
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const sidebar = document.getElementById('sidebar');
+    const toggle = document.getElementById('sidebarToggle');
+    const icon = document.getElementById('toggleIcon');
+    const texts = document.querySelectorAll('.sidebar-text');
+
+    let expanded = true;
+
+    toggle.addEventListener('click', () => {
+        expanded = !expanded;
+
+        if (expanded) {
+            sidebar.classList.replace('w-20', 'w-64');
+            icon.classList.remove('rotate-180');
+
+            texts.forEach(t => {
+                t.style.display = 'block';
+                setTimeout(() => t.classList.remove('opacity-0'), 50);
+            });
+        } else {
+            sidebar.classList.replace('w-64', 'w-20');
+            icon.classList.add('rotate-180');
+
+            texts.forEach(t => {
+                t.classList.add('opacity-0');
+                setTimeout(() => { if (!expanded) t.style.display = 'none'; }, 300);
+            });
+        }
+    });
+});
+</script>
+
+</body>
+</html>

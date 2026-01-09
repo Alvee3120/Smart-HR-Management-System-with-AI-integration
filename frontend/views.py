@@ -636,3 +636,35 @@ def dashboard(request):
     # --- FALLBACK ---
     else:
         return render(request, 'dashboard.html', {'user': user})
+    
+
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from jobs.models import Job
+from candidates.models import Application
+
+@login_required
+def hr_dashboard(request):
+    if request.user.role not in ['HR', 'Admin']:
+        return redirect('web_test:dashboard')
+
+    active_jobs_count = Job.objects.filter(status='OPEN').count()
+    total_applications_count = Application.objects.count()
+    pending_reviews_count = Application.objects.filter(status='PENDING').count()
+    recent_jobs = Job.objects.order_by('-created_at')[:5]
+
+    return render(request, 'dashboard/hr_dashboard.html', {
+        'active_jobs_count': active_jobs_count,
+        'total_applications_count': total_applications_count,
+        'pending_reviews_count': pending_reviews_count,
+        'recent_jobs': recent_jobs,
+    })
+
+
+@login_required
+def hr_job_list(request):
+    if request.user.role not in ['HR', 'Admin']:
+        return redirect('web_test:dashboard')
+
+    jobs = Job.objects.select_related('posted_by').all().order_by('-id')
+    return render(request, 'hr/jobs/job_list.html', {'jobs': jobs})

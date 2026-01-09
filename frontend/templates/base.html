@@ -38,49 +38,8 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 font-body transition-colors duration-200 flex flex-col min-h-screen">
 
-<header class="bg-white dark:bg-surface-dark shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <a href="{% url 'web_test:home' %}" class="font-black text-2xl text-secondary dark:text-blue-400 tracking-tighter">
-                SIMEC <span class="text-primary font-bold">System</span>
-            </a>
-        </div>
+{% include "navbar.html" %}
 
-        <nav class="hidden md:flex space-x-6 font-medium text-sm text-gray-600 dark:text-gray-300">
-            <a class="hover:text-primary transition" href="{% url 'web_test:home' %}">HOME</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:about' %}">ABOUT</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:service' %}">SERVICES</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:portfolio' %}">PORTFOLIO</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:career' %}">CAREER</a>
-        </nav>
-
-        <div class="flex items-center gap-3">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'web_test:dashboard' %}" class="hidden md:flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-primary transition font-medium text-sm">
-                    <span class="material-icons text-lg">dashboard</span>
-                    Dashboard
-                </a>
-
-                <a href="{% url 'web_test:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-red-600 transition text-xs flex items-center gap-1">
-                    <span class="material-icons text-sm">logout</span>
-                    Logout
-                </a>
-            {% else %}
-                <a href="{% url 'web_test:login' %}" class="text-gray-600 dark:text-gray-300 hover:text-primary font-medium text-sm transition">
-                    Login
-                </a>
-                
-                <a href="{% url 'web_test:register' %}" class="bg-primary text-white px-5 py-2 rounded-lg font-bold shadow-sm hover:bg-green-600 transition text-sm">
-                    Sign Up
-                </a>
-            {% endif %}
-        </div>
-
-        <button class="md:hidden text-gray-600 dark:text-gray-300">
-            <span class="material-icons">menu</span>
-        </button>
-    </div>
-</header>
 
 <main class="flex-grow">
     {% if messages %}

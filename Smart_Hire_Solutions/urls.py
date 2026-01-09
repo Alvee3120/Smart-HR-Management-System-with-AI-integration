@@ -10,6 +10,7 @@ urlpatterns = [
     path('api/candidates/', include('candidates.urls', namespace='candidates')),
     path('', include('frontend.urls')),
     path('accounts/', include("allauth.urls")),
+    path('hr/employees/', include('employees.urls')),
   
 ]
 

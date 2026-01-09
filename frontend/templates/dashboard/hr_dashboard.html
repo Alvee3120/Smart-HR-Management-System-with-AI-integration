@@ -1,218 +1,89 @@
-{% extends 'base.html' %}
+{% extends "hr/base_hr.html" %}
 {% load static %}
 
-{% block content %}
-<div class="flex min-h-screen bg-gray-50 font-sans">
+{% block title %}HR Dashboard{% endblock %}
 
-    <aside id="sidebar" class="bg-white shadow-xl transition-all duration-300 ease-in-out w-64 flex flex-col relative z-20 shrink-0">
-        
-        <div class="flex items-center justify-between h-20 px-4 border-b border-gray-100">
-            <span class="sidebar-text font-bold text-2xl text-blue-600 tracking-tight whitespace-nowrap overflow-hidden transition-opacity duration-300">
-                HR Panel
-            </span>
-            <button id="sidebarToggle" class="p-2 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors">
-                <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
-                </svg>
-            </button>
+{% block hr_content %}
+
+<div class="container mx-auto max-w-6xl">
+
+    <!-- Header -->
+    <div class="flex justify-between items-center mb-8">
+        <div>
+            <h1 class="text-3xl font-bold text-gray-800">HR Dashboard</h1>
+            <p class="text-gray-500 mt-1">Manage recruitment and candidates</p>
+        </div>
+        <a href="{% url 'web_test:create_job' %}" 
+           class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all transform hover:scale-105">
+            <span class="material-icons">add</span>
+            Post New Job
+        </a>
+    </div>
+
+    <!-- Stats -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div class="bg-white p-6 rounded-xl shadow-sm border">
+            <h3 class="text-gray-500 text-sm uppercase font-semibold">Active Jobs</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">{{ active_jobs_count }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border">
+            <h3 class="text-gray-500 text-sm uppercase font-semibold">Total Applications</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">{{ total_applications_count }}</p>
+        </div>
+        <div class="bg-white p-6 rounded-xl shadow-sm border">
+            <h3 class="text-gray-500 text-sm uppercase font-semibold">Pending Reviews</h3>
+            <p class="text-3xl font-bold text-gray-800 mt-2">{{ pending_reviews_count }}</p>
+        </div>
+    </div>
+
+    <!-- Recent Jobs -->
+    <div class="bg-white rounded-xl shadow-sm border overflow-hidden">
+        <div class="px-6 py-4 border-b flex justify-between items-center bg-gray-50">
+            <h2 class="font-bold text-gray-800 text-lg">Recent Job Postings</h2>
+            <a href="{% url 'web_test:job_list' %}" class="text-blue-600 hover:underline text-sm font-medium">
+                View All →
+            </a>
         </div>
 
-        <nav class="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
-            
-            <a href="{% url 'web_test:dashboard' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all group" title="Dashboard">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
-                </svg>
-                <span class="sidebar-text ml-3 font-medium whitespace-nowrap overflow-hidden transition-opacity duration-300">Overview</span>
-            </a>
-
-            <a href="{% url 'web_test:job_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all group" title="Jobs List">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
-                </svg>
-                <span class="sidebar-text ml-3 font-medium whitespace-nowrap overflow-hidden transition-opacity duration-300">Jobs</span>
-            </a>
-
-            <a href="{% url 'web_test:create_job' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all group" title="Create Job">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v3m0 0v3m0-3h3m-3 0H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                <span class="sidebar-text ml-3 font-medium whitespace-nowrap overflow-hidden transition-opacity duration-300">Post New Job</span>
-            </a>
-
-            <a href="#" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition-all group" title="Candidates">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
-                <span class="sidebar-text ml-3 font-medium whitespace-nowrap overflow-hidden transition-opacity duration-300">Candidates</span>
-            </a>
-
-        </nav>
-
-        <div class="p-4 border-t border-gray-100">
-            <div class="flex items-center px-2 py-2 rounded-xl bg-gray-50">
-                <div class="h-8 w-8 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold shrink-0">
-                    {{ user.username|default:user.email|default:'U'|first|upper }}
-                </div>
-                <div class="sidebar-text ml-3 overflow-hidden transition-opacity duration-300">
-                    <p class="text-sm font-semibold text-gray-700 truncate">
-                        {{ user.username|default:user.email }}
-                    </p>
-                    <p class="text-xs text-gray-500">HR Manager</p>
-                </div>
-            </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-left text-sm text-gray-600">
+                <thead class="bg-gray-50 text-gray-700 uppercase font-medium text-xs">
+                    <tr>
+                        <th class="px-6 py-4">Title</th>
+                        <th class="px-6 py-4">Applicants</th>
+                        <th class="px-6 py-4">Status</th>
+                        <th class="px-6 py-4">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y">
+                    {% for job in recent_jobs %}
+                    <tr class="hover:bg-blue-50/50">
+                        <td class="px-6 py-4 font-medium text-gray-900">{{ job.title }}</td>
+                        <td class="px-6 py-4">{{ job.applications.count }}</td>
+                        <td class="px-6 py-4">
+                            {% if job.status == 'OPEN' %}
+                                <span class="px-2 py-1 text-xs bg-green-100 text-green-800 rounded-full">Active</span>
+                            {% else %}
+                                <span class="px-2 py-1 text-xs bg-red-100 text-red-800 rounded-full">Closed</span>
+                            {% endif %}
+                        </td>
+                        <td class="px-6 py-4 space-x-3">
+                            <a href="{% url 'web_test:job_detail' job.id %}" class="text-blue-600 hover:underline">View</a>
+                            <a href="{% url 'web_test:job_edit' job.id %}" class="text-gray-500 hover:underline">Edit</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4" class="px-6 py-12 text-center text-gray-500">
+                            No jobs posted yet.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
-    </aside>
+    </div>
 
-    <main class="flex-1 p-8 overflow-y-auto h-screen">
-        <div class="container mx-auto max-w-6xl">
-            
-            <div class="flex justify-between items-center mb-8">
-                <div>
-                    <h1 class="text-3xl font-bold text-gray-800">HR Dashboard</h1>
-                    <p class="text-gray-500 mt-1">Manage recruitment and candidates</p>
-                </div>
-                <a href="{% url 'web_test:create_job' %}" class="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-all transform hover:scale-105">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-                    </svg>
-                    Post New Job
-                </a>
-            </div>
-
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <h3 class="text-gray-500 text-sm uppercase font-semibold">Active Jobs</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ active_jobs_count }}</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <h3 class="text-gray-500 text-sm uppercase font-semibold">Total Applications</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ total_applications_count }}</p>
-                </div>
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow">
-                    <h3 class="text-gray-500 text-sm uppercase font-semibold">Pending Reviews</h3>
-                    <p class="text-3xl font-bold text-gray-800 mt-2">{{ pending_reviews_count }}</p>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-                <div class="px-6 py-4 border-b border-gray-100 flex justify-between items-center bg-gray-50">
-                    <h2 class="font-bold text-gray-800 text-lg">Recent Job Postings</h2>
-                    <a href="{% url 'web_test:job_list' %}" class="text-blue-600 hover:text-blue-800 text-sm font-medium flex items-center hover:underline">
-                        View All
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" viewBox="0 0 20 20" fill="currentColor">
-                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-                        </svg>
-                    </a>
-                </div>
-                <div class="overflow-x-auto">
-                    <table class="w-full text-left text-sm text-gray-600">
-                        <thead class="bg-gray-50 text-gray-700 uppercase font-medium text-xs">
-                            <tr>
-                                <th class="px-6 py-4 tracking-wider">Title</th>
-                                <th class="px-6 py-4 tracking-wider">Applicants</th>
-                                <th class="px-6 py-4 tracking-wider">Status</th>
-                                <th class="px-6 py-4 tracking-wider">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody class="divide-y divide-gray-100">
-                            {% for job in recent_jobs %}
-                            <tr class="hover:bg-blue-50/50 transition-colors duration-150">
-                                <td class="px-6 py-4 font-medium text-gray-900">{{ job.title }}</td>
-                                <td class="px-6 py-4">
-                                    <div class="flex items-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
-                                        </svg>
-                                        {{ job.applications.count }}
-                                    </div>
-                                </td>
-                                <td class="px-6 py-4">
-                                    {% if job.status == 'OPEN' %}
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-green-500 mr-1.5"></span>
-                                            Active
-                                        </span>
-                                    {% else %}
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800">
-                                            <span class="h-1.5 w-1.5 rounded-full bg-red-500 mr-1.5"></span>
-                                            Closed
-                                        </span>
-                                    {% endif %}
-                                </td>
-                                <td class="px-6 py-4 space-x-3">
-                                    <a href="{% url 'web_test:job_detail' job.id %}" class="text-blue-600 hover:text-blue-800 font-medium hover:underline">View</a>
-                                    <a href="{% url 'web_test:job_edit' job.id %}" class="text-gray-500 hover:text-gray-700 font-medium hover:underline">Edit</a>
-                                </td>
-                            </tr>
-                            {% empty %}
-                            <tr>
-                                <td colspan="4" class="px-6 py-12 text-center text-gray-500">
-                                    <div class="flex flex-col items-center justify-center">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10 text-gray-300 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                                        </svg>
-                                        <p>No jobs posted yet.</p>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </main>
 </div>
 
-<script>
-    document.addEventListener('DOMContentLoaded', function () {
-        const sidebar = document.getElementById('sidebar');
-        const sidebarToggle = document.getElementById('sidebarToggle');
-        const toggleIcon = document.getElementById('toggleIcon');
-        const texts = document.querySelectorAll('.sidebar-text');
-        
-        let isExpanded = true;
-
-        sidebarToggle.addEventListener('click', () => {
-            isExpanded = !isExpanded;
-            
-            if (isExpanded) {
-                // MAXIMIZE
-                sidebar.classList.remove('w-20');
-                sidebar.classList.add('w-64');
-                
-                // Rotate arrow back to original
-                toggleIcon.classList.remove('rotate-180');
-
-                // Show text: display block first, then opacity
-                texts.forEach(text => {
-                    text.style.display = 'block';
-                    setTimeout(() => {
-                        text.classList.remove('opacity-0');
-                        text.classList.remove('w-0');
-                    }, 50);
-                });
-
-            } else {
-                // MINIMIZE
-                sidebar.classList.remove('w-64');
-                sidebar.classList.add('w-20');
-                
-                // Rotate arrow to point right
-                toggleIcon.classList.add('rotate-180');
-
-                // Hide text
-                texts.forEach(text => {
-                    text.classList.add('opacity-0');
-                    text.classList.add('w-0');
-                    // Wait for fade out to finish before display: none
-                    setTimeout(() => {
-                        if(!isExpanded) text.style.display = 'none';
-                    }, 300);
-                });
-            }
-        });
-    });
-</script>
 {% endblock %}

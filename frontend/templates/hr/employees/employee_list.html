@@ -1,0 +1,65 @@
+{% extends "hr/base_hr.html" %}
+{% block hr_content %}
+
+<div class="max-w-6xl mx-auto">
+
+    <div class="flex justify-between items-center mb-6">
+        <h1 class="text-2xl font-bold text-gray-800">Employees</h1>
+        <a href="{% url 'employees:create' %}"
+           class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-semibold">
+            + Add Employee
+        </a>
+    </div>
+
+    <div class="bg-white rounded-xl shadow border overflow-hidden">
+        <table class="w-full text-sm">
+            <thead class="bg-gray-100 text-xs uppercase text-gray-600">
+                <tr>
+                    <th class="px-4 py-3 text-left">Name</th>
+                    <th class="px-4 py-3 text-left">Email</th>
+                    <th class="px-4 py-3 text-left">Department</th>
+                    <th class="px-4 py-3 text-left">Designation</th>
+                    <th class="px-4 py-3 text-left">Status</th>
+                    <th class="px-4 py-3 text-left">Action</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y">
+
+                {% for emp in employees %}
+                <tr class="hover:bg-gray-50">
+                    <td class="px-4 py-3 font-medium">{{ emp.user.full_name }}</td>
+                    <td class="px-4 py-3">{{ emp.user.email }}</td>
+                    <td class="px-4 py-3">{{ emp.department|default:"—" }}</td>
+                    <td class="px-4 py-3">{{ emp.designation|default:"—" }}</td>
+
+                    <td class="px-4 py-3">
+                        {% if emp.is_active %}
+                            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">Active</span>
+                        {% else %}
+                            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">Inactive</span>
+                        {% endif %}
+                    </td>
+
+                    <td class="px-4 py-3 space-x-2">
+                        <a href="{% url 'employees:detail' emp.id %}" class="text-green-600 hover:underline">View</a>
+                        <a href="{% url 'employees:edit' emp.id %}" class="text-blue-600 hover:underline">Edit</a>
+                        <a href="{% url 'employees:toggle' emp.id %}" class="text-gray-600 hover:underline">
+                            {% if emp.is_active %}Deactivate{% else %}Activate{% endif %}
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" class="px-4 py-6 text-center text-gray-500">
+                        No employees found.
+                    </td>
+                </tr>
+                {% endfor %}
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+{% endblock %}

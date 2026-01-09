@@ -1,0 +1,36 @@
+
+{% extends "hr/base_hr.html" %}
+{% block hr_content %}
+
+<div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow border">
+
+    <h1 class="text-xl font-bold mb-4">
+        {% if form.instance.pk %}Edit{% else %}Add{% endif %} Designation
+    </h1>
+
+    <form method="post" class="space-y-4">
+        {% csrf_token %}
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Title</label>
+            {{ form.title }}
+        </div>
+
+        <div>
+            <label class="block text-sm font-medium mb-1">Department</label>
+            {{ form.department }}
+        </div>
+
+        <div class="flex gap-3">
+            <button class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg">
+                Save
+            </button>
+            <a href="{% url 'employees:designation_list' %}" class="px-6 py-2 rounded-lg border">
+                Cancel
+            </a>
+        </div>
+    </form>
+
+</div>
+
+{% endblock %}
