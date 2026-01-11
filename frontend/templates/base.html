@@ -56,29 +56,84 @@
     {% endblock %}
 </main>
 
-<footer class="bg-slate-50 dark:bg-black pt-16 pb-8 border-t border-gray-200 dark:border-gray-800 mt-auto">
-    <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+<footer class="bg-slate-900 text-white pt-0 relative overflow-hidden mt-auto">
+    <div class="w-full h-1.5 bg-gradient-to-r from-[#0056A9] via-blue-500 to-[#A3CE46]"></div>
+
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[60rem] h-[20rem] bg-[#0056A9]/10 blur-[100px] rounded-full pointer-events-none"></div>
+
+    <div class="container mx-auto px-4 pt-16 pb-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+            
             <div>
-                <h5 class="text-secondary font-bold mb-4 uppercase text-sm tracking-wider">Corporate Office</h5>
-                <address class="not-italic text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
-                    House # 12, Road # 5<br/>
-                    Sector # 4, Uttara<br/>
-                    Dhaka-1230, Bangladesh<br/><br/>
-                    <strong>Email:</strong> info@simecsystem.com<br/>
-                    <strong>Phone:</strong> +88 01711 000000
-                </address>
-            </div>
-            <div>
-                <h5 class="text-secondary font-bold mb-4 uppercase text-sm tracking-wider">Connect With Us</h5>
-                <div class="flex space-x-4">
-                    <a href="#" class="w-10 h-10 bg-white dark:bg-surface-dark shadow rounded-full flex items-center justify-center text-blue-600 hover:text-white hover:bg-blue-600 transition"><span class="material-icons text-base">facebook</span></a>
-                    <a href="#" class="w-10 h-10 bg-white dark:bg-surface-dark shadow rounded-full flex items-center justify-center text-blue-400 hover:text-white hover:bg-blue-400 transition"><span class="material-icons text-base">link</span></a>
+                <h2 class="text-2xl font-black mb-6 tracking-tight">
+                    SIMEC <span class="text-[#A3CE46]">System</span>
+                </h2>
+                <p class="text-gray-400 text-sm mb-6 leading-relaxed max-w-xs">
+                    Empowering businesses with innovative software solutions and robust IT infrastructure since 2000.
+                </p>
+                <div class="flex space-x-3">
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 shadow-lg hover:-translate-y-1">
+                        <span class="material-icons text-lg">facebook</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 shadow-lg hover:-translate-y-1">
+                        <span class="material-icons text-lg">link</span>
+                    </a>
+                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 shadow-lg hover:-translate-y-1">
+                        <span class="material-icons text-lg">mail</span>
+                    </a>
                 </div>
             </div>
+
+            <div>
+                <h5 class="text-white font-bold mb-6 uppercase text-sm tracking-wider border-b border-[#A3CE46] inline-block pb-1">Services</h5>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Software Development</a></li>
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Mobile App Development</a></li>
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">IT Infrastructure</a></li>
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Creative Design</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h5 class="text-white font-bold mb-6 uppercase text-sm tracking-wider border-b border-[#A3CE46] inline-block pb-1">Company</h5>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">About Us</a></li>
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Our Team</a></li>
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Careers</a></li>
+                    <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Privacy Policy</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h5 class="text-white font-bold mb-6 uppercase text-sm tracking-wider border-b border-[#A3CE46] inline-block pb-1">Corporate Office</h5>
+                <ul class="space-y-4 text-sm text-gray-400">
+                    <li class="flex items-start gap-3">
+                        <span class="material-icons text-[#A3CE46] text-lg mt-0.5">location_on</span>
+                        <span class="leading-relaxed">
+                            House # 12, Road # 5<br/>
+                            Sector # 4, Uttara<br/>
+                            Dhaka-1230, Bangladesh
+                        </span>
+                    </li>
+                    <li class="flex items-center gap-3 group cursor-pointer">
+                        <span class="material-icons text-[#A3CE46] text-lg">email</span>
+                        <a href="mailto:info@simecsystem.com" class="group-hover:text-white transition-colors">info@simecsystem.com</a>
+                    </li>
+                    <li class="flex items-center gap-3 group cursor-pointer">
+                        <span class="material-icons text-[#A3CE46] text-lg">phone</span>
+                        <a href="tel:+8801711000000" class="group-hover:text-white transition-colors">+88 01711 000000</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-        <div class="border-t border-gray-200 dark:border-gray-800 pt-8 text-center text-sm text-gray-500">
+
+        <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
             <p>© 2023 SIMEC System Ltd. All Rights Reserved.</p>
+            <div class="flex items-center gap-1 mt-2 md:mt-0">
+                <span>Designed with</span>
+                <span class="material-icons text-red-500 text-xs">favorite</span>
+                <span>by SIMEC</span>
+            </div>
         </div>
     </div>
 </footer>
