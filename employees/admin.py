@@ -1,3 +1,5 @@
+ # employee/admin.py
+
 from django.contrib import admin
 from django import forms
 from django.contrib.auth import get_user_model
@@ -32,26 +34,21 @@ class EmployeeCreationForm(forms.ModelForm):
         return email
 
     def save(self, commit=True):
-        # Atomic transaction ensures we don't get a User without an Employee profile if something fails
         with transaction.atomic():
             email = self.cleaned_data['email']
             password = self.cleaned_data['password']
             full_name = self.cleaned_data['full_name']
 
-            # 1. Create the User
             user, password = create_employee_user(email, full_name, role="Employee", password=password)
 
-            # 2. Link User to Employee
             employee = super().save(commit=False)
             employee.user = user
-            
+
             if commit:
                 employee.save()
 
-            # 3. Send Email
-            self.send_welcome_email(user, password)
-
         return employee
+
 
     # def send_welcome_email(self, user, raw_password):
     #     subject = 'Welcome to Smart Hire - Your Login Credentials'

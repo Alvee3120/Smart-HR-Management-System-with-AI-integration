@@ -1,3 +1,5 @@
+#employee/views.py
+
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -8,6 +10,7 @@ from .forms import DepartmentForm, DesignationForm, EmployeeHRForm
 from django.contrib.auth import get_user_model
 from django.db import transaction
 from .models import Employee, LeaveRequest, Payroll, Department, Designation
+from .services import create_employee_user
 
 User = get_user_model()
 
@@ -203,9 +206,8 @@ def employee_create(request):
 
         if form.is_valid():
             with transaction.atomic():
-                user = User.objects.create_user(
+                user, password = create_employee_user(
                     email=form.cleaned_data['email'],
-                    password='Employee@123',
                     full_name=form.cleaned_data['full_name'],
                     role='Employee'
                 )
@@ -214,7 +216,9 @@ def employee_create(request):
                 emp.user = user
                 emp.save()
 
+            messages.success(request, "Employee created and email sent successfully.")
             return redirect('employees:list')
+
     else:
         form = EmployeeHRForm()
 

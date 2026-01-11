@@ -1,3 +1,5 @@
+#employee/services.py
+
 from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.conf import settings
@@ -38,6 +40,6 @@ Password: {password}
 
 Please login and change your password.
 
-- Smart Hire System
+- Simec System Limited
 """
     send_mail(subject, message, settings.EMAIL_HOST_USER, [email])
