@@ -9,6 +9,9 @@
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
     
     <script>
       tailwind.config = {
@@ -56,36 +59,36 @@
     {% endblock %}
 </main>
 
-<footer class="bg-slate-900 text-white pt-0 relative overflow-hidden mt-auto">
+<footer class="bg-slate-900 text-white pt-0 relative overflow-hidden mt-auto border-t border-gray-800" style="font-family: 'Outfit', sans-serif;">
     <div class="w-full h-1.5 bg-gradient-to-r from-[#0056A9] via-blue-500 to-[#A3CE46]"></div>
 
     <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[60rem] h-[20rem] bg-[#0056A9]/10 blur-[100px] rounded-full pointer-events-none"></div>
 
-    <div class="container mx-auto px-4 pt-16 pb-8 relative z-10">
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-8 relative z-10">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
             
-            <div>
-                <h2 class="text-2xl font-black mb-6 tracking-tight">
+            <div class="space-y-6">
+                <h2 class="text-3xl font-extrabold tracking-tight">
                     SIMEC <span class="text-[#A3CE46]">System</span>
                 </h2>
-                <p class="text-gray-400 text-sm mb-6 leading-relaxed max-w-xs">
+                <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
                     Empowering businesses with innovative software solutions and robust IT infrastructure since 2000.
                 </p>
-                <div class="flex space-x-3">
-                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 shadow-lg hover:-translate-y-1">
+                <div class="flex gap-4">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-md">
                         <span class="material-icons text-lg">facebook</span>
                     </a>
-                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 shadow-lg hover:-translate-y-1">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-md">
                         <span class="material-icons text-lg">link</span>
                     </a>
-                    <a href="#" class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 shadow-lg hover:-translate-y-1">
+                    <a href="#" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center text-gray-400 hover:bg-[#0056A9] hover:text-white transition-all duration-300 transform hover:-translate-y-1 shadow-md">
                         <span class="material-icons text-lg">mail</span>
                     </a>
                 </div>
             </div>
 
             <div>
-                <h5 class="text-white font-bold mb-6 uppercase text-sm tracking-wider border-b border-[#A3CE46] inline-block pb-1">Services</h5>
+                <h5 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-[#A3CE46] inline-block pb-1">Services</h5>
                 <ul class="space-y-3 text-sm text-gray-400">
                     <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Software Development</a></li>
                     <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Mobile App Development</a></li>
@@ -95,7 +98,7 @@
             </div>
 
             <div>
-                <h5 class="text-white font-bold mb-6 uppercase text-sm tracking-wider border-b border-[#A3CE46] inline-block pb-1">Company</h5>
+                <h5 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-[#A3CE46] inline-block pb-1">Company</h5>
                 <ul class="space-y-3 text-sm text-gray-400">
                     <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">About Us</a></li>
                     <li><a href="#" class="hover:text-[#A3CE46] hover:pl-2 transition-all duration-300 block">Our Team</a></li>
@@ -105,33 +108,39 @@
             </div>
 
             <div>
-                <h5 class="text-white font-bold mb-6 uppercase text-sm tracking-wider border-b border-[#A3CE46] inline-block pb-1">Corporate Office</h5>
+                <h5 class="text-white font-bold mb-6 text-sm uppercase tracking-wider border-b border-[#A3CE46] inline-block pb-1">Corporate Office</h5>
                 <ul class="space-y-4 text-sm text-gray-400">
-                    <li class="flex items-start gap-3">
-                        <span class="material-icons text-[#A3CE46] text-lg mt-0.5">location_on</span>
+                    <li class="flex items-start gap-3 group">
+                        <div class="mt-1 w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center shrink-0 group-hover:bg-[#A3CE46] group-hover:text-[#0056A9] transition-colors duration-300">
+                            <span class="material-icons text-sm">location_on</span>
+                        </div>
                         <span class="leading-relaxed">
                             House # 12, Road # 5<br/>
                             Sector # 4, Uttara<br/>
                             Dhaka-1230, Bangladesh
                         </span>
                     </li>
-                    <li class="flex items-center gap-3 group cursor-pointer">
-                        <span class="material-icons text-[#A3CE46] text-lg">email</span>
-                        <a href="mailto:info@simecsystem.com" class="group-hover:text-white transition-colors">info@simecsystem.com</a>
+                    <li class="flex items-center gap-3 group">
+                        <div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center shrink-0 group-hover:bg-[#A3CE46] group-hover:text-[#0056A9] transition-colors duration-300">
+                            <span class="material-icons text-sm">email</span>
+                        </div>
+                        <a href="mailto:info@simecsystem.com" class="hover:text-white transition-colors">info@simecsystem.com</a>
                     </li>
-                    <li class="flex items-center gap-3 group cursor-pointer">
-                        <span class="material-icons text-[#A3CE46] text-lg">phone</span>
-                        <a href="tel:+8801711000000" class="group-hover:text-white transition-colors">+88 01711 000000</a>
+                    <li class="flex items-center gap-3 group">
+                        <div class="w-8 h-8 rounded-full bg-gray-800 flex items-center justify-center shrink-0 group-hover:bg-[#A3CE46] group-hover:text-[#0056A9] transition-colors duration-300">
+                            <span class="material-icons text-sm">phone</span>
+                        </div>
+                        <a href="tel:+8801711000000" class="hover:text-white transition-colors">+88 01711 000000</a>
                     </li>
                 </ul>
             </div>
         </div>
 
         <div class="border-t border-gray-800 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-500">
-            <p>© 2023 SIMEC System Ltd. All Rights Reserved.</p>
-            <div class="flex items-center gap-1 mt-2 md:mt-0">
+            <p>&copy; 2023 SIMEC System Ltd. All Rights Reserved.</p>
+            <div class="flex items-center gap-1 mt-4 md:mt-0">
                 <span>Designed with</span>
-                <span class="material-icons text-red-500 text-xs">favorite</span>
+                <span class="material-icons text-red-500 text-[12px] animate-pulse">favorite</span>
                 <span>by SIMEC</span>
             </div>
         </div>

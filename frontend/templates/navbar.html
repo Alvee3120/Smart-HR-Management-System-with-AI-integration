@@ -1,43 +1,100 @@
-<header class="bg-white dark:bg-surface-dark shadow-md sticky top-0 z-50">
-    <div class="container mx-auto px-4 py-3 flex justify-between items-center">
-        <div class="flex items-center space-x-2">
-            <a href="{% url 'web_test:home' %}" class="font-black text-2xl text-secondary dark:text-blue-400 tracking-tighter">
-                SIMEC <span class="text-primary font-bold">System</span>
-            </a>
-        </div>
+{% load static %}
 
-        <nav class="hidden md:flex space-x-6 font-medium text-sm text-gray-600 dark:text-gray-300">
-            <a class="hover:text-primary transition" href="{% url 'web_test:home' %}">HOME</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:about' %}">ABOUT</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:service' %}">SERVICES</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:portfolio' %}">PORTFOLIO</a>
-            <a class="hover:text-primary transition" href="{% url 'web_test:career' %}">CAREER</a>
-        </nav>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
 
-        <div class="flex items-center gap-3">
-            {% if request.user.is_authenticated %}
-                <a href="{% url 'web_test:dashboard' %}" class="hidden md:flex items-center gap-1 text-gray-600 dark:text-gray-300 hover:text-primary transition font-medium text-sm">
-                    <span class="material-icons text-lg">dashboard</span>
-                    Dashboard
-                </a>
+<style>
+    .nav-link {
+        position: relative;
+        transition: color 0.2s ease;
+    }
+    .nav-link::after {
+        content: '';
+        position: absolute;
+        width: 0;
+        height: 2px;
+        bottom: -4px;
+        left: 0;
+        background-color: #A3CE46; /* SIMEC Lime */
+        transition: width 0.3s ease;
+    }
+    .nav-link:hover::after {
+        width: 100%;
+    }
+    .nav-link:hover, .nav-link.active {
+        color: #0056A9; /* SIMEC Blue */
+    }
+    .nav-link.active::after {
+        width: 100%;
+    }
+</style>
 
-                <a href="{% url 'web_test:logout' %}" class="bg-red-500 text-white px-4 py-2 rounded-lg font-bold shadow-sm hover:bg-red-600 transition text-xs flex items-center gap-1">
-                    <span class="material-icons text-sm">logout</span>
-                    Logout
+<nav class="sticky top-0 z-50 w-full bg-white/95 dark:bg-[#0f1923]/95 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-sm transition-all duration-300 font-sans">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div class="flex justify-between items-center h-20">
+            
+            <div class="flex-shrink-0 flex items-center gap-2">
+                <a href="{% url 'web_test:home' %}">
+                    <img 
+                        src="{% static 'images/simec-System-logo.png' %}" 
+                        alt="SIMEC System" 
+                        class="h-10 w-auto object-contain"
+                    >
                 </a>
-            {% else %}
-                <a href="{% url 'web_test:login' %}" class="text-gray-600 dark:text-gray-300 hover:text-primary font-medium text-sm transition">
-                    Login
-                </a>
+            </div>
+
+            <div class="hidden md:flex items-center space-x-10">
+                {% with request.resolver_match.url_name as url_name %}
                 
-                <a href="{% url 'web_test:register' %}" class="bg-primary text-white px-5 py-2 rounded-lg font-bold shadow-sm hover:bg-green-600 transition text-sm">
-                    Sign Up
-                </a>
-            {% endif %}
-        </div>
+                <a class="nav-link text-gray-700 dark:text-gray-300 text-sm font-semibold tracking-wide {% if url_name == 'home' %}active{% endif %}" 
+                   href="{% url 'web_test:home' %}">Home</a>
+                
+                <a class="nav-link text-gray-700 dark:text-gray-300 text-sm font-semibold tracking-wide {% if url_name == 'about' %}active{% endif %}" 
+                   href="{% url 'web_test:about' %}">About</a>
+                
+                <a class="nav-link text-gray-700 dark:text-gray-300 text-sm font-semibold tracking-wide {% if url_name == 'service' %}active{% endif %}" 
+                   href="{% url 'web_test:service' %}">Services</a>
+                
+                <a class="nav-link text-gray-700 dark:text-gray-300 text-sm font-semibold tracking-wide {% if url_name == 'portfolio' %}active{% endif %}" 
+                   href="{% url 'web_test:portfolio' %}">Portfolio</a>
+                
+                <a class="nav-link text-gray-700 dark:text-gray-300 text-sm font-semibold tracking-wide {% if url_name == 'career' %}active{% endif %}" 
+                   href="{% url 'web_test:career' %}">Career</a>
 
-        <button class="md:hidden text-gray-600 dark:text-gray-300">
-            <span class="material-icons">menu</span>
-        </button>
+                {% endwith %}
+            </div>
+
+            <div class="flex items-center space-x-6">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'web_test:logout' %}" 
+                       class="text-gray-600 dark:text-gray-400 hover:text-red-500 text-sm font-bold transition-colors duration-200 flex items-center gap-1">
+                       <span class="material-symbols-outlined text-[18px]">logout</span>
+                       Logout
+                    </a>
+
+                    <a href="{% url 'web_test:dashboard' %}" 
+                       class="bg-[#0056A9] hover:bg-[#00448a] text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">space_dashboard</span>
+                        Dashboard
+                    </a>
+                {% else %}
+                    <a href="{% url 'web_test:login' %}" 
+                       class="text-gray-600 dark:text-gray-400 hover:text-[#0056A9] dark:hover:text-white text-sm font-bold transition-colors duration-200">
+                        Login
+                    </a>
+
+                    <a href="{% url 'web_test:register' %}" 
+                       class="bg-[#0056A9] hover:bg-[#00448a] text-white px-6 py-2.5 rounded-lg text-sm font-bold shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all duration-200 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px]">person_add</span>
+                        Sign Up
+                    </a>
+                {% endif %}
+
+                <button class="md:hidden p-2 rounded-md text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors">
+                    <span class="material-symbols-outlined">menu</span>
+                </button>
+            </div>
+
+        </div>
     </div>
-</header>
+</nav>

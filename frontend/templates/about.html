@@ -1,142 +1,184 @@
+
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 
-<header class="relative bg-gradient-to-r from-secondary to-blue-800 text-white overflow-hidden">
-    <div class="absolute inset-0 opacity-10 bg-[url('https://images.unsplash.com/photo-1551434678-e076c223a692?ixlib=rb-1.2.1&auto=format&fit=crop&w=2850&q=80')] bg-cover bg-center"></div>
+<section class="relative bg-gradient-to-br from-slate-900 via-[#0056A9] to-slate-900 text-white overflow-hidden border-b border-gray-800">
+    <div class="absolute top-0 left-0 w-full h-full overflow-hidden z-0">
+        <div class="absolute -top-[10%] -left-[10%] w-[40rem] h-[40rem] bg-[#0056A9]/30 rounded-full blur-3xl"></div>
+        <div class="absolute top-[20%] right-[10%] w-[30rem] h-[30rem] bg-[#A3CE46]/10 rounded-full blur-3xl"></div>
+        <div class="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+    </div>
     
-    <div class="container mx-auto px-6 py-24 relative z-10 text-center md:text-left flex flex-col md:flex-row items-center">
-        <div class="md:w-1/2 mb-10 md:mb-0">
-            <h1 class="text-4xl md:text-5xl font-display font-bold leading-tight mb-6">
-                Empowering Business <br/><span class="text-primary">Tailored Software</span>
-            </h1>
-            <p class="text-lg text-blue-100 mb-8 max-w-lg leading-relaxed">
-                Trusted by industry leaders for cutting-edge solutions. We transform your ideas into reality with over 20+ years of excellence.
-            </p>
-            <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
-                <a href="{% url 'web_test:service' %}" class="bg-primary hover:bg-green-600 text-white font-semibold py-3 px-8 rounded shadow-md transition-all transform hover:-translate-y-1 text-center">
-                    Explore Services
-                </a>
-                <a href="#contact" class="bg-transparent border-2 border-white hover:bg-white hover:text-secondary text-white font-semibold py-3 px-8 rounded shadow-md transition-all text-center">
-                    Contact Us
-                </a>
+    <div class="max-w-7xl mx-auto px-4 py-20 lg:py-32 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+            
+            <div class="lg:w-1/2 text-center lg:text-left">
+                <span class="inline-block py-1 px-3 rounded-full bg-white/10 border border-[#A3CE46]/50 text-[#A3CE46] text-sm font-bold mb-6 backdrop-blur-sm">
+                    20+ Years of Excellence
+                </span>
+                <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight mb-6 tracking-tight">
+                    Empowering Business <br/>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-[#A3CE46] to-emerald-300">Tailored Software</span>
+                </h1>
+                <p class="text-lg text-blue-100 mb-10 leading-relaxed max-w-xl mx-auto lg:mx-0 font-light">
+                    Trusted by industry leaders for cutting-edge solutions. We transform your ideas into reality with robust technology and expert execution.
+                </p>
+                
+                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+                    <a href="{% url 'web_test:service' %}" class="bg-[#A3CE46] text-[#0056A9] font-bold py-4 px-8 rounded-full shadow-[0_0_20px_rgba(163,206,70,0.4)] hover:shadow-[0_0_30px_rgba(163,206,70,0.6)] hover:bg-white transition-all transform hover:-translate-y-1 text-center">
+                        Explore Services
+                    </a>
+                    <a href="#contact" class="bg-transparent border border-white/30 hover:border-[#A3CE46] hover:bg-white/10 text-white font-semibold py-4 px-8 rounded-full backdrop-blur-sm transition-all transform hover:-translate-y-1 text-center">
+                        Contact Us
+                    </a>
+                </div>
             </div>
-        </div>
-        
-        <div class="md:w-1/2 flex justify-center relative">
-            <div class="relative w-full max-w-md">
-                <div class="absolute top-0 -left-4 w-72 h-72 bg-primary rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob"></div>
-                <div class="absolute top-0 -right-4 w-72 h-72 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-blob animation-delay-2000"></div>
-                <img alt="Team collaborating" class="rounded-lg shadow-2xl border-4 border-white/20 relative z-10 transform md:rotate-3 hover:rotate-0 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1KO1huOoHsysaslWkV3shOk7j3Pdj4hYgtjt5NW7odcSrNmkwpFmJ1A2cT2ZV7P9IV7GV3W7hwbNxjLIJ3NCYf7KP0C88ZV4yf-cLkUqMUxqAo1tPJKwjptQ9mnErFQHyqP3YcCTMOmq9zCeW_XsnRlCl6Wd7JOBwIWDHaFiNDKOref45SQ4HmhEv9JDWZz5dlhpeHBBPAE09vnL0ZXsmbLEsctv6ULjAGNBKMt8qW2qsE7PEkFe41pa_mu9p0b8EZteqc5qmvJM"/>
+            
+            <div class="lg:w-1/2 relative flex justify-center lg:justify-end">
+                <div class="relative w-full max-w-lg">
+                    <div class="absolute top-0 -left-4 w-72 h-72 bg-[#0056A9] rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
+                    <div class="absolute bottom-0 -right-4 w-72 h-72 bg-[#A3CE46] rounded-full mix-blend-multiply filter blur-xl opacity-20 animate-pulse animation-delay-2000"></div>
+                    
+                    <img alt="Team collaborating" class="rounded-2xl shadow-2xl border-4 border-white/10 relative z-10 transform hover:scale-[1.02] transition-transform duration-500 bg-gray-900" 
+                         src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80"/>
+                    
+                    <div class="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 p-4 rounded-xl shadow-xl z-20 border border-gray-100 dark:border-gray-700 hidden md:block animate-bounce" style="animation-duration: 3s;">
+                        <div class="flex items-center gap-3">
+                            <div class="bg-green-100 dark:bg-green-900/30 p-2 rounded-full">
+                                <span class="material-icons text-[#A3CE46]">verified</span>
+                            </div>
+                            <div>
+                                <p class="text-xs text-gray-500 dark:text-gray-400 font-bold">Project Success</p>
+                                <p class="text-lg font-black text-gray-800 dark:text-white">99.9%</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-</header>
+</section>
 
-<section class="py-20 bg-background-light dark:bg-background-dark">
-    <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-4">What We Offer</h2>
-            <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+<section class="py-24 bg-white dark:bg-gray-950">
+    <div class="max-w-7xl mx-auto px-4">
+       <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">What We Offer</h2>
+            <div class="w-20 h-1.5 bg-[#0056A9] mx-auto mb-6 rounded-full"></div>
+            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
                 Comprehensive digital solutions tailored to elevate your business operations and drive growth.
             </p>
         </div>
+        
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
-            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            <div class="group bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:-translate-y-2 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-white dark:bg-slate-700/50 text-[#0056A9] rounded-2xl flex items-center justify-center group-hover:bg-[#0056A9] group-hover:text-white transition-colors shadow-sm">
                     <span class="material-icons-outlined text-2xl">code</span>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Custom Software</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 text-sm group-hover:text-[#0056A9] dark:group-hover:text-[#A3CE46] transition-colors">Custom Software</h3>
             </div>
-            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            
+            <div class="group bg-gradient-to-br from-emerald-50 to-green-50 dark:from-slate-800 dark:to-slate-900 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:-translate-y-2 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-white dark:bg-slate-700/50 text-emerald-600 rounded-2xl flex items-center justify-center group-hover:bg-[#A3CE46] group-hover:text-[#0056A9] transition-colors shadow-sm">
                     <span class="material-icons-outlined text-2xl">dns</span>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">IT Infrastructure</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 text-sm group-hover:text-[#A3CE46] transition-colors">IT Infrastructure</h3>
             </div>
-            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            
+            <div class="group bg-gradient-to-br from-rose-50 to-pink-50 dark:from-slate-800 dark:to-slate-900 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:-translate-y-2 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-white dark:bg-slate-700/50 text-rose-600 rounded-2xl flex items-center justify-center group-hover:bg-rose-600 group-hover:text-white transition-colors shadow-sm">
                     <span class="material-icons-outlined text-2xl">security</span>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Security</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 text-sm group-hover:text-rose-600 transition-colors">Security</h3>
             </div>
-            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            
+            <div class="group bg-gradient-to-br from-indigo-50 to-violet-50 dark:from-slate-800 dark:to-slate-900 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:-translate-y-2 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-white dark:bg-slate-700/50 text-indigo-600 rounded-2xl flex items-center justify-center group-hover:bg-indigo-600 group-hover:text-white transition-colors shadow-sm">
                     <span class="material-icons-outlined text-2xl">smartphone</span>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Mobile App</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 text-sm group-hover:text-indigo-600 transition-colors">Mobile App</h3>
             </div>
-            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            
+            <div class="group bg-gradient-to-br from-orange-50 to-amber-50 dark:from-slate-800 dark:to-slate-900 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:-translate-y-2 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-white dark:bg-slate-700/50 text-orange-600 rounded-2xl flex items-center justify-center group-hover:bg-orange-500 group-hover:text-white transition-colors shadow-sm">
                     <span class="material-icons-outlined text-2xl">animation</span>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Creative Animation</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 text-sm group-hover:text-orange-500 transition-colors">Animation</h3>
             </div>
-            <div class="group bg-surface-light dark:bg-surface-dark p-6 rounded-xl shadow-sm hover:shadow-xl transition-all border border-gray-100 dark:border-gray-800 text-center">
-                <div class="w-14 h-14 mx-auto mb-4 bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 rounded-full flex items-center justify-center group-hover:bg-primary group-hover:text-white transition-colors">
+            
+            <div class="group bg-gradient-to-br from-teal-50 to-cyan-50 dark:from-slate-800 dark:to-slate-900 p-6 rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-800 hover:-translate-y-2 text-center">
+                <div class="w-14 h-14 mx-auto mb-4 bg-white dark:bg-slate-700/50 text-teal-600 rounded-2xl flex items-center justify-center group-hover:bg-teal-600 group-hover:text-white transition-colors shadow-sm">
                     <span class="material-icons-outlined text-2xl">school</span>
                 </div>
-                <h3 class="font-semibold text-gray-800 dark:text-white mb-2 text-sm">Professional Training</h3>
+                <h3 class="font-bold text-gray-800 dark:text-white mb-2 text-sm group-hover:text-teal-600 transition-colors">Training</h3>
             </div>
         </div>
     </div>
 </section>
 
-<section class="py-20 bg-primary/10 dark:bg-green-900/10">
-    <div class="container mx-auto px-6">
-        <div class="flex flex-col lg:flex-row items-center gap-12">
-            <div class="lg:w-1/2 relative">
-                <div class="absolute inset-0 bg-primary opacity-20 blur-3xl rounded-full"></div>
-                <img alt="Team meeting" class="relative rounded-2xl shadow-2xl z-10" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlEM6KL2MMKgY6t-dTKzguu2D5UYR1w6qzA6fBTes-z0bAW4BEtuscSdzUErWnznpBtnzdoGvVM73caADmsXNmOBLlP0MINhw0QcCaosuWzECw_H-xV44R_yAzHVRc_MkGAyBi533mpJcUCiwRoZyblA_JiP2g7Wc2yDzvZiUu4nWUpAyaUQtjDdYlbDuuv6KTZwWM2aotB7gE4iKxE9f7nx0aziWp1HUErJtm9tuZKi_IDr38UhzhA2hvSgAQAk0SHvmpsHRsbrg"/>
-                <div class="absolute -bottom-6 -right-6 bg-secondary text-white p-6 rounded-xl shadow-xl z-20 hidden md:block">
-                    <div class="text-4xl font-bold font-display">26+</div>
-                    <div class="text-sm opacity-90">Years of Experience</div>
+<section class="py-24 bg-[#0056A9] text-white relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 relative z-10">
+        <div class="flex flex-col lg:flex-row items-center gap-16">
+            
+            <div class="lg:w-1/2 relative hidden lg:block">
+                <div class="absolute inset-0 bg-[#A3CE46] opacity-20 blur-3xl rounded-full transform scale-75"></div>
+                <img alt="Team meeting" class="relative rounded-2xl shadow-2xl border border-white/10 z-10" 
+                     src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80"/>
+                
+                <div class="absolute -bottom-10 -right-10 bg-white/10 backdrop-blur-md border border-white/20 p-8 rounded-2xl shadow-2xl z-20">
+                    <div class="text-5xl font-black text-[#A3CE46]">26+</div>
+                    <div class="text-sm font-medium text-white/80 mt-1">Years of<br/>Experience</div>
                 </div>
             </div>
+
             <div class="lg:w-1/2">
-                <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-6">
-                    Why Select <span class="text-primary">SIMEC</span> as Your Trusted Custom Software Partner?
+                <h2 class="text-3xl md:text-5xl font-extrabold mb-6 leading-tight">
+                    Why Select <span class="text-[#A3CE46]">SIMEC</span> as Your Partner?
                 </h2>
-                <p class="text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
-                    We are a proven full-service custom software development company with over two decades of experience. Our expert team leverages deep technological expertise to deliver solutions that drive business outcomes.
+                <p class="text-blue-100 mb-10 leading-relaxed text-lg font-light">
+                    We are a proven full-service custom software development company. Our expert team leverages deep technological expertise to deliver solutions that drive business outcomes.
                 </p>
+                
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="flex items-start space-x-4">
-                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
-                            <span class="material-icons-outlined">public</span>
+                    <div class="flex items-start space-x-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="bg-gradient-to-br from-[#A3CE46] to-green-600 p-3 rounded-lg shadow-lg">
+                            <span class="material-icons-outlined text-white text-xl">public</span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-800 dark:text-white">Global Presence</h4>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Offices in 5+ countries serving clients worldwide.</p>
+                            <h4 class="font-bold text-lg mb-1">Global Presence</h4>
+                            <p class="text-sm text-blue-100/70 leading-snug">Offices in 5+ countries serving clients worldwide.</p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4">
-                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
-                            <span class="material-icons-outlined">verified</span>
+                    
+                    <div class="flex items-start space-x-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="bg-gradient-to-br from-blue-400 to-indigo-600 p-3 rounded-lg shadow-lg">
+                            <span class="material-icons-outlined text-white text-xl">verified</span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-800 dark:text-white">Proven Track Record</h4>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Hundreds of successful projects delivered on time.</p>
+                            <h4 class="font-bold text-lg mb-1">Proven Track Record</h4>
+                            <p class="text-sm text-blue-100/70 leading-snug">Hundreds of successful projects delivered on time.</p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4">
-                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
-                            <span class="material-icons-outlined">groups</span>
+                    
+                    <div class="flex items-start space-x-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="bg-gradient-to-br from-purple-400 to-pink-600 p-3 rounded-lg shadow-lg">
+                            <span class="material-icons-outlined text-white text-xl">groups</span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-800 dark:text-white">Expert Team</h4>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Certified professionals dedicated to your success.</p>
+                            <h4 class="font-bold text-lg mb-1">Expert Team</h4>
+                            <p class="text-sm text-blue-100/70 leading-snug">Certified professionals dedicated to your success.</p>
                         </div>
                     </div>
-                    <div class="flex items-start space-x-4">
-                        <div class="bg-white dark:bg-surface-dark p-2 rounded shadow text-primary">
-                            <span class="material-icons-outlined">support_agent</span>
+                    
+                    <div class="flex items-start space-x-4 bg-white/5 p-4 rounded-xl border border-white/10 hover:bg-white/10 transition">
+                        <div class="bg-gradient-to-br from-orange-400 to-red-500 p-3 rounded-lg shadow-lg">
+                            <span class="material-icons-outlined text-white text-xl">support_agent</span>
                         </div>
                         <div>
-                            <h4 class="font-bold text-gray-800 dark:text-white">24/7 Support</h4>
-                            <p class="text-sm text-gray-500 dark:text-gray-400">Dedicated support team available round the clock.</p>
+                            <h4 class="font-bold text-lg mb-1">24/7 Support</h4>
+                            <p class="text-sm text-blue-100/70 leading-snug">Dedicated support team available round the clock.</p>
                         </div>
                     </div>
                 </div>
@@ -145,146 +187,162 @@
     </div>
 </section>
 
-<section class="py-20 bg-surface-light dark:bg-surface-dark">
-    <div class="container mx-auto px-6">
-        <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-4">Our Projects</h2>
-            <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
-            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                A glimpse into the diverse range of successful projects we've delivered for our valued clients.
+<section class="py-24 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-4">
+       <div class="text-center mb-16">
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Our Projects</h2>
+            <div class="w-20 h-1.5 bg-[#A3CE46] mx-auto mb-6 rounded-full"></div>
+            <p class="text-gray-600 dark:text-gray-400 max-w-2xl mx-auto text-lg">
+                A glimpse into the diverse range of successful projects we've delivered.
             </p>
         </div>
+        
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div class="bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all group">
-                <div class="h-48 overflow-hidden">
-                    <img alt="Financial Dashboard" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD0HX_KGDdBwR6bkV6NJj-hVevVGzhM9OKe17qHP2ezeXCOZCFiJI2aKqKXQY6TO0CH60XUStrqJ5ox09Eaapf3rZuOD_t7oDeK44CM2hUDlDWC3pnu3nzks8783zqVzZGCAcvcBBXP_JocLzAlp5CadgCSlMy9GEw-c2L9x8LF731JJg7mIu1uvqQM-vIxF--Llx_MbWoZ0x3shQnD1clqFMX2X_e_n0_PArpYu_V0vNPGFJwlnIn_9gnGj2N-e8iveDHERRX18iw"/>
-                </div>
-                <div class="p-6 relative">
-                    <div class="absolute -top-8 right-6 bg-primary text-white p-3 rounded-full shadow-lg">
-                        <span class="material-icons-outlined">analytics</span>
+            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2 flex flex-col h-full">
+                <div class="h-56 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[#0056A9]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    <img alt="Financial Dashboard" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                         src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&q=80&w=800"/>
+                    <div class="absolute top-4 right-4 bg-white dark:bg-slate-900 p-2 rounded-lg shadow-md z-30">
+                        <span class="material-icons-outlined text-[#0056A9]">analytics</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">Enterprise ERP System</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">A comprehensive ERP solution for a multinational manufacturing firm, streamlining operations and logistics.</p>
-                    <a class="text-primary font-medium text-sm flex items-center hover:underline" href="{% url 'web_test:portfolio' %}">View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span></a>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#0056A9] transition-colors">Enterprise ERP</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed flex-1">
+                        A comprehensive ERP solution for a multinational manufacturing firm, streamlining operations.
+                    </p>
+                    <a class="text-[#A3CE46] font-bold text-sm flex items-center group-hover:tracking-wide transition-all" href="{% url 'web_test:portfolio' %}">
+                        View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span>
+                    </a>
                 </div>
             </div>
-            <div class="bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all group">
-                <div class="h-48 overflow-hidden">
-                    <img alt="Mobile App" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKbx2PuYzb83JIWwZW9nESodOozgJ8TLO_MfIUKPgTU3-5h5zLVtoMuTCa60iodSCceafQ_Wimty9MF-es49Yv57YKHZvG4c-_PcU-lGuX5bLT3-okmrdrtCSovZodq3Shl5w-JFt1JAf_TFeJJrn-eRJte4Pcr3JI-_Z8yxuL_8WCFHg9BRckSvBlGuINYQy71D7PNxQmr_K8G6BalRSl5WuLHSH2etlphUHEXrR28b7Cg-zv6x_WNj2wxeeGc-9ssVE8-kLCKnQ"/>
-                </div>
-                <div class="p-6 relative">
-                    <div class="absolute -top-8 right-6 bg-primary text-white p-3 rounded-full shadow-lg">
-                        <span class="material-icons-outlined">phone_iphone</span>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2 flex flex-col h-full">
+                <div class="h-56 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[#A3CE46]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    <img alt="Mobile App" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                         src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&q=80&w=800"/>
+                    <div class="absolute top-4 right-4 bg-white dark:bg-slate-900 p-2 rounded-lg shadow-md z-30">
+                        <span class="material-icons-outlined text-emerald-600">phone_iphone</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">FinTech Mobile App</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Secure and intuitive mobile banking application with real-time transaction tracking and biometric security.</p>
-                    <a class="text-primary font-medium text-sm flex items-center hover:underline" href="{% url 'web_test:portfolio' %}">View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span></a>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#0056A9] transition-colors">FinTech App</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed flex-1">
+                        Secure and intuitive mobile banking application with real-time transaction tracking.
+                    </p>
+                    <a class="text-[#0056A9] font-bold text-sm flex items-center group-hover:tracking-wide transition-all" href="{% url 'web_test:portfolio' %}">
+                        View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span>
+                    </a>
                 </div>
             </div>
-            <div class="bg-background-light dark:bg-background-dark rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-all group">
-                <div class="h-48 overflow-hidden">
-                    <img alt="Web Portal" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-500" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBMc5sNydqSOPWHdIlM48ZLHPc4Fx5hOpS_KdYJlEMtkfA5q8INGo1RgAzd_FS7ch_FRbrWNn96Ql81Wlf09HC6WbKBzjdqfMNuz3Aj_PgRPl_Z8g4W1s1ZglYmmSwSxNM7PHDR5fnCS5n10IXnLbjqLzx5qFxzJrXbRXj952IC3PyuqYjWSyVo3rauu5j4C8nqcMF-lisFTZKa9djiGo2VjC7kTu2U0-YU8MhxZ4xLDJ2yQQqcAPLbOfO42b1C1fMt6IPyw9HqxkA"/>
-                </div>
-                <div class="p-6 relative">
-                    <div class="absolute -top-8 right-6 bg-primary text-white p-3 rounded-full shadow-lg">
-                        <span class="material-icons-outlined">language</span>
+
+            <div class="bg-white dark:bg-gray-800 rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 group hover:-translate-y-2 flex flex-col h-full">
+                <div class="h-56 relative overflow-hidden">
+                    <div class="absolute inset-0 bg-[#0056A9]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 z-20"></div>
+                    <img alt="Web Portal" class="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700" 
+                         src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&q=80&w=800"/>
+                    <div class="absolute top-4 right-4 bg-white dark:bg-slate-900 p-2 rounded-lg shadow-md z-30">
+                        <span class="material-icons-outlined text-blue-500">language</span>
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 dark:text-white mb-2">E-Government Portal</h3>
-                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-4">Digitalizing public services to enhance citizen engagement and transparency for a government agency.</p>
-                    <a class="text-primary font-medium text-sm flex items-center hover:underline" href="{% url 'web_test:portfolio' %}">View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span></a>
+                </div>
+                <div class="p-8 flex-1 flex flex-col">
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-[#0056A9] transition-colors">E-Gov Portal</h3>
+                    <p class="text-gray-600 dark:text-gray-400 text-sm mb-6 leading-relaxed flex-1">
+                        Digitalizing public services to enhance citizen engagement and transparency.
+                    </p>
+                    <a class="text-[#A3CE46] font-bold text-sm flex items-center group-hover:tracking-wide transition-all" href="{% url 'web_test:portfolio' %}">
+                        View Case Study <span class="material-icons-outlined text-sm ml-1">arrow_forward</span>
+                    </a>
                 </div>
             </div>
         </div>
+        
         <div class="text-center mt-12">
-            <a href="{% url 'web_test:portfolio' %}" class="bg-secondary hover:bg-blue-800 text-white font-medium py-3 px-8 rounded shadow transition-colors inline-block">
-                View All Projects
+            <a href="{% url 'web_test:portfolio' %}" class="inline-flex items-center justify-center px-8 py-3 border border-transparent text-base font-medium rounded-full text-white bg-[#0056A9] hover:bg-[#A3CE46] hover:text-[#0056A9] shadow-lg transition-all duration-300">
+                View All Projects <span class="material-icons-outlined ml-2">arrow_forward</span>
             </a>
         </div>
     </div>
 </section>
 
-<section class="py-16 bg-background-light dark:bg-background-dark border-t border-gray-200 dark:border-gray-800">
-    <div class="container mx-auto px-6">
-        <h2 class="text-2xl font-display font-bold text-center text-gray-600 dark:text-gray-400 mb-10 uppercase tracking-widest">Trusted By</h2>
-        <div class="flex flex-wrap justify-center items-center gap-8 md:gap-12 opacity-70 grayscale hover:grayscale-0 transition-all duration-500">
-            <div class="flex items-center space-x-2">
-                <span class="material-icons-outlined text-4xl text-gray-400">business</span>
-                <span class="text-xl font-bold text-gray-500">CorpOne</span>
+<section class="py-16 bg-white dark:bg-black border-t border-gray-100 dark:border-gray-800">
+    <div class="max-w-7xl mx-auto px-6">
+        <h2 class="text-sm font-bold text-center text-gray-400 dark:text-gray-600 mb-10 uppercase tracking-[0.2em]">Trusted By Industry Leaders</h2>
+        <div class="flex flex-wrap justify-center items-center gap-10 md:gap-16 opacity-60">
+            <div class="flex items-center gap-2 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
+                <span class="material-icons-outlined text-4xl text-[#0056A9]">business</span>
+                <span class="text-xl font-black text-gray-400 group-hover:text-[#0056A9] transition-colors">CorpOne</span>
             </div>
-            <div class="flex items-center space-x-2">
-                <span class="material-icons-outlined text-4xl text-gray-400">apartment</span>
-                <span class="text-xl font-bold text-gray-500">BuildTech</span>
+            <div class="flex items-center gap-2 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
+                <span class="material-icons-outlined text-4xl text-[#A3CE46]">apartment</span>
+                <span class="text-xl font-black text-gray-400 group-hover:text-[#A3CE46] transition-colors">BuildTech</span>
             </div>
-            <div class="flex items-center space-x-2">
-                <span class="material-icons-outlined text-4xl text-gray-400">pets</span>
-                <span class="text-xl font-bold text-gray-500">AgriPlus</span>
+            <div class="flex items-center gap-2 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
+                <span class="material-icons-outlined text-4xl text-green-500">pets</span>
+                <span class="text-xl font-black text-gray-400 group-hover:text-green-500 transition-colors">AgriPlus</span>
             </div>
-            <div class="flex items-center space-x-2">
-                <span class="material-icons-outlined text-4xl text-gray-400">science</span>
-                <span class="text-xl font-bold text-gray-500">PharmaLab</span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <span class="material-icons-outlined text-4xl text-gray-400">account_balance</span>
-                <span class="text-xl font-bold text-gray-500">GovServe</span>
-            </div>
-            <div class="flex items-center space-x-2">
-                <span class="material-icons-outlined text-4xl text-gray-400">flight_takeoff</span>
-                <span class="text-xl font-bold text-gray-500">SkyTravel</span>
+            <div class="flex items-center gap-2 grayscale hover:grayscale-0 hover:opacity-100 transition-all duration-300 cursor-pointer group">
+                <span class="material-icons-outlined text-4xl text-blue-500">science</span>
+                <span class="text-xl font-black text-gray-400 group-hover:text-blue-500 transition-colors">PharmaLab</span>
             </div>
         </div>
-        <p class="text-center mt-8 text-sm text-gray-400">And 100+ more organizations...</p>
     </div>
 </section>
 
-<section class="py-20 bg-surface-light dark:bg-surface-dark">
-    <div class="container mx-auto px-6">
+<section class="py-24 bg-gray-50 dark:bg-gray-900">
+    <div class="max-w-7xl mx-auto px-6">
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-display font-bold text-gray-800 dark:text-white mb-4">Client Feedback</h2>
-            <div class="w-20 h-1 bg-primary mx-auto mb-6"></div>
+            <h2 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-4">Client Feedback</h2>
+            <div class="w-20 h-1.5 bg-[#0056A9] mx-auto mb-6 rounded-full"></div>
         </div>
+        
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative">
-                <span class="material-icons-outlined text-4xl text-primary/30 absolute top-6 right-6">format_quote</span>
-                <p class="text-gray-600 dark:text-gray-400 italic mb-6 leading-relaxed">
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border-t-4 border-[#A3CE46] relative group">
+                <span class="material-icons-outlined text-5xl text-gray-100 dark:text-gray-700 absolute top-4 right-4 transform group-hover:scale-110 transition-transform">format_quote</span>
+                <p class="text-gray-600 dark:text-gray-300 italic mb-8 leading-relaxed relative z-10">
                     "We have been using the MIS Management Software developed by SIMEC System Ltd for the last two years. All of our needs were met with an overwhelmingly great product."
                 </p>
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-gray-200 rounded-full mr-4 overflow-hidden">
-                        <img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqfwyr8HRYh3p8Y7Rr8ll-DFrVLOOu7siGHB9rew7uK6-4QeinQjDk0abMtmtbaiYL1kF0Pl_YW4ZIndlFN8htNnUJjPCbpZ5OWhE3YOA2SXBiDYfT7c5Bm8hptf8VmrpPVSxI_LoiOX37o5YZG-vurnYGMyX0x5t2ic16a9wwDtt3Bem-AmqgO3hguNAC2eCxkuN3DeZkyqGWtKsBxWbvhFfa61b5ZMDZ_2Ghk-I82pkIpmMO0xEkEiun0RLIhr1zBw2vb9__JJU"/>
+                    <div class="w-12 h-12 bg-gradient-to-tr from-[#0056A9] to-blue-400 rounded-full mr-4 p-0.5">
+                        <img alt="User avatar" class="rounded-full w-full h-full object-cover border-2 border-white" src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=100&q=80"/>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800 dark:text-white text-sm">IT Head</h4>
-                        <p class="text-xs text-gray-500">Leading Petroleum Company</p>
+                        <h4 class="font-bold text-gray-900 dark:text-white text-sm">IT Head</h4>
+                        <p class="text-xs text-[#0056A9] font-medium">Leading Petroleum Company</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative">
-                <span class="material-icons-outlined text-4xl text-primary/30 absolute top-6 right-6">format_quote</span>
-                <p class="text-gray-600 dark:text-gray-400 italic mb-6 leading-relaxed">
+
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border-t-4 border-[#0056A9] relative group">
+                <span class="material-icons-outlined text-5xl text-gray-100 dark:text-gray-700 absolute top-4 right-4 transform group-hover:scale-110 transition-transform">format_quote</span>
+                <p class="text-gray-600 dark:text-gray-300 italic mb-8 leading-relaxed relative z-10">
                     "We are pleased to acknowledge the successful completion of our Vehicle Tracking System. Their team is highly professional and responsive."
                 </p>
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-gray-200 rounded-full mr-4 overflow-hidden">
-                        <img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDyYT48VrVs8y_daDjc280ExC89zmWmXXvC4QtXzhYmlK8XFqeSMzg0nZEbnYB_n9zPaK_pQEkgmZ4w5OHPCQ-Ms4yG2FcCrN-EjWkioTE9cWMigYeHxvvhWwXRnGYzM_MGuBvl97s7pG5ejNP44FSIcEDhp7VJdW_Kjb7Gmcj0OynkxtTn5NCCu62Pdy1xtRmu0KVyoaNx043jtrnMoIVhfjFVUNw9HWE-TmQySneYY1kvBbKyZZ1O-x6lyI8BwA-tzWYTBJzUWR0"/>
+                    <div class="w-12 h-12 bg-gradient-to-tr from-[#A3CE46] to-green-400 rounded-full mr-4 p-0.5">
+                        <img alt="User avatar" class="rounded-full w-full h-full object-cover border-2 border-white" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=100&q=80"/>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800 dark:text-white text-sm">Project Director</h4>
-                        <p class="text-xs text-gray-500">Government Agency</p>
+                        <h4 class="font-bold text-gray-900 dark:text-white text-sm">Project Director</h4>
+                        <p class="text-xs text-[#0056A9] font-medium">Government Agency</p>
                     </div>
                 </div>
             </div>
-            <div class="bg-background-light dark:bg-background-dark p-8 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800 relative">
-                <span class="material-icons-outlined text-4xl text-primary/30 absolute top-6 right-6">format_quote</span>
-                <p class="text-gray-600 dark:text-gray-400 italic mb-6 leading-relaxed">
+
+            <div class="bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm hover:shadow-xl transition-all border-t-4 border-[#A3CE46] relative group">
+                <span class="material-icons-outlined text-5xl text-gray-100 dark:text-gray-700 absolute top-4 right-4 transform group-hover:scale-110 transition-transform">format_quote</span>
+                <p class="text-gray-600 dark:text-gray-300 italic mb-8 leading-relaxed relative z-10">
                     "Extremely satisfied with the Hospital Information System. The system streamlined our management and reduced operational costs significantly."
                 </p>
                 <div class="flex items-center">
-                    <div class="w-12 h-12 bg-gray-200 rounded-full mr-4 overflow-hidden">
-                        <img alt="User avatar" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC942k7na1oppAjk6SNqYxZf9oDLE1MZqdtfkrjGx0HDtUNtiBBBOBIpGsfOV8KsjqHK7Qv22bcTFIx1pn_uxK1FbUdPfDpJEHVsat76vFw-U_pPN3BDZLcVFxio1IM74SnmqNZH6Z4RBwx668bsxxihgEJKJcHQAntfPmMeAzKMB5HXNfuMMDXuj_mf08eqQJ0iWGQy82aFvMxEIvA5WUR2xcBFeUJ-ks5MsgwAtOUEQsZQ1utzQZ2NtOqSuhKonWR4AAZHAzNDoE"/>
+                    <div class="w-12 h-12 bg-gradient-to-tr from-[#0056A9] to-blue-400 rounded-full mr-4 p-0.5">
+                        <img alt="User avatar" class="rounded-full w-full h-full object-cover border-2 border-white" src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=100&q=80"/>
                     </div>
                     <div>
-                        <h4 class="font-bold text-gray-800 dark:text-white text-sm">Operations In-Charge</h4>
-                        <p class="text-xs text-gray-500">Private Hospital Chain</p>
+                        <h4 class="font-bold text-gray-900 dark:text-white text-sm">Operations In-Charge</h4>
+                        <p class="text-xs text-[#0056A9] font-medium">Private Hospital Chain</p>
                     </div>
                 </div>
             </div>
