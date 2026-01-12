@@ -96,7 +96,7 @@ def job_ranking(request, job_id):
 def register_view(request):
     """Handles User Registration"""
     if request.user.is_authenticated:
-        return redirect('web_test:dashboard')
+        return redirect('web_test:home')
 
     if request.method == 'POST':
         form = UserRegistrationForm(request.POST)
@@ -104,7 +104,7 @@ def register_view(request):
             user = form.save()
             login(request, user)  # Auto-login after register
             messages.success(request, f"Welcome, {user.full_name}!")
-            return redirect('web_test:dashboard')
+            return redirect('web_test:home')
     else:
         form = UserRegistrationForm()
     
@@ -113,14 +113,14 @@ def register_view(request):
 def login_view(request):
     """Handles User Login"""
     if request.user.is_authenticated:
-        return redirect('web_test:dashboard')
+        return redirect('web_test:home')
 
     if request.method == 'POST':
         form = UserLoginForm(request, data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('web_test:dashboard')
+            return redirect('web_test:home')
     else:
         form = UserLoginForm()
 

@@ -1,47 +1,112 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<div class="container mx-auto px-4 py-8">
-    <h1 class="text-3xl font-bold text-gray-800 mb-8">Admin Overview</h1>
 
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-        <div class="bg-blue-600 text-white p-6 rounded-xl shadow-lg">
-            <h3 class="text-blue-100 text-sm uppercase font-semibold">Total Users</h3>
-            <p class="text-4xl font-bold mt-2">{{ total_users }}</p>
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    
+    <div class="mb-12">
+        <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">Admin Overview</h1>
+        <p class="mt-2 text-gray-600 dark:text-gray-400">Welcome back. Here is what's happening today.</p>
+        <div class="w-20 h-1.5 bg-[#A3CE46] mt-4 rounded-full"></div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 relative overflow-hidden group hover:-translate-y-1">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[#0056A9] to-blue-400"></div>
+            <div class="absolute -right-6 -top-6 w-24 h-24 bg-[#0056A9]/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+            
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Users</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ total_users }}</h3>
+                </div>
+                <div class="p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl text-[#0056A9] dark:text-blue-300 shadow-sm">
+                    <span class="material-icons text-2xl">group</span>
+                </div>
+            </div>
         </div>
-        <div class="bg-purple-600 text-white p-6 rounded-xl shadow-lg">
-            <h3 class="text-purple-100 text-sm uppercase font-semibold">Total Jobs</h3>
-            <p class="text-4xl font-bold mt-2">{{ total_jobs }}</p>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 relative overflow-hidden group hover:-translate-y-1">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-600 to-indigo-400"></div>
+            <div class="absolute -right-6 -top-6 w-24 h-24 bg-purple-600/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+            
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Total Jobs</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ total_jobs }}</h3>
+                </div>
+                <div class="p-3 bg-purple-50 dark:bg-purple-900/30 rounded-xl text-purple-600 dark:text-purple-300 shadow-sm">
+                    <span class="material-icons text-2xl">work</span>
+                </div>
+            </div>
         </div>
-        <div class="bg-orange-600 text-white p-6 rounded-xl shadow-lg">
-            <h3 class="text-orange-100 text-sm uppercase font-semibold">Applications</h3>
-            <p class="text-4xl font-bold mt-2">{{ total_applications }}</p>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 relative overflow-hidden group hover:-translate-y-1">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-orange-500 to-[#A3CE46]"></div>
+            <div class="absolute -right-6 -top-6 w-24 h-24 bg-orange-500/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+            
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Applications</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ total_applications }}</h3>
+                </div>
+                <div class="p-3 bg-orange-50 dark:bg-orange-900/30 rounded-xl text-orange-600 dark:text-orange-300 shadow-sm">
+                    <span class="material-icons text-2xl">description</span>
+                </div>
+            </div>
         </div>
-        <div class="bg-green-600 text-white p-6 rounded-xl shadow-lg">
-            <h3 class="text-green-100 text-sm uppercase font-semibold">Hired</h3>
-            <p class="text-4xl font-bold mt-2">{{ hired_count }}</p>
+
+        <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-gray-700 relative overflow-hidden group hover:-translate-y-1">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-600 to-emerald-400"></div>
+            <div class="absolute -right-6 -top-6 w-24 h-24 bg-green-600/5 rounded-full group-hover:scale-150 transition-transform duration-500"></div>
+            
+            <div class="relative z-10 flex justify-between items-start">
+                <div>
+                    <p class="text-xs font-bold text-gray-500 dark:text-gray-400 uppercase tracking-wider mb-1">Hired</p>
+                    <h3 class="text-4xl font-extrabold text-gray-900 dark:text-white">{{ hired_count }}</h3>
+                </div>
+                <div class="p-3 bg-green-50 dark:bg-green-900/30 rounded-xl text-green-600 dark:text-green-300 shadow-sm">
+                    <span class="material-icons text-2xl">check_circle</span>
+                </div>
+            </div>
         </div>
     </div>
 
+    <h2 class="text-xl font-bold text-gray-900 dark:text-white mb-6">Quick Actions</h2>
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <a href="{% url 'admin:index' %}" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 transition group">
-            <div class="flex items-center gap-4">
-                <span class="material-icons text-3xl text-gray-400 group-hover:text-blue-600">settings</span>
+        
+        <a href="{% url 'admin:index' %}" class="group block bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:border-[#0056A9] dark:hover:border-[#0056A9] transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-6">
+                <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:bg-[#0056A9] transition-colors duration-300">
+                    <span class="material-icons text-3xl text-gray-500 dark:text-gray-300 group-hover:text-white transition-colors">settings</span>
+                </div>
                 <div>
-                    <h3 class="font-bold text-gray-800">Django Admin Panel</h3>
-                    <p class="text-sm text-gray-500">Manage users, permissions, and database records directly.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-[#0056A9] transition-colors">Django Admin Panel</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Manage users, permissions, and database records directly.</p>
+                </div>
+                <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1">
+                    <span class="material-icons text-[#0056A9]">arrow_forward</span>
                 </div>
             </div>
         </a>
-        <a href="{% url 'web_test:job_list' %}" class="block bg-white p-6 rounded-xl shadow-sm border border-gray-200 hover:border-blue-500 transition group">
-            <div class="flex items-center gap-4">
-                <span class="material-icons text-3xl text-gray-400 group-hover:text-blue-600">list_alt</span>
+
+        <a href="{% url 'web_test:job_list' %}" class="group block bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:border-[#A3CE46] dark:hover:border-[#A3CE46] transition-all duration-300 hover:-translate-y-1">
+            <div class="flex items-center gap-6">
+                <div class="w-16 h-16 rounded-full bg-gray-100 dark:bg-gray-700 flex items-center justify-center group-hover:bg-[#A3CE46] transition-colors duration-300">
+                    <span class="material-icons text-3xl text-gray-500 dark:text-gray-300 group-hover:text-[#0056A9] transition-colors">list_alt</span>
+                </div>
                 <div>
-                    <h3 class="font-bold text-gray-800">View All Jobs</h3>
-                    <p class="text-sm text-gray-500">Oversee all job postings and their status.</p>
+                    <h3 class="text-xl font-bold text-gray-900 dark:text-white group-hover:text-[#0056A9] transition-colors">View All Jobs</h3>
+                    <p class="text-sm text-gray-500 dark:text-gray-400 mt-1">Oversee all job postings, track status, and manage applications.</p>
+                </div>
+                <div class="ml-auto opacity-0 group-hover:opacity-100 transition-opacity transform group-hover:translate-x-1">
+                    <span class="material-icons text-[#0056A9]">arrow_forward</span>
                 </div>
             </div>
         </a>
+
     </div>
 </div>
+
 {% endblock %}

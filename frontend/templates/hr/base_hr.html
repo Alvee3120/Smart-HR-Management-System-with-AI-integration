@@ -7,11 +7,9 @@
 
     <title>{% block title %}HR Panel | Smart Hire{% endblock %}</title>
 
-    <!-- Tailwind -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
 
-    <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"/>
 
     <script>
@@ -20,156 +18,258 @@
         theme: {
           extend: {
             colors: {
-              primary: "#1976D2",
-              secondary: "#8BC34A",
+              primary: "#0056A9", // SIMEC Blue
+              secondary: "#A3CE46", // SIMEC Lime
+              darkbg: "#0f172a",
             },
             fontFamily: {
-              display: ["Roboto", "sans-serif"],
-              body: ["Roboto", "sans-serif"],
+              sans: ["Outfit", "sans-serif"],
             },
           },
         },
       };
     </script>
+
+    <style>
+        /* Smooth transition for width changes */
+        #sidebar {
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        /* Hide scrollbar for cleaner look */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
 </head>
 
-<body class="bg-gray-50 text-gray-800 font-body">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased selection:bg-primary selection:text-white">
 
-<div class="flex min-h-screen">
+<div class="flex min-h-screen relative">
 
-    <!-- ================= SIDEBAR ================= -->
-    <aside id="sidebar" class="bg-white shadow-xl transition-all duration-300 ease-in-out w-64 flex flex-col relative z-20 shrink-0">
+    <aside id="sidebar" class="bg-white h-screen shadow-2xl border-r border-gray-100 flex flex-col fixed inset-y-0 left-0 z-30 w-72 transition-all duration-300 group">
         
-        <!-- Logo -->
-        <div class="flex items-center justify-between h-20 px-4 border-b border-gray-100">
-            <span class="sidebar-text font-bold text-2xl text-blue-600 tracking-tight transition-opacity duration-300">
-                HR Panel
-            </span>
-            <button id="sidebarToggle" class="p-2 rounded-lg text-gray-400 hover:text-blue-600 hover:bg-gray-100 focus:outline-none transition-colors">
-                <svg id="toggleIcon" xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transform transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                          d="M11 19l-7-7 7-7m8 14l-7-7 7-7"/>
-                </svg>
+        <div class="flex items-center justify-between h-20 px-6 border-b border-gray-50">
+            <div class="sidebar-text overflow-hidden whitespace-nowrap transition-opacity duration-300">
+                <span class="font-bold text-2xl tracking-tighter text-primary">
+                    HR <span class="text-secondary">Portal</span>
+                </span>
+            </div>
+            
+            <button id="sidebarToggle" class="p-2 rounded-xl text-gray-400 hover:text-primary hover:bg-blue-50 focus:outline-none transition-all duration-200">
+                <span class="material-icons text-xl" id="toggleIcon">menu_open</span>
             </button>
         </div>
 
-        <!-- Menu -->
-        <nav class="flex-1 py-6 px-3 space-y-2 overflow-y-auto">
+        <nav class="flex-1 py-6 px-4 space-y-1.5 overflow-y-auto no-scrollbar">
 
-            <!-- Dashboard -->
-            <a href="{% url 'web_test:hr_dashboard' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">dashboard</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Dashboard</span>
+            {% url 'web_test:home' as home_url %}
+            <a href="{{ home_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'home' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px] {% if request.resolver_match.url_name != 'home' %}group-hover:text-primary{% endif %}">home</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Home Website</span>
             </a>
 
-            <!-- Employees -->
-            <a href="{% url 'employees:list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">people</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Employees</span>
+            <div class="my-4 border-t border-gray-100 mx-2"></div>
+            <p class="sidebar-text px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Menu</p>
+
+            {% url 'web_test:hr_dashboard' as dashboard_url %}
+            <a href="{{ dashboard_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'hr_dashboard' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">dashboard</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Dashboard</span>
             </a>
 
-            <!-- Leaves -->
-            <a href="{% url 'employees:leave_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">event</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Leave Requests</span>
+            {% url 'employees:list' as emp_list_url %}
+            <a href="{{ emp_list_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'list' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">people</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Employees</span>
             </a>
 
-            <!-- Payroll -->
-            <a href="{% url 'employees:payroll_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">payments</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Payroll</span>
+            {% url 'employees:leave_list' as leave_url %}
+            <a href="{{ leave_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'leave_list' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">event_note</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Leave Requests</span>
             </a>
 
-            <!-- Jobs -->
-            <a href="{% url 'web_test:hr_job_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">work</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Jobs</span>
+            {% url 'employees:payroll_list' as payroll_url %}
+            <a href="{{ payroll_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'payroll_list' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">payments</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Payroll</span>
             </a>
 
-           
-
-             <a href="{% url 'employees:department_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">work</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Departments</span>
+            {% url 'web_test:hr_job_list' as job_url %}
+            <a href="{{ job_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'hr_job_list' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">work_outline</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Jobs</span>
             </a>
-            <a href="{% url 'employees:designation_list' %}" class="flex items-center px-3 py-3 text-gray-600 rounded-xl hover:bg-blue-50 hover:text-blue-600 transition">
-                <span class="material-icons">work</span>
-                <span class="sidebar-text ml-3 font-medium transition-opacity duration-300">Designations</span>
-            </a>
-            
 
+            <div class="my-4 border-t border-gray-100 mx-2"></div>
+            <p class="sidebar-text px-4 text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Organization</p>
+
+            {% url 'employees:department_list' as dept_url %}
+            <a href="{{ dept_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'department_list' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">domain</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Departments</span>
+            </a>
+
+            {% url 'employees:designation_list' as desig_url %}
+            <a href="{{ desig_url }}" 
+               class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+               {% if request.resolver_match.url_name == 'designation_list' %} 
+                   bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+               {% else %} 
+                   text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+               {% endif %}">
+                <span class="material-icons text-[22px]">badge</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Designations</span>
+            </a>
 
         </nav>
 
-        <!-- Profile -->
-        <div class="p-4 border-t border-gray-100">
-            <div class="flex items-center px-2 py-2 rounded-xl bg-gray-50">
-                <div class="h-9 w-9 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold">
-                    {{ request.user.email|first|upper }}
+        <div class="p-4 border-t border-gray-100 bg-gray-50/50">
+            <div class="flex items-center justify-between p-2 rounded-xl transition-colors">
+                <div class="flex items-center gap-3 overflow-hidden">
+                    <div class="h-10 w-10 shrink-0 rounded-full bg-gradient-to-br from-primary to-blue-400 flex items-center justify-center text-white font-bold text-lg shadow-md border-2 border-white">
+                        {{ request.user.email|first|upper }}
+                    </div>
+                    <div class="sidebar-text transition-opacity duration-300 overflow-hidden">
+                        <p class="text-sm font-bold text-gray-800 truncate">
+                            {{ request.user.full_name|default:"HR Admin"|truncatechars:14 }}
+                        </p>
+                        <p class="text-[11px] text-primary font-medium uppercase tracking-wide">HR</p>
+                    </div>
                 </div>
-                <div class="sidebar-text ml-3 transition-opacity duration-300">
-                    <p class="text-sm font-semibold text-gray-700 truncate">
-                        {{ request.user.full_name|default:request.user.email }}
-                    </p>
-                    <p class="text-xs text-gray-500">HR Manager</p>
-                </div>
+                
+                <a href="{% url 'web_test:logout' %}" 
+                   title="Logout" 
+                   class="sidebar-text w-9 h-9 flex items-center justify-center rounded-lg text-gray-400 hover:text-red-500 hover:bg-red-50 transition-all duration-200">
+                    <span class="material-icons text-[20px]">logout</span>
+                </a>
             </div>
         </div>
     </aside>
 
-    <!-- ================= MAIN ================= -->
-    <main class="flex-1 p-8 overflow-y-auto">
-
+    <main id="main-content" class="flex-1 ml-72 p-8 transition-all duration-300">
         {% if messages %}
-        <div class="mb-6">
+        <div class="mb-8 space-y-2">
             {% for message in messages %}
-                <div class="p-4 mb-3 rounded-lg text-sm
-                    {% if message.tags == 'success' %}bg-green-100 text-green-700
-                    {% elif message.tags == 'error' %}bg-red-100 text-red-700
-                    {% else %}bg-blue-100 text-blue-700{% endif %}">
-                    {{ message }}
+                <div class="flex items-center p-4 rounded-xl shadow-sm border-l-4 
+                    {% if message.tags == 'success' %}bg-green-50 text-green-800 border-secondary
+                    {% elif message.tags == 'error' %}bg-red-50 text-red-800 border-red-500
+                    {% else %}bg-blue-50 text-primary border-primary{% endif %}">
+                    <span class="material-icons mr-2 text-lg">
+                        {% if message.tags == 'success' %}check_circle
+                        {% elif message.tags == 'error' %}error
+                        {% else %}info{% endif %}
+                    </span>
+                    <span class="text-sm font-medium">{{ message }}</span>
                 </div>
             {% endfor %}
         </div>
         {% endif %}
 
-        {% block hr_content %}{% endblock %}
+        <div class="fade-in">
+            {% block hr_content %}{% endblock %}
+        </div>
     </main>
 </div>
 
-<!-- ================= SIDEBAR SCRIPT ================= -->
 <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const sidebar = document.getElementById('sidebar');
-    const toggle = document.getElementById('sidebarToggle');
-    const icon = document.getElementById('toggleIcon');
-    const texts = document.querySelectorAll('.sidebar-text');
+    document.addEventListener('DOMContentLoaded', () => {
+        const sidebar = document.getElementById('sidebar');
+        const mainContent = document.getElementById('main-content');
+        const toggleBtn = document.getElementById('sidebarToggle');
+        const toggleIcon = document.getElementById('toggleIcon');
+        const textElements = document.querySelectorAll('.sidebar-text');
+        
+        let isExpanded = true;
 
-    let expanded = true;
-
-    toggle.addEventListener('click', () => {
-        expanded = !expanded;
-
-        if (expanded) {
-            sidebar.classList.replace('w-20', 'w-64');
-            icon.classList.remove('rotate-180');
-
-            texts.forEach(t => {
-                t.style.display = 'block';
-                setTimeout(() => t.classList.remove('opacity-0'), 50);
-            });
-        } else {
-            sidebar.classList.replace('w-64', 'w-20');
-            icon.classList.add('rotate-180');
-
-            texts.forEach(t => {
-                t.classList.add('opacity-0');
-                setTimeout(() => { if (!expanded) t.style.display = 'none'; }, 300);
-            });
-        }
+        toggleBtn.addEventListener('click', () => {
+            isExpanded = !isExpanded;
+            
+            if (isExpanded) {
+                // Expand
+                sidebar.classList.remove('w-20');
+                sidebar.classList.add('w-72');
+                mainContent.classList.remove('ml-20');
+                mainContent.classList.add('ml-72');
+                toggleIcon.innerText = "menu_open";
+                
+                textElements.forEach(el => {
+                    el.classList.remove('hidden');
+                    // Small delay for fade in effect if needed
+                    setTimeout(() => el.classList.remove('opacity-0'), 50);
+                });
+            } else {
+                // Collapse
+                sidebar.classList.remove('w-72');
+                sidebar.classList.add('w-20');
+                mainContent.classList.remove('ml-72');
+                mainContent.classList.add('ml-20');
+                toggleIcon.innerText = "menu";
+                
+                textElements.forEach(el => {
+                    el.classList.add('hidden');
+                });
+            }
+        });
     });
-});
 </script>
+
+<style>
+    /* Simple Fade In Animation for Content */
+    .fade-in {
+        animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+</style>
 
 </body>
 </html>
