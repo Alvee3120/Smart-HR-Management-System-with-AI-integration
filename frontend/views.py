@@ -12,6 +12,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from employees.models import Employee, Payroll, LeaveRequest
 from .forms import LeaveRequestForm
+from django.contrib.auth.backends import ModelBackend
 
 User = get_user_model()
 
@@ -49,11 +50,15 @@ def create_job(request):
         form = JobForm()
     return render(request, 'create_job.html', {'form': form})
 
-@login_required
+@login_required(login_url='web_test:login')
 def apply_for_job(request, job_id):
-    """Candidate: Upload CV."""
+
+    # ROLE PROTECTION
+    if request.user.role != 'Candidate':
+        return HttpResponseForbidden("Only candidates can apply for jobs.")
+
     job = get_object_or_404(Job, pk=job_id)
-    
+
     # Check if already applied
     if Application.objects.filter(candidate=request.user, job=job).exists():
         messages.warning(request, "You have already applied!")
@@ -66,15 +71,15 @@ def apply_for_job(request, job_id):
             app.candidate = request.user
             app.job = job
             app.save()
-            
-            # TRIGGER AI PIPELINE
+
+            # AI pipeline
             process_application(app)
-            
+
             messages.success(request, f"Applied to {job.title}. AI Score Calculated!")
             return redirect('web_test:job_list')
     else:
         form = ApplicationForm()
-    
+
     return render(request, 'apply_job.html', {'form': form, 'job': job})
 
 @login_required
@@ -102,7 +107,9 @@ def register_view(request):
         form = UserRegistrationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)  # Auto-login after register
+
+            backend = ModelBackend()
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, f"Welcome, {user.full_name}!")
             return redirect('web_test:home')
     else:
@@ -133,11 +140,12 @@ def logout_view(request):
     return redirect('web_test:login')
 
 
-@login_required
+@login_required(login_url='web_test:login')
 def job_detail(request, pk):
     """
     Shows full job info AND the AI 'Brain' (Extracted Entities).
     """
+    
     job = get_object_or_404(Job, pk=pk)
     return render(request, 'job_detail.html', {'job': job})
 
@@ -620,7 +628,7 @@ def dashboard(request):
     # --- CANDIDATE DASHBOARD ---
     elif role == 'Candidate':
         # Fetch applications made by this candidate
-        my_applications = Application.objects.filter(applicant=user).select_related('job').order_by('-applied_at')
+        my_applications = Application.objects.filter(candidate=request.user).select_related('job').order_by('-created_at')
         
         context = {
             'applications': my_applications,
