@@ -42,8 +42,8 @@
 </head>
 <body class="bg-background-light dark:bg-background-dark text-gray-800 dark:text-gray-200 font-body transition-colors duration-200 flex flex-col min-h-screen">
 
-{% include "navbar.html" %}
-
+<!-- PASS USER CONTEXT TO NAVBAR -->
+{% include "navbar.html" with user=request.user role=request.user.role %}
 
 <main class="flex-grow">
     {% if messages %}

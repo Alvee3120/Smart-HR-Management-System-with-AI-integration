@@ -27,6 +27,7 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),                 # role-based
     path('hr/dashboard/', views.hr_dashboard, name='hr_dashboard'),        # ✅ HR PANEL
     path('employee/dashboard/', views.employee_dashboard, name='employee_dashboard'),
+    path('reviewer-dashboard/', views.reviewer_dashboard, name='reviewer_dashboard'),
 
     # =========================
     # Job Management

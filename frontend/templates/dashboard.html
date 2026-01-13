@@ -50,11 +50,11 @@
 
       <!-- Reviewer only -->
       {% if request.user.role == 'REVIEWER' %}
-        <a href="{% url 'web_test:assigned_reviews' %}"
-           class="px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold text-lg hover:bg-orange-700 transition">
-          Assigned Reviews
-        </a>
-      {% endif %}
+      <a href="{% url 'web_test:reviewer_dashboard' %}"
+    class="px-6 py-3 rounded-xl bg-orange-600 text-white font-semibold text-lg hover:bg-orange-700 transition">
+    Reviewer Dashboard
+      </a>
+{% endif %}
 
       <!-- Admin only -->
       {% if request.user.is_superuser or request.user.role == 'ADMIN' %}

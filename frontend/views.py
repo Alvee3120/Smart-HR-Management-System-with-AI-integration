@@ -22,6 +22,21 @@ def dashboard(request):
     return render(request, 'dashboard.html')
 
 @login_required
+def reviewer_dashboard(request):
+    """Reviewer-specific dashboard showing all jobs with edit access"""
+    if request.user.role != 'REVIEWER':
+        return redirect('web_test:dashboard')
+    
+    # Get all jobs, optimized with select_related
+    jobs = Job.objects.select_related('posted_by').order_by('-created_at')
+    
+    context = {
+        'jobs': jobs,
+        'role': 'REVIEWER'
+    }
+    return render(request, 'frontend/reviewer_dashboard.html', context)
+
+@login_required
 def job_list(request):
     """Show all jobs. Candidates can apply here."""
     jobs = Job.objects.all().order_by('-created_at')
