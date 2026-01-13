@@ -1,87 +1,112 @@
 {% extends 'base.html' %}
+{% load static %}
+
 {% block content %}
 
-<div class="max-w-6xl mx-auto px-4 py-8">
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
 
-    <h2 class="text-2xl font-bold text-gray-800 mb-6">Available Jobs</h2>
+    <div class="flex flex-col md:flex-row justify-between items-end mb-10 gap-4">
+        <div>
+            <h1 class="text-3xl md:text-4xl font-extrabold text-gray-900 dark:text-white tracking-tight">
+                Available <span class="text-[#0056A9]">Jobs</span>
+            </h1>
+            <p class="mt-2 text-gray-600 dark:text-gray-400">Browse current openings and join our team.</p>
+            <div class="w-20 h-1.5 bg-[#A3CE46] mt-4 rounded-full"></div>
+        </div>
+        
+        <div class="px-4 py-2 bg-blue-50 dark:bg-blue-900/20 text-[#0056A9] dark:text-blue-300 rounded-lg font-bold text-sm border border-blue-100 dark:border-blue-800">
+            {{ jobs|length }} Active Positions
+        </div>
+    </div>
 
-    <div class="overflow-x-auto bg-white rounded-2xl shadow border">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
 
-        <table class="min-w-full border-collapse">
+        {% for job in jobs %}
+        <div class="group relative flex flex-col justify-between p-6 rounded-2xl transition-all duration-300 hover:-translate-y-2 hover:shadow-xl
+                    bg-gradient-to-br from-[#F0F7FF] via-white to-[#F7FCE8] 
+                    dark:from-slate-800 dark:via-slate-800 dark:to-slate-900
+                    border border-blue-100 dark:border-gray-700">
+            
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-[#0056A9]/10 rounded-full blur-2xl transition-all group-hover:bg-[#A3CE46]/20"></div>
 
-            <thead class="bg-gray-100 text-gray-700 text-sm uppercase">
-                <tr>
-                    <th class="px-4 py-3 text-left">Title</th>
-                    <th class="px-4 py-3 text-left">Posted By</th>
-                    <th class="px-4 py-3 text-left">Status</th>
-                    <th class="px-4 py-3 text-left">Actions</th>
-                </tr>
-            </thead>
+            <div class="relative z-10">
+                <div class="flex justify-between items-start mb-5">
+                    <div class="w-14 h-14 rounded-xl flex items-center justify-center shadow-sm text-white bg-gradient-to-br from-[#0056A9] to-blue-500">
+                        <span class="material-icons text-2xl">work_outline</span>
+                    </div>
+                    
+                    {% if job.status == "OPEN" %}
+                        <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-[#A3CE46] text-[#0056A9] shadow-sm">
+                            Open
+                        </span>
+                    {% else %}
+                        <span class="px-3 py-1 rounded-full text-[10px] font-extrabold uppercase tracking-wider bg-red-100 text-red-600 border border-red-200">
+                            Closed
+                        </span>
+                    {% endif %}
+                </div>
 
-            <tbody class="divide-y">
+                <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 leading-tight group-hover:text-[#0056A9] transition-colors">
+                    {{ job.title }}
+                </h3>
 
-                {% for job in jobs %}
-                <tr class="hover:bg-gray-50 transition">
+                <div class="flex flex-col gap-2 mb-6">
+                    <div class="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300">
+                        <span class="material-icons text-lg text-[#0056A9]">business</span>
+                        <span class="font-medium">SIMEC System</span>
+                    </div>
+                    <div class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <span class="material-icons text-lg text-gray-400">person</span>
+                        <span>Posted by {{ job.posted_by.full_name }}</span>
+                    </div>
+                </div>
+            </div>
 
-                    <td class="px-4 py-3 font-medium text-gray-800">
-                        {{ job.title }}
-                    </td>
+            <div class="relative z-10 pt-4 border-t border-blue-100 dark:border-gray-700 mt-auto space-y-3">
+                
+                <a href="{% url 'web_test:job_detail' job.id %}" 
+                   class="flex items-center justify-center w-full py-2.5 rounded-xl font-bold text-sm transition-all duration-200
+                          bg-white dark:bg-gray-700 text-gray-700 dark:text-white border border-gray-200 dark:border-gray-600
+                          hover:border-[#0056A9] hover:text-[#0056A9] hover:shadow-md">
+                    View Details
+                </a>
 
-                    <td class="px-4 py-3 text-gray-600">
-                        {{ job.posted_by.full_name }}
-                    </td>
-
-                    <td class="px-4 py-3">
-                        {% if job.status == "OPEN" %}
-                            <span class="px-2 py-1 text-xs rounded-full bg-green-100 text-green-700">
-                                OPEN
-                            </span>
-                        {% else %}
-                            <span class="px-2 py-1 text-xs rounded-full bg-red-100 text-red-700">
-                                CLOSED
-                            </span>
-                        {% endif %}
-                    </td>
-
-                    <td class="px-4 py-3 space-x-2">
-
-                        <a href="{% url 'web_test:job_detail' job.id %}"
-                           class="inline-block px-3 py-1 text-sm rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition">
-                            View
+                <div class="grid grid-cols-1 gap-2">
+                    {% if request.user.role == 'Candidate' and job.status == "OPEN" %}
+                        <a href="{% url 'web_test:apply_job' job.id %}" 
+                           class="flex items-center justify-center w-full py-2.5 rounded-xl font-bold text-sm text-white shadow-md shadow-blue-500/30 transition-all duration-200 transform active:scale-95
+                                  bg-gradient-to-r from-[#0056A9] to-blue-600 hover:from-[#00448a] hover:to-[#0056A9]">
+                            Apply Now <span class="material-icons text-sm ml-2">send</span>
                         </a>
+                    {% endif %}
 
-                        {% if request.user.role == 'Candidate' %}
-                            <a href="{% url 'web_test:apply_job' job.id %}"
-                               class="inline-block px-3 py-1 text-sm rounded-lg bg-cyan-600 text-white hover:bg-cyan-700 transition">
-                                Apply
+                    {% if request.user.role == 'HR' %}
+                        <div class="flex gap-2">
+                            <a href="{% url 'web_test:job_ranking' job.id %}" 
+                               class="flex-1 flex items-center justify-center py-2 rounded-lg bg-orange-50 text-orange-600 font-bold text-xs hover:bg-orange-100 hover:text-orange-700 border border-orange-200 transition-colors">
+                                <span class="material-icons text-sm mr-1">leaderboard</span> Rank
                             </a>
-                        {% endif %}
-
-                        {% if request.user.role == 'HR' %}
-                            <a href="{% url 'web_test:job_ranking' job.id %}"
-                               class="inline-block px-3 py-1 text-sm rounded-lg bg-yellow-500 text-white hover:bg-yellow-600 transition">
-                                Ranking
+                            <a href="{% url 'web_test:hr_upload_cv' job.id %}" 
+                               class="flex-1 flex items-center justify-center py-2 rounded-lg bg-[#F7FCE8] text-[#0056A9] font-bold text-xs hover:bg-[#A3CE46] hover:text-white border border-[#A3CE46] transition-colors">
+                                <span class="material-icons text-sm mr-1">upload_file</span> Add CV
                             </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
 
-                            <a href="{% url 'web_test:hr_upload_cv' job.id %}"
-                               class="inline-block px-3 py-1 text-sm rounded-lg border border-green-600 text-green-600 hover:bg-green-50 transition">
-                                + Add CV
-                            </a>
-                        {% endif %}
+        </div>
+        {% empty %}
+        
+        <div class="col-span-full py-16 flex flex-col items-center justify-center bg-gray-50 dark:bg-gray-800 rounded-3xl border-2 border-dashed border-gray-300 dark:border-gray-700 text-center">
+            <div class="w-20 h-20 bg-white dark:bg-gray-700 rounded-full flex items-center justify-center mb-4 shadow-sm">
+                <span class="material-icons text-4xl text-gray-300">work_off</span>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white">No jobs available</h3>
+            <p class="text-gray-500 mt-2 max-w-md mx-auto">There are currently no open positions. Please check back later or contact HR.</p>
+        </div>
 
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="4" class="px-4 py-6 text-center text-gray-500">
-                        No jobs available right now.
-                    </td>
-                </tr>
-                {% endfor %}
-
-            </tbody>
-
-        </table>
+        {% endfor %}
 
     </div>
 

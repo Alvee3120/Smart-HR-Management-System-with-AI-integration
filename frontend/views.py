@@ -21,20 +21,15 @@ def dashboard(request):
     """Landing page showing buttons based on Role."""
     return render(request, 'dashboard.html')
 
+
 @login_required
 def reviewer_dashboard(request):
-    """Reviewer-specific dashboard showing all jobs with edit access"""
-    if request.user.role != 'REVIEWER':
+    """Reviewer dashboard - shows all jobs with edit access"""
+    if request.user.role != 'Reviewer':
         return redirect('web_test:dashboard')
     
-    # Get all jobs, optimized with select_related
     jobs = Job.objects.select_related('posted_by').order_by('-created_at')
-    
-    context = {
-        'jobs': jobs,
-        'role': 'REVIEWER'
-    }
-    return render(request, 'frontend/reviewer_dashboard.html', context)
+    return render(request, 'frontend/reviewer_dashboard.html', {'jobs': jobs})
 
 @login_required
 def job_list(request):
