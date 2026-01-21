@@ -5,3 +5,4 @@ env/
 ml_models/
 .env
 .env.*
+media/

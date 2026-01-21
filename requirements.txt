@@ -5,8 +5,9 @@ itsdangerous
 psycopg2-binary
 gliner 
 sentence-transformers 
-pymupdf
+pdfplumber
 numpy
 python-dotenv
 django-allauth
 cryptography
+sentence-transformers
