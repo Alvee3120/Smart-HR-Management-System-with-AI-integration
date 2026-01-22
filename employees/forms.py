@@ -6,6 +6,7 @@ from .models import LeaveRequest, Payroll
 from .models import Department, Designation, Employee
 from django.contrib.auth import get_user_model
 from .services import create_employee_user
+from .models import Employee
 
 User = get_user_model()
 # =========================
@@ -87,3 +88,31 @@ class EmployeeHRForm(forms.ModelForm):
         if self.user_instance:
             self.fields['full_name'].initial = self.user_instance.full_name
             self.fields['email'].initial = self.user_instance.email
+
+
+class CertificateForm(forms.Form):
+    employee = forms.ModelChoiceField(
+        queryset=Employee.objects.all(),
+        label="Select Employee",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    certificate_type = forms.ChoiceField(
+        choices=[
+            ('Experience Certificate', 'Experience Certificate'),
+            ('Salary Certificate', 'Salary Certificate'),
+            ('Appreciation Letter', 'Appreciation Letter'),
+            ('NOC', 'No Objection Certificate (NOC)'),
+        ],
+        label="Certificate Type",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    date_issued = forms.DateField(
+        label="Date of Issue",
+        widget=forms.DateInput(attrs={'class': 'form-control', 'type': 'date'})
+    )
+    reason_or_description = forms.CharField(
+        label="Additional Text / Description",
+        widget=forms.Textarea(attrs={'class': 'form-control', 'rows': 4}),
+        required=False,
+        help_text="Optional: Add specific project details or achievements."
+    )

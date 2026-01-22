@@ -3,7 +3,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Employee, LeaveRequest, Payroll
 from .forms import LeaveRequestForm, PayrollForm
 from django.utils import timezone
 from .forms import DepartmentForm, DesignationForm, EmployeeHRForm
@@ -11,6 +10,11 @@ from django.contrib.auth import get_user_model
 from django.db import transaction
 from .models import Employee, LeaveRequest, Payroll, Department, Designation
 from .services import create_employee_user
+from django.http import HttpResponse
+from django.template.loader import get_template
+from xhtml2pdf import pisa
+from .forms import CertificateForm
+
 
 User = get_user_model()
 
@@ -251,3 +255,49 @@ def employee_toggle(request, pk):
     emp.is_active = not emp.is_active
     emp.save()
     return redirect('employees:detail', pk=pk)
+
+
+# --- Helper Function for PDF Generation ---
+def render_to_pdf(template_src, context_dict={}):
+    template = get_template(template_src)
+    html  = template.render(context_dict)
+    response = HttpResponse(content_type='application/pdf')
+    # Use 'attachment' to force download, 'inline' to view in browser
+    response['Content-Disposition'] = 'attachment; filename="certificate.pdf"'
+    
+    pisa_status = pisa.CreatePDF(html, dest=response)
+    if pisa_status.err:
+        return HttpResponse('We had some errors <pre>' + html + '</pre>')
+    return response
+
+# --- The View ---
+@login_required
+def generate_certificate_view(request):
+    # Only allow HR or Admin
+    if not (request.user.is_superuser or getattr(request.user, 'is_hr', False)):
+        return redirect('web_test:home')
+
+    if request.method == 'POST':
+        form = CertificateForm(request.POST)
+        if form.is_valid():
+            employee = form.cleaned_data['employee']
+            cert_type = form.cleaned_data['certificate_type']
+            date = form.cleaned_data['date_issued']
+            desc = form.cleaned_data['reason_or_description']
+
+            context = {
+                'employee': employee,
+                'type': cert_type,
+                'date': date,
+                'description': desc,
+                'company_name': "Simec System Ltd", # Replace with dynamic logic if needed
+                'hr_name': request.user.get_full_name() or request.user.username,
+                'generated_at': timezone.now(),
+            }
+            
+            # Call the PDF helper
+            return render_to_pdf('employees/certificate_pdf.html', context)
+    else:
+        form = CertificateForm()
+
+    return render(request, 'hr/employees/generate_certificate.html', {'form': form})

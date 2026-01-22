@@ -1,0 +1,29 @@
+{% extends 'hr/base_hr.html' %}
+
+{% block content %}
+<div class="p-6">
+    <h2 class="text-2xl font-bold mb-6">Generate Employee Certificate</h2>
+    
+    <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl">
+        <form method="post" class="space-y-4">
+            {% csrf_token %}
+            
+            {% for field in form %}
+            <div class="flex flex-col">
+                <label class="font-semibold text-gray-700 mb-1">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="text-gray-500">{{ field.help_text }}</small>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="pt-4">
+                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition">
+                    Download PDF
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

@@ -39,5 +39,8 @@ urlpatterns = [
     path('<int:pk>/edit/', views.employee_edit, name='edit'),
     path('<int:pk>/toggle/', views.employee_toggle, name='toggle'),
 
+    # Certificate 
+    path('generate-certificate/', views.generate_certificate_view, name='generate_certificate'),
+
 
 ]

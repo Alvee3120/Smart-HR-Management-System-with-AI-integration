@@ -11,3 +11,4 @@ python-dotenv
 django-allauth
 cryptography
 sentence-transformers
+xhtml2pdf
