@@ -167,6 +167,18 @@
                 <span class="material-icons text-[22px]">badge</span>
                 <span class="sidebar-text ml-3 whitespace-nowrap">Designations</span>
             </a>
+            {% url 'employees:generate_certificate' as certurl %}
+            <a href="{{ certurl }}"
+                 class="flex items-center px-4 py-3.5 rounded-xl transition-all duration-200 group
+                {% if request.resolver_match.url_name == 'generate_certificate' %}
+                 bg-primary text-white shadow-lg shadow-blue-900/20 font-semibold
+                {% else %}
+               text-gray-500 hover:bg-blue-50 hover:text-primary font-medium
+                {% endif %}">
+                 <span class="material-icons text-22px">card_giftcard</span>
+                <span class="sidebar-text ml-3 whitespace-nowrap">Certificates</span>
+                </a>
+
 
         </nav>
 

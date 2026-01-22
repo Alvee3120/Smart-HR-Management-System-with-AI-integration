@@ -3,7 +3,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .forms import LeaveRequestForm, PayrollForm
+from .forms import LeaveRequestForm, PayrollForm,CertificateForm
 from django.utils import timezone
 from .forms import DepartmentForm, DesignationForm, EmployeeHRForm
 from django.contrib.auth import get_user_model
@@ -13,7 +13,7 @@ from .services import create_employee_user
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
-from .forms import CertificateForm
+
 
 
 User = get_user_model()
@@ -258,24 +258,25 @@ def employee_toggle(request, pk):
 
 
 # --- Helper Function for PDF Generation ---
-def render_to_pdf(template_src, context_dict={}):
+def render_to_pdf(template_src, context_dict):
     template = get_template(template_src)
-    html  = template.render(context_dict)
+    html = template.render(context_dict)
+
     response = HttpResponse(content_type='application/pdf')
-    # Use 'attachment' to force download, 'inline' to view in browser
     response['Content-Disposition'] = 'attachment; filename="certificate.pdf"'
-    
+
     pisa_status = pisa.CreatePDF(html, dest=response)
+
     if pisa_status.err:
         return HttpResponse('We had some errors <pre>' + html + '</pre>')
+
     return response
+
 
 # --- The View ---
 @login_required
+@hr_required
 def generate_certificate_view(request):
-    # Only allow HR or Admin
-    if not (request.user.is_superuser or getattr(request.user, 'is_hr', False)):
-        return redirect('web_test:home')
 
     if request.method == 'POST':
         form = CertificateForm(request.POST)
@@ -290,13 +291,13 @@ def generate_certificate_view(request):
                 'type': cert_type,
                 'date': date,
                 'description': desc,
-                'company_name': "Simec System Ltd", # Replace with dynamic logic if needed
+                'company_name': "Simec System Ltd",
                 'hr_name': request.user.get_full_name() or request.user.username,
                 'generated_at': timezone.now(),
             }
-            
-            # Call the PDF helper
+
             return render_to_pdf('employees/certificate_pdf.html', context)
+
     else:
         form = CertificateForm()
 

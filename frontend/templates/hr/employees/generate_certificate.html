@@ -1,27 +1,49 @@
 {% extends 'hr/base_hr.html' %}
 
-{% block content %}
-<div class="p-6">
-    <h2 class="text-2xl font-bold mb-6">Generate Employee Certificate</h2>
-    
-    <div class="bg-white p-8 rounded-lg shadow-md max-w-2xl">
+{% block hr_content %}
+<div class="container mx-auto p-6 max-w-2xl">
+    <div class="bg-white shadow-md rounded-lg p-6">
+        <h2 class="text-2xl font-bold mb-6">Generate Certificate</h2>
+
         <form method="post" class="space-y-4">
             {% csrf_token %}
-            
-            {% for field in form %}
-            <div class="flex flex-col">
-                <label class="font-semibold text-gray-700 mb-1">{{ field.label }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                <small class="text-gray-500">{{ field.help_text }}</small>
-                {% endif %}
-            </div>
-            {% endfor %}
 
-            <div class="pt-4">
-                <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded transition">
-                    Download PDF
+            <div>
+                <label class="block font-medium mb-1">Employee</label>
+                {{ form.employee }}
+            </div>
+
+            <div>
+                <label class="block font-medium mb-1">Certificate Type</label>
+                {{ form.certificate_type }}
+            </div>
+
+            <div>
+                <label class="block font-medium mb-1">Date of Issue</label>
+                {{ form.date_issued }}
+            </div>
+
+            <div>
+                <label class="block font-medium mb-1">Additional Description</label>
+                {{ form.reason_or_description }}
+            </div>
+
+            <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4 mt-4">
+                <p class="text-sm text-yellow-700">
+                    Clicking "Generate" will create and download a PDF certificate.
+                </p>
+            </div>
+
+            <div class="flex gap-4 pt-4">
+                <button type="submit"
+                    class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded">
+                    Generate Certificate
                 </button>
+
+                <a href="{% url 'employees:list' %}"
+                   class="text-gray-600 hover:text-gray-800 font-medium py-2">
+                    Cancel
+                </a>
             </div>
         </form>
     </div>

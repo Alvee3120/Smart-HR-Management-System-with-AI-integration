@@ -1,52 +1,202 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <style>
-        body { font-family: 'Helvetica', sans-serif; color: #333; padding: 40px; }
-        .header { text-align: center; margin-bottom: 50px; }
-        .company-name { font-size: 30px; font-weight: bold; color: #2c3e50; }
-        .cert-title { font-size: 24px; margin-top: 20px; text-transform: uppercase; border-bottom: 2px solid #333; display: inline-block; padding-bottom: 5px; }
-        
-        .content { margin: 0 20px; font-size: 16px; line-height: 1.6; text-align: justify; }
-        .content p { margin-bottom: 15px; }
-        .bold { font-weight: bold; }
-        
-        .footer { margin-top: 100px; }
-        .signature-line { border-top: 1px solid #000; width: 200px; margin-top: 50px; }
-        .date { text-align: right; margin-top: -60px; }
-    </style>
+<meta charset="UTF-8">
+<title>Certificate</title>
+
+<style>
+@page {
+    size: A4;
+    margin: 2.5cm;
+}
+
+body {
+    font-family: Helvetica, Arial, sans-serif;
+    color: #222;
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.company-name {
+    font-size: 26px;
+    font-weight: bold;
+    color: #0056A9;
+}
+
+.company-sub {
+    font-size: 12px;
+    color: #555;
+}
+
+.cert-title {
+    margin-top: 25px;
+    font-size: 22px;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+.content {
+    margin-top: 40px;
+    text-align: justify;
+}
+
+.highlight {
+    font-weight: bold;
+    color: #000;
+}
+
+.signature {
+    margin-top: 80px;
+}
+
+.signature-line {
+    border-top: 1px solid #000;
+    width: 220px;
+    margin-top: 60px;
+}
+
+.footer {
+    margin-top: 40px;
+    font-size: 13px;
+}
+</style>
 </head>
+
 <body>
-    <div class="header">
-        <div class="company-name">{{ company_name }}</div>
-        <div class="cert-title">{{ type }}</div>
-    </div>
 
-    <div class="content">
-        <p>To Whom It May Concern,</p>
+<div class="header">
+    <div class="company-name">{{ company_name }}</div>
+    <div class="company-sub">Human Resources Department</div>
+    <div class="cert-title">{{ type }}</div>
+</div>
 
-        <p>This is to certify that <span class="bold">{{ employee.first_name }} {{ employee.last_name }}</span> (ID: {{ employee.employee_id }}) 
-        is an employee of <span class="bold">{{ company_name }}</span>, working as a <span class="bold">{{ employee.designation }}</span> in the 
-        <span class="bold">{{ employee.department }}</span> department.</p>
+<div class="content">
 
-        <p>Date of Joining: {{ employee.date_joined|date:"F d, Y" }}</p>
+{% if type == "Experience Certificate" %}
 
-        {% if description %}
-        <p>{{ description }}</p>
-        {% endif %}
+    <p><strong>To Whom It May Concern,</strong></p>
 
-        <p>We find {{ employee.first_name }} to be sincere, hardworking, and dedicated. We wish {{ employee.first_name }} all the best in future endeavors.</p>
-    </div>
+    <p>
+        This is to certify that 
+        <span class="highlight">{{ employee.user.full_name }}</span>
+        is an employee of <span class="highlight">{{ company_name }}</span>,
+        working as a <span class="highlight">{{ employee.designation.title }}</span>
+        in the <span class="highlight">{{ employee.department.name }}</span> department.
+    </p>
 
-    <div class="footer">
-        <div>
-            <div class="signature-line"></div>
-            <p>Authorized Signatory<br>HR Department</p>
-        </div>
-        
-        <div class="date">
-            <p>Date: {{ date|date:"F d, Y" }}</p>
-        </div>
-    </div>
+    <p>
+        {{ employee.user.full_name }} joined our organization on
+        <span class="highlight">{{ employee.date_of_joining|date:"F d, Y" }}</span>
+        and has been serving with sincerity, dedication, and professionalism.
+    </p>
+
+    {% if description %}
+    <p>{{ description }}</p>
+    {% endif %}
+
+    <p>
+        We wish {{ employee.user.full_name }} every success in their future endeavors.
+    </p>
+
+    <p>Sincerely,</p>
+
+
+{% elif type == "Salary Certificate" %}
+
+    <p><strong>To Whom It May Concern,</strong></p>
+
+    <p>
+        This is to certify that 
+        <span class="highlight">{{ employee.user.full_name }}</span>
+        is currently employed at <span class="highlight">{{ company_name }}</span>
+        as a <span class="highlight">{{ employee.designation.title }}</span>
+        in the <span class="highlight">{{ employee.department.name }}</span> department.
+    </p>
+
+    <p>
+        This certificate is issued upon the employee’s request for official and banking purposes.
+    </p>
+
+    {% if description %}
+    <p>{{ description }}</p>
+    {% endif %}
+
+    <p>Sincerely,</p>
+
+
+{% elif type == "No Objection Certificate (NOC)" %}
+
+    <p><strong>To Whom It May Concern,</strong></p>
+
+    <p>
+        This is to certify that 
+        <span class="highlight">{{ employee.user.full_name }}</span>
+        is currently employed with <span class="highlight">{{ company_name }}</span>.
+    </p>
+
+    <p>
+        We have no objection to them applying for higher studies, travel, or a new professional opportunity.
+    </p>
+
+    {% if description %}
+    <p>{{ description }}</p>
+    {% endif %}
+
+    <p>
+        We wish them every success in their future endeavors.
+    </p>
+
+    <p>Sincerely,</p>
+
+
+{% elif type == "Appreciation Letter" %}
+
+    <p>Dear {{ employee.user.full_name }},</p>
+
+    <p>
+        We would like to take this opportunity to sincerely appreciate your valuable contribution to 
+        <span class="highlight">{{ company_name }}</span> as a 
+        <span class="highlight">{{ employee.designation.title }}</span>.
+    </p>
+
+    <p>
+        Your dedication, professionalism, and positive attitude have been truly commendable.
+        We are grateful for your continued efforts and commitment.
+    </p>
+
+    {% if description %}
+    <p>{{ description }}</p>
+    {% endif %}
+
+    <p>
+        We wish you continued success and growth in your career.
+    </p>
+
+    <p>Sincerely,</p>
+
+{% endif %}
+
+</div>
+
+
+<div class="signature">
+    <div class="signature-line"></div>
+    <p>
+        <strong>{{ hr_name|default:"HR Manager" }}</strong><br>
+        HR Department<br>
+        {{ company_name }}
+    </p>
+</div>
+
+<div class="footer">
+    <p>Date of Issue: {{ generated_at|date:"F d, Y" }}</p>
+</div>
+
 </body>
 </html>
