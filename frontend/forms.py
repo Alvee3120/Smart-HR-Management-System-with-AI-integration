@@ -21,25 +21,50 @@ SELECT = "w-full px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outl
 # =========================
 # Job Form
 # =========================
+# class JobForm(forms.ModelForm):
+#     class Meta:
+#         model = Job
+#         fields = ['title', 'description_text', 'description_file']
+#         widgets = {
+#             'title': forms.TextInput(attrs={
+#                 'class': INPUT,
+#                 'placeholder': 'Job title'
+#             }),
+#             'description_text': forms.Textarea(attrs={
+#                 'class': TEXTAREA,
+#                 'rows': 4,
+#                 'placeholder': 'Write job description...'
+#             }),
+#             'description_file': forms.FileInput(attrs={
+#                 'class': FILE
+#             }),
+#         }
+
 class JobForm(forms.ModelForm):
     class Meta:
         model = Job
         fields = ['title', 'description_text', 'description_file']
         widgets = {
-            'title': forms.TextInput(attrs={
-                'class': INPUT,
-                'placeholder': 'Job title'
-            }),
-            'description_text': forms.Textarea(attrs={
-                'class': TEXTAREA,
-                'rows': 4,
-                'placeholder': 'Write job description...'
-            }),
-            'description_file': forms.FileInput(attrs={
-                'class': FILE
-            }),
+            'title': forms.TextInput(attrs={'class': 'w-full rounded border-gray-300'}),
+            'description_text': forms.Textarea(attrs={'rows': 6, 'class': 'w-full rounded border-gray-300'}),
         }
 
+    def clean(self):
+        cleaned_data = super().clean()
+        text = cleaned_data.get('description_text', '').strip()
+        file = cleaned_data.get('description_file')
+        
+        # Require title
+        if not cleaned_data.get('title', '').strip():
+            raise forms.ValidationError("Job title is required.")
+        
+        # Exactly one of text or file
+        if not text and not file:
+            raise forms.ValidationError("Provide either description text or upload a PDF file.")
+        if text and file:
+            raise forms.ValidationError("Provide only one: either description text OR file upload.")
+        
+        return cleaned_data
 
 # =========================
 # Application Form

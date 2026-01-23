@@ -13,7 +13,7 @@ class JobListCreateView(generics.ListCreateAPIView):
         # Save the job first
         job = serializer.save(posted_by=self.request.user)
         
-        # Run AI Pipeline (Extract -> GLiNER -> Jina)
+        # Run AI Pipeline (Extract -> GLiNER -> sentance tranformer)
         run_ai_pipeline(job)
 
 class JobDetailView(generics.RetrieveUpdateDestroyAPIView):

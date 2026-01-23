@@ -1,0 +1,142 @@
+{% extends "hr/base_hr.html" %}
+
+{% block hr_content %}
+
+<div class="min-h-screen bg-gray-50 py-10 px-4">
+    <div class="max-w-4xl mx-auto space-y-6">
+
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-slate-800 to-slate-900 px-8 py-8 flex flex-col md:flex-row items-center md:items-start gap-6">
+                
+                <div class="h-24 w-24 rounded-full bg-white/10 flex items-center justify-center text-white text-3xl font-bold border-4 border-white/20 shadow-lg">
+                    {{ employee.user.full_name|first|default:employee.user.username|first|upper }}
+                </div>
+
+                <div class="text-center md:text-left text-white flex-1">
+                    <h1 class="text-3xl font-bold tracking-tight">
+                        {{ employee.user.full_name|default:employee.user.username }}
+                    </h1>
+                    <div class="flex flex-wrap justify-center md:justify-start gap-3 mt-3">
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-blue-500/20 text-blue-100 border border-blue-500/30">
+                            {{ employee.designation.title|default:"No Designation" }}
+                        </span>
+                        <span class="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-white/10 text-gray-100 border border-white/10">
+                            {{ employee.department.name|default:"No Department" }}
+                        </span>
+                        {% if employee.is_active %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-500 text-white">
+                                Active
+                            </span>
+                        {% else %}
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-500 text-white">
+                                Inactive
+                            </span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <div class="flex gap-3">
+                    <a href="{% url 'employees:edit' employee.pk %}" class="flex items-center px-4 py-2 bg-white/10 hover:bg-white/20 text-white rounded-lg transition text-sm font-medium backdrop-blur-sm border border-white/20">
+                        <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        Edit Profile
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="md:col-span-2 space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                        Personal Information
+                    </h3>
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Email Address</dt>
+                            <dd class="mt-1 text-sm text-gray-900 font-semibold">{{ employee.user.email }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Phone Number</dt>
+                            <dd class="mt-1 text-sm text-gray-900 font-semibold">{{ employee.phone_number|default:"--" }}</dd>
+                        </div>
+                        <div class="sm:col-span-2">
+                            <dt class="text-sm font-medium text-gray-500">Residential Address</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ employee.address|default:"No address provided"|linebreaksbr }}</dd>
+                        </div>
+                    </dl>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-gray-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                        Employment Details
+                    </h3>
+                    <dl class="grid grid-cols-1 sm:grid-cols-2 gap-x-4 gap-y-6">
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Employee ID</dt>
+                            <dd class="mt-1 text-sm text-gray-900 font-mono bg-gray-100 px-2 py-1 rounded w-fit">#EMP-{{ employee.id|stringformat:"04d" }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Date of Joining</dt>
+                            <dd class="mt-1 text-sm text-gray-900 font-semibold">{{ employee.date_of_joining }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Department</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ employee.department.name|default:"--" }}</dd>
+                        </div>
+                        <div>
+                            <dt class="text-sm font-medium text-gray-500">Designation</dt>
+                            <dd class="mt-1 text-sm text-gray-900">{{ employee.designation.title|default:"--" }}</dd>
+                        </div>
+                    </dl>
+                </div>
+            </div>
+
+            <div class="space-y-6">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-lg font-bold text-gray-800 border-b pb-3 mb-4 flex items-center">
+                        <svg class="w-5 h-5 mr-2 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        Financials
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <p class="text-sm text-gray-500 mb-1">Basic Salary</p>
+                            <p class="text-2xl font-bold text-gray-900">${{ employee.basic_salary }}</p>
+                        </div>
+                        <div class="pt-4 border-t border-gray-100">
+                            <p class="text-xs text-gray-500 uppercase tracking-wide font-semibold mb-1">Bank Account</p>
+                            <p class="text-sm text-gray-800 font-mono">{{ employee.bank_account_number|default:"Not Linked" }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+                    <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4">Quick Actions</h3>
+                    <div class="flex flex-col gap-3">
+                        
+                        
+                        <a href="{% url 'employees:delete' employee.pk %}" class="w-full text-left px-4 py-3 rounded-lg border border-red-100 hover:border-red-500 hover:bg-red-50 transition flex items-center group">
+                            <div class="bg-red-100 p-2 rounded-md mr-3 group-hover:bg-red-200 transition">
+                                <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </div>
+                            <span class="text-sm font-medium text-gray-700 group-hover:text-red-700">Terminate Employee</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        
+        <div class="mt-6">
+            <a href="{% url 'employees:list' %}" class="text-gray-500 hover:text-gray-800 text-sm font-medium flex items-center">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                Back to Employee List
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

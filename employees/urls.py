@@ -38,9 +38,10 @@ urlpatterns = [
     path('<int:pk>/', views.employee_detail, name='detail'),      # ✅ THIS
     path('<int:pk>/edit/', views.employee_edit, name='edit'),
     path('<int:pk>/toggle/', views.employee_toggle, name='toggle'),
+    path('<int:pk>/delete/', views.employee_delete, name='delete'),
 
     # Certificate 
-    path('generate-certificate/', views.generate_certificate_view, name='generate_certificate'),
-
+    # path('<int:pk>/generate-certificate/', views.generate_certificate_view, name='generate_certificate'),
+    path('generate-certificate/', views.generate_certificate, name='generate_certificate'),
 
 ]

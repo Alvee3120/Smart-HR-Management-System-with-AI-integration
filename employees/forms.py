@@ -7,6 +7,8 @@ from .models import Department, Designation, Employee
 from django.contrib.auth import get_user_model
 from .services import create_employee_user
 from .models import Employee
+from django.utils import timezone
+
 
 User = get_user_model()
 # =========================
@@ -17,24 +19,29 @@ class LeaveRequestForm(forms.ModelForm):
         model = LeaveRequest
         fields = ['leave_type', 'start_date', 'end_date', 'reason']
         widgets = {
-            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'w-full rounded border-gray-300'}),
-            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'w-full rounded border-gray-300'}),
-            'reason': forms.Textarea(attrs={'rows': 3, 'class': 'w-full rounded border-gray-300'}),
+            'start_date': forms.DateInput(attrs={'type': 'date', 'class': 'w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'}),
+            'end_date': forms.DateInput(attrs={'type': 'date', 'class': 'w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500'}),
+            'reason': forms.Textarea(attrs={'rows': 3, 'class': 'w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500'}),
+            'leave_type': forms.Select(attrs={'class': 'w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500'}),
         }
 
-def save(self, commit=True):
-    user, password = create_employee_user(
-        self.cleaned_data['email'],
-        self.cleaned_data['full_name'],
-        role="Employee"
-    )
+    def clean(self):
+        cleaned_data = super().clean()
+        start_date = cleaned_data.get('start_date')
+        end_date = cleaned_data.get('end_date')
+        
+        # FIX: Use localdate() to respect your project's TIME_ZONE setting
+        today = timezone.localdate()
 
-    employee = super().save(commit=False)
-    employee.user = user
-    if commit:
-        employee.save()
-    return employee
+        if start_date and start_date < today:
+            self.add_error('start_date', "Leave cannot start in the past.")
 
+        if start_date and end_date and end_date < start_date:
+            self.add_error('end_date', "End date cannot be before start date.")
+
+        return cleaned_data
+    
+    
 # =========================
 # Payroll Form (HR)
 # =========================

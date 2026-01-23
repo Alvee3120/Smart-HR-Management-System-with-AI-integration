@@ -12,3 +12,4 @@ django-allauth
 cryptography
 sentence-transformers
 xhtml2pdf
+django-widget-tweaks

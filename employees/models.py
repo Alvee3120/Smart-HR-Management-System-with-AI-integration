@@ -3,6 +3,7 @@
 from django.db import models
 from django.conf import settings
 from django.utils import timezone
+from django.core.exceptions import ValidationError
 # 1. Departments & Designations
 class Department(models.Model):
     name = models.CharField(max_length=100)
@@ -19,25 +20,43 @@ class Designation(models.Model):
 
 # 2. Employee Profile
 class Employee(models.Model):
-    # We link to User, but we will auto-create this in the Admin form
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='employee_profile')
     
-    department = models.ForeignKey(Department, on_delete=models.SET_NULL, null=True, blank=True)
-    designation = models.ForeignKey(Designation, on_delete=models.SET_NULL, null=True, blank=True)
+    department = models.ForeignKey('Department', on_delete=models.SET_NULL, null=True, blank=True)
+    designation = models.ForeignKey('Designation', on_delete=models.SET_NULL, null=True, blank=True)
     
     date_of_joining = models.DateField()
     phone_number = models.CharField(max_length=15, blank=True)
     address = models.TextField(blank=True)
     
-    # Payroll Info
     basic_salary = models.DecimalField(max_digits=10, decimal_places=2, default=0.00)
     bank_account_number = models.CharField(max_length=50, blank=True)
     
     is_active = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.user.full_name if self.user.full_name else self.user.email
+        return self.user.full_name if hasattr(self.user, 'full_name') else self.user.email
 
+    # 3. Add the clean method
+    def clean(self):
+        # Validation: Date of Joining cannot be in the future
+        if self.date_of_joining and self.date_of_joining > timezone.now().date():
+            raise ValidationError({
+                'date_of_joining': "Date of joining cannot be in the future."
+            })
+
+        # Validation: Salary must be greater than 0
+        if self.basic_salary <= 0:
+            raise ValidationError({
+                'basic_salary': "Basic salary must be greater than 0."
+            })
+
+    # 4. Ensure validation runs when saving via script/shell (optional but recommended)
+    def save(self, *args, **kwargs):
+        self.full_clean()  # This calls self.clean() before saving
+        super().save(*args, **kwargs)
+
+        
 # 3. Leave Management (Benefits)
 class LeaveRequest(models.Model):
     LEAVE_TYPES = [('SICK', 'Sick Leave'), ('CASUAL', 'Casual Leave'), ('PAID', 'Paid Leave')]

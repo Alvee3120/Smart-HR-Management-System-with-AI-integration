@@ -1,77 +1,113 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="min-h-[70vh] flex justify-center px-4 py-10">
+<div class="min-h-[80vh] flex justify-center items-center px-4 py-12 bg-gray-50">
 
-    <div class="w-full max-w-3xl bg-white rounded-2xl shadow-lg">
+    <div class="w-full max-w-2xl bg-white rounded-3xl shadow-xl overflow-hidden border border-gray-100">
 
-        <!-- Header -->
-        <div class="bg-blue-600 text-white px-6 py-4 rounded-t-2xl">
-            <h4 class="text-xl font-semibold">
-                Edit Job: {{ job.title }}
-            </h4>
+        <div class="bg-gradient-to-r from-blue-600 to-blue-700 text-white px-8 py-6">
+            <h4 class="text-2xl font-bold">Edit Job Details</h4>
+            <p class="text-blue-100 text-sm mt-1">Update the information for "{{ job.title }}"</p>
         </div>
 
-        <!-- Body -->
-        <div class="p-6">
+        <div class="p-8">
 
-            <form method="post" enctype="multipart/form-data" class="space-y-5">
+            <form method="post" enctype="multipart/form-data" class="space-y-6">
                 {% csrf_token %}
 
-                <!-- Job Title -->
+                {% if form.non_field_errors %}
+                    <div class="bg-red-50 border border-red-200 text-red-600 px-4 py-3 rounded-xl text-sm">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
                 <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">
-                        Job Title
+                    <label for="{{ form.title.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Job Title <span class="text-red-500">*</span>
                     </label>
-                    {{ form.title }}
+                    <div class="relative">
+                        {{ form.title }}
+                    </div>
+                    {% if form.title.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.title.errors.0 }}</p>
+                    {% endif %}
                 </div>
 
-                <!-- Description Text -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-1">
-                        Job Description (Text)
+                <div class="relative py-2">
+                    <div class="absolute inset-0 flex items-center">
+                        <div class="w-full border-t border-gray-200"></div>
+                    </div>
+                    <div class="relative flex justify-center">
+                        <span class="bg-white px-4 text-sm text-gray-500 font-medium">Provide Description via Text OR File</span>
+                    </div>
+                </div>
+
+                <div id="text-section" class="transition-opacity duration-300">
+                    <label for="{{ form.description_text.id_for_label }}" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Option 1: Description Text
                     </label>
                     {{ form.description_text }}
+                    {% if form.description_text.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.description_text.errors.0 }}</p>
+                    {% endif %}
                 </div>
 
-                <!-- Description File -->
-                <div>
-                    <label class="block text-sm font-bold text-gray-700 mb-2">
-                        Job Description (PDF)
+                <div id="file-section" class="transition-opacity duration-300">
+                    <label for="id_description_file" class="block text-sm font-semibold text-gray-700 mb-2">
+                        Option 2: Upload PDF Description
                     </label>
-
+                    
                     {% if job.description_file %}
-                        <div class="flex items-center justify-between bg-gray-100 border rounded-lg p-2 mb-2">
-                            <span class="text-sm">
-                                <strong>Current File:</strong>
-                                <a href="{{ job.description_file.url }}" target="_blank"
-                                   class="text-blue-600 underline">
-                                    {{ job.description_file.name }}
-                                </a>
-                            </span>
-                            <span class="px-2 py-0.5 bg-green-600 text-white text-xs rounded-full">
-                                Uploaded
-                            </span>
+                        <div id="current-file-row" class="flex items-center justify-between bg-blue-50 border border-blue-100 rounded-lg p-3 mb-3 transition-all duration-300">
+                            <div class="flex items-center space-x-3 overflow-hidden">
+                                <div class="flex-shrink-0 p-2 bg-blue-100 text-blue-600 rounded-lg">
+                                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                                </div>
+                                <div class="text-sm min-w-0">
+                                    <p class="font-medium text-gray-900">Current File</p>
+                                    <a href="{{ job.description_file.url }}" target="_blank" class="text-blue-600 hover:underline truncate block">
+                                        {{ job.description_file.name }}
+                                    </a>
+                                </div>
+                            </div>
+
+                            <button type="button" id="btn-delete-file" 
+                                    class="ml-2 p-2 rounded-full text-gray-400 hover:text-red-600 hover:bg-red-50 transition duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2"
+                                    title="Delete this file">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            </button>
                         </div>
 
-                        <p class="text-xs text-gray-500 mb-2">
-                            Upload a new file below only if you want to replace the current one.
-                        </p>
+                        <div class="hidden">
+                            <input type="checkbox" name="description_file-clear" id="description_file-clear_id">
+                        </div>
                     {% endif %}
 
-                    {{ form.description_file }}
+                    <input type="file" 
+                           name="description_file" 
+                           id="id_description_file" 
+                           accept=".pdf"
+                           class="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 transition-all border border-gray-200 rounded-lg bg-gray-50 focus:outline-none focus:border-blue-500 focus:ring-1 focus:ring-blue-500">
+                    
+                    <p class="text-xs text-gray-500 mt-2">
+                        Supported formats: PDF. Max size: 5MB.
+                    </p>
+                    {% if form.description_file.errors %}
+                        <p class="text-red-500 text-xs mt-1">{{ form.description_file.errors.0 }}</p>
+                    {% endif %}
                 </div>
 
-                <!-- Actions -->
-                <div class="flex justify-between pt-4">
+                <div class="flex items-center justify-between pt-6 border-t border-gray-100 mt-6">
                     <a href="{% url 'web_test:job_detail' job.id %}"
-                       class="px-5 py-2 rounded-xl border border-gray-400 text-gray-700 hover:bg-gray-100 transition">
+                       class="flex items-center px-6 py-2.5 rounded-xl text-gray-600 hover:bg-gray-100 hover:text-gray-900 font-medium transition duration-200">
+                       <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
                         Cancel
                     </a>
 
                     <button type="submit"
-                            class="px-5 py-2 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition">
-                        💾 Save Changes
+                            class="flex items-center px-8 py-2.5 rounded-xl bg-blue-600 text-white font-semibold shadow-md hover:bg-blue-700 hover:shadow-lg transform active:scale-95 transition duration-200">
+                        <span>Save Changes</span>
+                        <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
                     </button>
                 </div>
 
@@ -79,7 +115,115 @@
 
         </div>
     </div>
-
 </div>
+
+<style>
+    /* Styling for Django Standard Widgets */
+    input[type="text"], 
+    input[type="email"], 
+    input[type="number"], 
+    textarea {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border-radius: 0.75rem;
+        border: 1px solid #e5e7eb;
+        background-color: #f9fafb;
+        transition: all 0.2s;
+    }
+    input[type="text"]:focus, 
+    textarea:focus {
+        outline: none;
+        border-color: #3b82f6;
+        background-color: #ffffff;
+        box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Disabled state helper */
+    .disabled-field {
+        opacity: 0.5;
+        pointer-events: none;
+        background-color: #f3f4f6;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Elements
+        const descText = document.querySelector('[name="description_text"]');
+        const descFile = document.querySelector('[name="description_file"]');
+        const textSection = document.getElementById('text-section');
+        const fileSection = document.getElementById('file-section');
+        
+        // Deletion Logic Elements
+        const deleteBtn = document.getElementById('btn-delete-file');
+        const fileRow = document.getElementById('current-file-row');
+        const clearCheckbox = document.getElementById('description_file-clear_id');
+
+        // Track if the original file is still visually active
+        let isOriginalFileActive = (fileRow !== null);
+
+        function toggleInputs() {
+            const hasText = descText.value.trim() !== "";
+            const hasNewFile = descFile.value !== "";
+            
+            // 1. If User has typed text -> Disable File
+            if (hasText) {
+                descFile.disabled = true;
+                descFile.value = ""; // Reset file input
+                fileSection.classList.add('disabled-field');
+                textSection.classList.remove('disabled-field');
+            } 
+            // 2. If User has selected a NEW file -> Disable Text
+            else if (hasNewFile) {
+                descText.disabled = true;
+                descText.value = ""; // Reset text input
+                textSection.classList.add('disabled-field');
+                fileSection.classList.remove('disabled-field');
+            } 
+            // 3. If NO new input, but OLD file exists & isn't deleted -> Disable Text
+            else if (isOriginalFileActive) {
+                 descText.disabled = true;
+                 textSection.classList.add('disabled-field');
+                 
+                 descFile.disabled = false;
+                 fileSection.classList.remove('disabled-field');
+            }
+            // 4. Everything is empty -> Enable Both
+            else {
+                descText.disabled = false;
+                descFile.disabled = false;
+                textSection.classList.remove('disabled-field');
+                fileSection.classList.remove('disabled-field');
+            }
+        }
+
+        // Delete Button Logic
+        if (deleteBtn) {
+            deleteBtn.addEventListener('click', function() {
+                // Hide the file row
+                fileRow.style.display = 'none';
+                
+                // Check the hidden "clear" checkbox so Django deletes it on save
+                if (clearCheckbox) {
+                    clearCheckbox.checked = true;
+                }
+                
+                // Update state variable
+                isOriginalFileActive = false;
+                
+                // Re-run toggle logic (this unlocks the text box)
+                toggleInputs();
+            });
+        }
+
+        // Attach listeners
+        if(descText && descFile) {
+            descText.addEventListener('input', toggleInputs);
+            descFile.addEventListener('change', toggleInputs);
+            // Run on load to set initial state
+            toggleInputs();
+        }
+    });
+</script>
 
 {% endblock %}

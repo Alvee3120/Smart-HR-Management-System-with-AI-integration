@@ -111,14 +111,14 @@ class SendInterviewInviteView(APIView):
                 f"Time: {data['time']}\n"
                 f"Location: {data['location']}\n\n"
                 f"Additional Notes: {data.get('message', '')}\n\n"
-                f"Best regards,\nSmart Hire Solutions Team"
+                f"Best regards,\nSimec System Limited"
             )
 
             # 3. Send Email
             send_mail(
                 subject,
                 message,
-                settings.EMAIL_HOST_USER or 'noreply@smarthire.com',
+                settings.EMAIL_HOST_USER or 'noreply@simecsystem.com',
                 [application.candidate.email],
                 fail_silently=False,
             )

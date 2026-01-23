@@ -201,6 +201,25 @@ def designation_form(request, pk=None):
 # =========================
 # EMPLOYEE (HR CRUD)
 # =========================
+@login_required
+def employee_delete(request, pk):
+    employee = get_object_or_404(Employee, pk=pk)
+    
+    if request.method == 'POST':
+        # Perform the deletion
+        user = employee.user
+        employee.delete()
+        
+        # Option: Also deactivate the user account associated with the employee
+        if user:
+            user.is_active = False
+            user.save()
+            
+        messages.success(request, 'Employee has been successfully terminated.')
+        return redirect('employees:list')
+    
+    return render(request, 'hr/employees/employee_confirm_delete.html', {'employee': employee})
+
 
 @login_required
 @hr_required
@@ -273,14 +292,13 @@ def render_to_pdf(template_src, context_dict):
     return response
 
 
-# --- The View ---
 @login_required
 @hr_required
-def generate_certificate_view(request):
-
+def generate_certificate(request):
     if request.method == 'POST':
         form = CertificateForm(request.POST)
         if form.is_valid():
+            # Get data from the form
             employee = form.cleaned_data['employee']
             cert_type = form.cleaned_data['certificate_type']
             date = form.cleaned_data['date_issued']
@@ -296,9 +314,39 @@ def generate_certificate_view(request):
                 'generated_at': timezone.now(),
             }
 
+            # Render the PDF
             return render_to_pdf('employees/certificate_pdf.html', context)
-
     else:
         form = CertificateForm()
 
     return render(request, 'hr/employees/generate_certificate.html', {'form': form})
+
+# # --- The View ---
+# @login_required
+# @hr_required
+# def generate_certificate_view(request):
+
+#     if request.method == 'POST':
+#         form = CertificateForm(request.POST)
+#         if form.is_valid():
+#             employee = form.cleaned_data['employee']
+#             cert_type = form.cleaned_data['certificate_type']
+#             date = form.cleaned_data['date_issued']
+#             desc = form.cleaned_data['reason_or_description']
+
+#             context = {
+#                 'employee': employee,
+#                 'type': cert_type,
+#                 'date': date,
+#                 'description': desc,
+#                 'company_name': "Simec System Ltd",
+#                 'hr_name': request.user.get_full_name() or request.user.username,
+#                 'generated_at': timezone.now(),
+#             }
+
+#             return render_to_pdf('employees/certificate_pdf.html', context)
+
+#     else:
+#         form = CertificateForm()
+
+#     return render(request, 'hr/employees/generate_certificate.html', {'form': form})

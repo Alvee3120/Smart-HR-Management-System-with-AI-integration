@@ -37,28 +37,8 @@ def job_list(request):
     jobs = Job.objects.all().order_by('-created_at')
     return render(request, 'job_list.html', {'jobs': jobs})
 
-@login_required
-def create_job(request):
-    """HR Only: Post a job."""
-    if request.user.role != 'HR':
-        messages.error(request, "Only HR can post jobs.")
-        return redirect('web_test:job_list')
 
-    if request.method == 'POST':
-        form = JobForm(request.POST, request.FILES)
-        if form.is_valid():
-            job = form.save(commit=False)
-            job.posted_by = request.user
-            job.save()
-            
-            # TRIGGER AI PIPELINE
-            run_ai_pipeline(job)
-            
-            messages.success(request, "Job posted and AI processed!")
-            return redirect('web_test:job_list')
-    else:
-        form = JobForm()
-    return render(request, 'create_job.html', {'form': form})
+
 
 @login_required(login_url='web_test:login')
 def apply_for_job(request, job_id):
@@ -159,35 +139,62 @@ def job_detail(request, pk):
     job = get_object_or_404(Job, pk=pk)
     return render(request, 'job_detail.html', {'job': job})
 
-@login_required
-def job_edit(request, pk):
-    """
-    Allows HR to edit the job. 
-    Fix: Uses instance=job to pre-fill the form with existing data.
-    """
-    job = get_object_or_404(Job, pk=pk)
+#Create job
 
-    if request.user.role not in ['HR', 'Reviewer']:
-        messages.error(request, "Access Denied.")
+@login_required(login_url='web_test:login')
+def create_job(request):
+    if request.user.role != 'HR':
+        messages.error(request, 'Only HR can post jobs.')
         return redirect('web_test:job_list')
-
+    
     if request.method == 'POST':
-        # instance=job ensures we are UPDATING, not creating new
-        form = JobForm(request.POST, request.FILES, instance=job) 
+        form = JobForm(request.POST, request.FILES)
         if form.is_valid():
             job = form.save(commit=False)
-            
-            # Optional: Re-run AI if description changed
-            # run_ai_pipeline(job) 
-            
+            job.posted_by = request.user
             job.save()
-            messages.success(request, "Job updated successfully!")
+            run_ai_pipeline(job)
+            messages.success(request, 'Job posted and AI processed!')
+            return redirect('web_test:job_list')
+        else:
+            messages.error(request, 'Please enter either Job Description or pdf.')
+    else:
+        form = JobForm()
+    
+    return render(request, 'create_job.html', {'form': form})
+
+#Edit Job
+
+def job_edit(request, pk):
+    job = get_object_or_404(Job, pk=pk)
+
+    if request.method == 'POST':
+        # 'request.FILES' is crucial for PDF updates
+        form = JobForm(request.POST, request.FILES, instance=job)
+        
+        if form.is_valid():
+            # 1. Save the basic data (text/file)
+            job = form.save()
+
+            # 2. --- FIX: Force AI to re-analyze the new data ---
+            try:
+                print("Regenerating AI Vectors for updated job...") # Optional debug
+                run_ai_pipeline(job) 
+                messages.success(request, "Job updated and AI analysis regenerated!")
+            except Exception as e:
+                # Log error but don't crash the page
+                messages.warning(request, f"Job saved, but AI update failed: {e}")
+            # ---------------------------------------------------
+
             return redirect('web_test:job_detail', pk=job.pk)
     else:
-        # This pre-fills the form with the database values
         form = JobForm(instance=job)
 
     return render(request, 'edit_job.html', {'form': form, 'job': job})
+
+
+
+#Delete Job
 
 @login_required
 def delete_job(request, pk):

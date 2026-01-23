@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'candidates',
     'frontend',
     'employees',
+    'widget_tweaks'
 ]
 
 MIDDLEWARE = [

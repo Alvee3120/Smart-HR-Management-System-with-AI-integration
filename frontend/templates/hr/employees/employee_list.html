@@ -41,11 +41,13 @@
                     </td>
 
                     <td class="px-4 py-3 space-x-2">
-                        <a href="{% url 'employees:detail' emp.id %}" class="text-green-600 hover:underline">View</a>
+                        
+                       <a href="{% url 'employees:detail' emp.id %}" class="text-green-600 hover:underline">View</a>
                         <a href="{% url 'employees:edit' emp.id %}" class="text-blue-600 hover:underline">Edit</a>
                         <a href="{% url 'employees:toggle' emp.id %}" class="text-gray-600 hover:underline">
                             {% if emp.is_active %}Deactivate{% else %}Activate{% endif %}
                         </a>
+                        
                     </td>
                 </tr>
                 {% empty %}

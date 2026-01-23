@@ -1,179 +1,220 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="max-w-7xl mx-auto px-4 py-8">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+<script>
+    // Set up the worker for PDF.js
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+</script>
 
-    <!-- Header -->
-    <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
-        <div>
-            <h2 class="text-2xl md:text-3xl font-bold text-gray-800">
-                Candidate Analysis:
-                <span class="text-blue-600">{{ app.candidate.full_name }}</span>
-            </h2>
-            <p class="text-gray-500 mt-1">
-                Applying for: <strong>{{ app.job.title }}</strong>
-            </p>
-        </div>
+<div class="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-[1600px] mx-auto space-y-6">
 
-        <div class="text-right">
-            <span class="text-4xl font-extrabold
-                {% if app.match_score > 75 %}
-                    text-green-600
-                {% elif app.match_score > 50 %}
-                    text-yellow-500
-                {% else %}
-                    text-red-600
-                {% endif %}
-            ">
-                {{ app.match_score }}%
-            </span>
-            <p class="text-sm text-gray-500">AI Match Score</p>
-        </div>
-    </div>
-
-    <!-- Main Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-
-        <!-- Job Requirements -->
-        <div class="bg-white rounded-2xl shadow border border-blue-200">
-            <div class="bg-blue-600 text-white px-4 py-3 rounded-t-2xl">
-                <h5 class="font-semibold">📋 Job Requirements</h5>
+        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-6 flex flex-col md:flex-row justify-between items-center gap-4">
+            
+            <div class="flex items-center gap-4">
+                <div class="h-14 w-14 rounded-full bg-blue-100 flex items-center justify-center text-blue-600 font-bold text-xl shadow-inner">
+                    {{ app.candidate.full_name|first|upper }}
+                </div>
+                <div>
+                    <h2 class="text-2xl font-bold text-gray-900">{{ app.candidate.full_name }}</h2>
+                    <p class="text-sm text-gray-500">
+                        Applied for: <span class="font-medium text-gray-800">{{ app.job.title }}</span>
+                    </p>
+                </div>
             </div>
-            <div class="p-4 text-sm">
 
-                <p class="text-gray-500 mb-3">
-                    The AI identified these required skills from the Job Description:
-                </p>
-
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for item in app.job.gliner_entities %}
-                        {% if item.label in 'Skill,Technology,Framework,Programming Language,Database,Tool,Platform,Cloud' %}
-                            <span class="px-2 py-1 text-xs bg-gray-100 border rounded-lg">
-                                {{ item.text }}
-                            </span>
-                        {% endif %}
-                    {% empty %}
-                        <p class="text-gray-400 text-sm">No specific technical skills found.</p>
-                    {% endfor %}
+            <div class="flex items-center gap-6">
+                <div class="text-right">
+                    <div class="text-3xl font-black 
+                        {% if app.match_score > 75 %} text-green-600 
+                        {% elif app.match_score > 50 %} text-yellow-500 
+                        {% else %} text-red-600 {% endif %}">
+                        {{ app.match_score }}%
+                    </div>
+                    <div class="text-xs font-medium text-gray-400 uppercase tracking-wide">Match Score</div>
                 </div>
 
-                <hr class="my-3">
+                <div class="h-10 w-px bg-gray-200"></div>
 
-                <h6 class="font-semibold text-blue-600 mb-2">Required Experience</h6>
+                <a href="{% url 'web_test:job_ranking' app.job.id %}"
+                   class="inline-flex items-center px-4 py-2 border border-gray-300 rounded-xl text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 transition shadow-sm">
+                    <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    Back to List
+                </a>
+            </div>
+        </div>
 
-                {% for item in app.job.gliner_entities %}
-                    {% if item.label == 'Experience' %}
-                        <div class="bg-blue-50 border border-blue-200 rounded-lg px-2 py-1 text-xs mb-1">
-                            {{ item.text }}
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 h-[85vh]">
+
+            <div class="bg-gray-800 rounded-2xl shadow-lg overflow-hidden border border-gray-700 flex flex-col h-full">
+                
+                <div class="bg-gray-900 text-gray-300 px-4 py-3 text-sm font-medium flex justify-between items-center border-b border-gray-700 z-10">
+                    <span class="flex items-center gap-2">
+                        <svg class="w-4 h-4 text-red-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z"></path></svg>
+                        CV Preview
+                    </span>
+                    <div class="flex gap-3">
+                        <a href="{{ app.cv_file.url }}" download class="hover:text-white transition flex items-center gap-1 text-xs" title="Download">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
+                            Download
+                        </a>
+                        <a href="{{ app.cv_file.url }}" target="_blank" class="hover:text-white transition flex items-center gap-1 text-xs" title="Open in new tab">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                            Expand
+                        </a>
+                    </div>
+                </div>
+
+                <div class="flex-1 bg-gray-600 relative w-full h-full overflow-y-auto p-4" id="pdf-wrapper">
+                    {% if app.cv_file %}
+                        <div id="pdf-render-container" class="flex flex-col items-center gap-4"></div>
+                    {% else %}
+                        <div class="flex flex-col items-center justify-center h-full text-gray-400">
+                            <svg class="w-16 h-16 mb-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 13h6m-3-3v6m5 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                            <p>No CV file available.</p>
                         </div>
                     {% endif %}
-                {% endfor %}
-            </div>
-        </div>
-
-        <!-- Gap Analysis -->
-        <div class="bg-white rounded-2xl shadow border">
-            <div class="bg-gray-900 text-white px-4 py-3 rounded-t-2xl text-center">
-                <h5 class="font-semibold">⚖️ Gap Analysis</h5>
-            </div>
-
-            <div class="p-4 text-sm">
-                <h6 class="font-semibold text-green-600 mb-2">✅ Matched Skills</h6>
-
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for skill in matches %}
-                        <span class="px-2 py-1 text-xs bg-green-600 text-white rounded-lg">
-                            {{ skill }}
-                        </span>
-                    {% empty %}
-                        <span class="text-gray-400 text-sm">No direct matches found.</span>
-                    {% endfor %}
-                </div>
-
-                <hr class="my-3">
-
-                <h6 class="font-semibold text-red-600 mb-2">❌ Missing Requirements</h6>
-
-                <div class="flex flex-wrap gap-2">
-                    {% for skill in misses %}
-                        <span class="px-2 py-1 text-xs bg-red-500 text-white rounded-lg opacity-80">
-                            {{ skill }}
-                        </span>
-                    {% empty %}
-                        <span class="text-green-600 text-sm">No missing skills! Perfect tech match.</span>
-                    {% endfor %}
                 </div>
             </div>
-        </div>
 
-        <!-- Candidate Profile -->
-        <div class="bg-white rounded-2xl shadow border border-cyan-200">
-            <div class="bg-cyan-500 text-white px-4 py-3 rounded-t-2xl">
-                <h5 class="font-semibold">👤 Candidate Profile</h5>
-            </div>
+            <div class="flex flex-col gap-6 h-full overflow-y-auto pr-1 pb-10">
 
-            <div class="p-4 text-sm">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden">
+                    <div class="bg-gradient-to-r from-slate-800 to-slate-900 px-6 py-4 flex items-center justify-between">
+                        <h3 class="font-bold text-white text-lg flex items-center">
+                            <svg class="w-5 h-5 mr-2 text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 6l3 1m0 0l-3 9a5.002 5.002 0 006.001 0M6 7l3 9M6 7l6-2m6 2l3-1m-3 1l-3 9a5.002 5.002 0 006.001 0M18 7l3 9m-3-9l-6-2m0-2v2m0 16V5m0 16H9m3 0h3"></path></svg>
+                            Gap Analysis
+                        </h3>
+                    </div>
+                    
+                    <div class="p-6 space-y-6">
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <div class="w-6 h-6 rounded-full bg-green-100 flex items-center justify-center mr-2">
+                                    <svg class="w-4 h-4 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                </div>
+                                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Matched Skills</h4>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                {% for skill in matches %}
+                                    <span class="px-3 py-1.5 text-sm font-medium bg-green-50 text-green-700 border border-green-200 rounded-lg">
+                                        {{ skill }}
+                                    </span>
+                                {% empty %}
+                                    <span class="text-gray-400 text-sm italic pl-2">No direct matches found.</span>
+                                {% endfor %}
+                            </div>
+                        </div>
 
-                <p class="text-gray-500 mb-3">
-                    Everything the AI found in the CV:
-                </p>
+                        <div class="border-t border-gray-100"></div>
 
-                <h6 class="font-semibold mb-2">Tech Stack Found</h6>
-                <div class="flex flex-wrap gap-2 mb-4">
-                    {% for item in app.extracted_data %}
-                        {% if item.label in 'Skill,Skill (Detected),Technology,Framework,Programming Language,Database,Tool,Platform,Cloud' %}
-                            <span class="px-2 py-1 text-xs bg-cyan-100 text-gray-800 rounded-lg">
-                                {{ item.text }}
-                                {% if item.label == 'Skill (Detected)' %}
-                                    ⚡
+                        <div>
+                            <div class="flex items-center mb-3">
+                                <div class="w-6 h-6 rounded-full bg-red-100 flex items-center justify-center mr-2">
+                                    <svg class="w-4 h-4 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </div>
+                                <h4 class="text-sm font-bold text-gray-900 uppercase tracking-wide">Missing Requirements</h4>
+                            </div>
+                            <div class="flex flex-wrap gap-2">
+                                {% for skill in misses %}
+                                    <span class="px-3 py-1.5 text-sm font-medium bg-red-50 text-red-700 border border-red-200 rounded-lg opacity-80">
+                                        {{ skill }}
+                                    </span>
+                                {% empty %}
+                                    <span class="text-green-600 text-sm font-medium pl-2">✨ Perfect match! No missing skills.</span>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-200 overflow-hidden flex-1">
+                    <div class="bg-blue-600 px-6 py-3">
+                        <h3 class="font-bold text-white text-base flex items-center">
+                            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"></path></svg>
+                            Job Criteria (AI Detected)
+                        </h3>
+                    </div>
+                    <div class="p-6 ">
+                        <p class="text-xs text-gray-500 mb-4 uppercase font-semibold tracking-wider">Skills & Tech Stack</p>
+                        <div class="flex flex-wrap gap-2 mb-6 pb-6 ">
+                            {% for item in app.job.gliner_entities %}
+                                {% if item.label in 'Skill,Technology,Framework,Programming Language,Database,Tool,Platform,Cloud' %}
+                                    <span class="px-2.5 py-1 text-xs font-medium bg-gray-100 text-gray-700 rounded-md border border-gray-200">
+                                        {{ item.text }}
+                                    </span>
                                 {% endif %}
-                            </span>
-                        {% endif %}
-                    {% endfor %}
+                            {% endfor %}
+                        </div>
+
+                        <div class="border-t border-gray-100 my-4"></div>
+
+                        <p class="text-xs text-gray-500 mb-2 uppercase font-semibold tracking-wider">Required Experience</p>
+                        <div class="space-y-2">
+                            {% for item in app.job.gliner_entities %}
+                                {% if item.label == 'Experience' %}
+                                    <div class="flex items-start">
+                                        <svg class="w-4 h-4 text-blue-500 mt-0.5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                        <span class="text-sm text-gray-700 bg-blue-50 px-2 py-0.5 rounded">{{ item.text }}</span>
+                                    </div>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
                 </div>
 
-                <h6 class="font-semibold mb-2">Education & Experience</h6>
-                <ul class="space-y-1 text-xs">
-                    {% for item in app.extracted_data %}
-                        {% if item.label in 'Degree,University,Job Title,Experience' %}
-                            <li>
-                                <span class="px-2 py-0.5 bg-gray-600 text-white rounded-md text-[10px]">
-                                    {{ item.label }}
-                                </span>
-                                {{ item.text }}
-                            </li>
-                        {% endif %}
-                    {% endfor %}
-                </ul>
             </div>
         </div>
 
     </div>
-
-    <!-- Raw CV -->
-    <div class="bg-white rounded-2xl shadow mb-6">
-        <div class="bg-gray-600 text-white px-4 py-3 rounded-t-2xl">
-            <h5 class="font-semibold">📄 Raw CV Content (Evidence)</h5>
-        </div>
-        <div class="p-4">
-            <p class="text-xs text-gray-500 mb-2">
-                This is the exact text extracted from the PDF file:
-            </p>
-
-            <div class="bg-gray-100 border rounded-lg p-3 max-h-[300px] overflow-y-auto whitespace-pre-wrap font-mono text-xs">
-{{ app.cv_text_content }}
-            </div>
-        </div>
-    </div>
-
-    <!-- Back Button -->
-    <div class="mt-4">
-        <a href="{% url 'web_test:job_ranking' app.job.id %}"
-           class="inline-block px-5 py-2 border border-gray-400 rounded-xl text-gray-700 hover:bg-gray-800 hover:text-white transition">
-            ← Back to Rankings
-        </a>
-    </div>
-
 </div>
+
+{% if app.cv_file %}
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const url = "{{ app.cv_file.url }}";
+    const container = document.getElementById('pdf-render-container');
+
+    pdfjsLib.getDocument(url).promise.then(pdf => {
+        // Render pages (Limiting to first 5 pages to prevent browser lag on huge files)
+        const pagesToRender = Math.min(pdf.numPages, 5); 
+
+        for (let pageNum = 1; pageNum <= pagesToRender; pageNum++) {
+            pdf.getPage(pageNum).then(page => {
+                // Adjust scale for better quality
+                const scale = 1.5; 
+                const viewport = page.getViewport({ scale: scale });
+
+                // Create Canvas
+                const canvas = document.createElement('canvas');
+                canvas.className = "shadow-lg rounded-sm w-full bg-white";
+                const context = canvas.getContext('2d');
+                canvas.height = viewport.height;
+                canvas.width = viewport.width;
+
+                // Append to container
+                container.appendChild(canvas);
+
+                // Render
+                const renderContext = {
+                    canvasContext: context,
+                    viewport: viewport
+                };
+                page.render(renderContext);
+            });
+        }
+    }).catch(error => {
+        console.error("Error loading PDF:", error);
+        container.innerHTML = `
+            <div class="text-center p-6 text-white">
+                <p>Could not load preview.</p>
+                <a href="${url}" class="underline text-blue-300">Download PDF</a>
+            </div>
+        `;
+    });
+});
+</script>
+{% endif %}
 
 {% endblock %}
